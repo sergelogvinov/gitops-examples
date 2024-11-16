@@ -1,0 +1,6 @@
+{
+    "yaml.schemas": {
+        "Kubernetes": "./apps/*.yaml"
+    },
+    "git.rebaseWhenSync": true
+}
