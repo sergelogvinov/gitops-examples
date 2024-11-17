@@ -3,14 +3,14 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &app cert-manager
+  name: &app flux-system
   namespace: flux-system
 spec:
-  targetNamespace: cert-manager
+  targetNamespace: flux-system
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
-  path: ./apps/cert-manager/app
+  path: ./apps/flux-system/app
   prune: true
   sourceRef:
     kind: GitRepository

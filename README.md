@@ -16,6 +16,19 @@ Kubernetes GitOps
 └── 📁 ...                      # other clusters
 ```
 
+## Bootstrap
+
+```shell
+kubectl apply --server-side --kustomize bootstrap
+kubectl apply --server-side --kustomize apps/flux-system
+```
+
+## Deploy cluster
+
+```shell
+kubectl apply --server-side --kustomize clusters/cluster-0
+```
+
 ## Git
 
 ```shell
