@@ -7,3 +7,4 @@ resources:
   - ./cluster-settings.yaml
   - ../../apps/cert-manager
   - ../../apps/metrics-server
+  - ../../apps/proxmox-ccm

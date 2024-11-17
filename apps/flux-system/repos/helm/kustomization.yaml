@@ -3,11 +3,17 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
+  - ./autoresizer.yaml
+  - ./autoscaler.yaml
   - ./bitnami.yaml
   - ./external-dns.yaml
   - ./external-secrets.yaml
+  - ./fluent.yaml
   - ./grafana.yaml
   - ./ingress-nginx.yaml
   - ./jetstack.yaml
+  - ./kedacore.yaml
   - ./metrics-server.yaml
+  - ./prometheus.yaml
   - ./sinextra.yaml
+  - ./victoria-metrics.yaml
