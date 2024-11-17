@@ -1,0 +1,29 @@
+fullnameOverride: prometheus-node-exporter
+priorityClassName: system-node-critical
+
+hostNetwork: false
+hostPID: false
+
+extraArgs:
+  - --no-collector.arp
+  - --no-collector.netdev
+  - --no-collector.netstat
+  - --no-collector.wifi
+  - --no-collector.nfs
+  - --no-collector.nfsd
+  - --no-collector.zfs
+  - --no-collector.btrfs
+  - --no-collector.bcache
+  - --no-collector.fibrechannel
+
+containerSecurityContext:
+  seccompProfile:
+    type: RuntimeDefault
+
+resources:
+  limits:
+    cpu: 100m
+    memory: 50Mi
+  requests:
+    cpu: 10m
+    memory: 30Mi

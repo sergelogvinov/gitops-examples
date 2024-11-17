@@ -19,3 +19,4 @@ resources:
   - ../../apps/victoria-metrics
   - ../../apps/prometheus
   - ../../apps/prometheus-alertmanager
+  - ../../apps/prometheus-node-exporter

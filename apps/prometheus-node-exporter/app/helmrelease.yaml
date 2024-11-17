@@ -2,7 +2,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: prometheus-rules
+  name: prometheus-node-exporter
 spec:
   interval: 60m
 
@@ -12,11 +12,11 @@ spec:
 
   chart:
     spec:
-      chart: prometheus-rules
-      version: 0.2.13
+      chart: prometheus-node-exporter
+      version: 4.42.0
       sourceRef:
         kind: HelmRepository
-        name: sergelogvinov
+        name: prometheus-community
         namespace: flux-system
   install:
     remediation:
@@ -28,4 +28,4 @@ spec:
 
   valuesFrom:
     - kind: ConfigMap
-      name: prometheus-rules-helm-values
+      name: prometheus-node-exporter-helm-values
