@@ -1,0 +1,48 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: pvc-autoresizer
+spec:
+  interval: 60m
+
+  maxHistory: 2
+  driftDetection:
+    mode: enabled
+
+  chart:
+    spec:
+      chart: pvc-autoresizer
+      version: 0.13.0
+      sourceRef:
+        kind: HelmRepository
+        name: autoresizer
+        namespace: flux-system
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+
+  values:
+    controller:
+      args:
+        prometheusURL: http://vmsingle-vm.monitoring.svc:8429
+        interval: 60s
+
+      resources:
+        limits:
+          cpu: 100m
+          memory: 64Mi
+        requests:
+          cpu: 100m
+          memory: 20Mi
+
+      nodeSelector:
+        node-role.kubernetes.io/control-plane: ""
+        kubernetes.io/arch: amd64
+      tolerations:
+        - key: node-role.kubernetes.io/control-plane
+          effect: NoSchedule

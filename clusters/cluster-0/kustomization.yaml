@@ -11,6 +11,9 @@ resources:
   - ../../apps/metrics-server
   - ../../apps/local-path-provisioner
   - ../../apps/proxmox-ccm
+  - ../../apps/proxmox-csi
+  # - ../../apps/csi-snapshotter
+  - ../../apps/csi-autoresizer
   # Logging
   - ../../apps/fluentd-route
   - ../../apps/fluent-bit
