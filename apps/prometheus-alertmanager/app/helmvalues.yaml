@@ -60,8 +60,10 @@ config:
     group_wait: 10s
     group_interval: 2m
     repeat_interval: 12h
-    receiver: slack_operation
 
+    receiver: none
+    receivers:
+      - name: none
     routes: []
 
 templates:
