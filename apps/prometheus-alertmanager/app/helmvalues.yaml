@@ -77,7 +77,14 @@ templates:
     {{ end }}
     {{ end }}
     {{ define "slack.default.title" }}[${CLUSTER_NAME}:{{ .Status | toUpper }}{{ if eq .Status "firing" }}:{{ .Alerts.Firing | len }}{{ end }}] {{ .GroupLabels.SortedPairs.Values | join " " }}{{ end }}
+    {{ define "discord.default.title" }}[${CLUSTER_NAME}:{{ .Status | toUpper }}{{ if eq .Status "firing" }}:{{ .Alerts.Firing | len }}{{ end }}] {{ .GroupLabels.SortedPairs.Values | join " " }}{{ end }}
     {{ define "opsgenie.default.message" }}[${CLUSTER_NAME}] {{ .GroupLabels.SortedPairs.Values | join " " }}{{ end }}
+    {{ define "discord.default.message" }}
+    {{- $root := . -}}
+    {{ range .Alerts }}
+    `{{ .Labels.severity }}` {{ .Annotations.description }}
+    {{ end }}
+    {{ end }}
 
 configmapReload:
   enabled: true
