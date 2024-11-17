@@ -37,9 +37,9 @@ override.tf.json
 terraform.rc
 
 #
+age.key.txt
 kubeconfig
 out.yaml
 out.json
 
 #
-apps/flux-system/config/github.yaml

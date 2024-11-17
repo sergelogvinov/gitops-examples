@@ -1,0 +1,60 @@
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: github-pgp-public-keys
+  namespace: flux-system
+stringData:
+  author1.asc: |
+    -----BEGIN PGP PUBLIC KEY BLOCK-----
+
+    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
+    0pi5dIAUeQ8DjBymor4cfBOYrj0=
+    =ZWGI
+    -----END PGP PUBLIC KEY BLOCK-----

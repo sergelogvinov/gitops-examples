@@ -21,6 +21,7 @@ Kubernetes GitOps
 ```shell
 kubectl apply --server-side --kustomize bootstrap
 kubectl apply --server-side --kustomize apps/flux-system
+sops --decrypt apps/flux-system/secrets/flux-secrets.yaml | kubectl apply -f -
 ```
 
 ## Deploy cluster
