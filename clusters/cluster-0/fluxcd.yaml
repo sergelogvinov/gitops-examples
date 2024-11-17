@@ -6,7 +6,6 @@ metadata:
   name: &app cluster
   namespace: flux-system
 spec:
-  targetNamespace: flux-system
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
