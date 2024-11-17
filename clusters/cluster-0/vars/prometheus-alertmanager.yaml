@@ -1,0 +1,11 @@
+config:
+  route:
+    receiver: notice
+    routes:
+      - match_re:
+          severity: notice|info
+        receiver: notice
+
+      - match:
+          severity: critical
+        receiver: pager

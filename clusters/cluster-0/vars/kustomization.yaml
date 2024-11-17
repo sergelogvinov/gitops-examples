@@ -1,0 +1,19 @@
+---
+# yaml-language-server: $schema=https://json.schemastore.org/kustomization
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+generatorOptions:
+  disableNameSuffixHash: true
+resources:
+  - ./cluster-settings.yaml
+  - ./priorityclass.yaml
+configMapGenerator:
+  - name: prometheus-alertmanager-route-helm-values
+    namespace: monitoring
+    files:
+      - values.yaml=./prometheus-alertmanager.yaml
+secretGenerator:
+  - name: prometheus-alertmanager-helm-values
+    namespace: monitoring
+    files:
+      - values.yaml=./secrets.prometheus-alertmanager.yaml

@@ -1,0 +1,22 @@
+---
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt
+spec:
+  acme:
+    server: https://acme-v02.api.letsencrypt.org/directory
+    email: "${CLUSTER_EMAIL}"
+    privateKeySecretRef:
+      name: letsencrypt-private-key
+    solvers:
+      - http01:
+          ingress:
+            serviceType: ClusterIP
+            podTemplate:
+              spec:
+                tolerations:
+                  - key: node-role.kubernetes.io/control-plane
+                    effect: NoSchedule
+                nodeSelector:
+                  node-role.kubernetes.io/control-plane: ""

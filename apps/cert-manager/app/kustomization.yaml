@@ -6,6 +6,7 @@ generatorOptions:
   disableNameSuffixHash: true
 resources:
   - ./helmrelease.yaml
+  - ./cert-manager-issuer.yaml
 configMapGenerator:
   - name: cert-manager-helm-values
     files:

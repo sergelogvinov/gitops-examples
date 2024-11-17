@@ -3,21 +3,21 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &app cert-manager
+  name: &app cluster
   namespace: flux-system
 spec:
-  targetNamespace: cert-manager
+  targetNamespace: flux-system
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
-  path: ./apps/cert-manager/app
+  path: ./clusters/cluster-0/vars
   prune: true
   sourceRef:
     kind: GitRepository
     name: gitops-clusters
-  postBuild:
-    substituteFrom:
-      - kind: ConfigMap
-        name: cluster-settings
+  decryption:
+    provider: sops
+    secretRef:
+      name: sops-age
   wait: true
   interval: 30m

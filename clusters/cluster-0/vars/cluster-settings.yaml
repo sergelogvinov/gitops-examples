@@ -7,3 +7,4 @@ metadata:
 data:
   CLUSTER_DOMAIN: "cluster-0.example.com"
   CLUSTER_NAME: "Cluster-0"
+  CLUSTER_EMAIL: "cluster@example.com"

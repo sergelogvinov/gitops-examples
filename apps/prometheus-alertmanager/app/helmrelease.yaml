@@ -29,3 +29,9 @@ spec:
   valuesFrom:
     - kind: ConfigMap
       name: prometheus-alertmanager-helm-values
+    - kind: ConfigMap
+      name: prometheus-alertmanager-route-helm-values
+      optional: true
+    - kind: Secret
+      name: prometheus-alertmanager-helm-values
+      optional: true

@@ -1,0 +1,64 @@
+---
+apiVersion: scheduling.k8s.io/v1
+kind: PriorityClass
+metadata:
+  name: production-db
+value: 5000000
+globalDefault: false
+description: "This high priority class"
+---
+apiVersion: scheduling.k8s.io/v1
+kind: PriorityClass
+metadata:
+  name: production-api
+value: 410000
+globalDefault: false
+description: "This class for user api"
+---
+apiVersion: scheduling.k8s.io/v1
+kind: PriorityClass
+metadata:
+  name: production-high
+value: 300000
+globalDefault: false
+description: "This high priority class"
+---
+apiVersion: scheduling.k8s.io/v1
+kind: PriorityClass
+metadata:
+  name: production-medium
+value: 100000
+globalDefault: false
+description: "This medium priority class"
+---
+apiVersion: scheduling.k8s.io/v1
+kind: PriorityClass
+metadata:
+  name: production-low
+value: 50000
+globalDefault: false
+description: "This low priority class"
+---
+apiVersion: scheduling.k8s.io/v1
+kind: PriorityClass
+metadata:
+  name: production-proxy
+value: 500000
+globalDefault: false
+description: "This class for local-nginx"
+---
+apiVersion: scheduling.k8s.io/v1
+kind: PriorityClass
+metadata:
+  name: production-cron
+value: 1000
+globalDefault: false
+description: "This low class for cron tasks"
+---
+apiVersion: scheduling.k8s.io/v1
+kind: PriorityClass
+metadata:
+  name: production-shell
+value: 1
+globalDefault: false
+description: "This low class for shell"
