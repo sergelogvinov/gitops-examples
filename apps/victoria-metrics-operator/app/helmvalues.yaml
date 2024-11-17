@@ -1,0 +1,37 @@
+fullnameOverride: "vmoperator"
+
+replicaCount: 1
+
+logLevel: "error"
+# watchNamespace: "monitoring"
+
+operator:
+  disable_prometheus_converter: true
+  psp_auto_creation_enabled: false
+  enable_converter_ownership: false
+  useCustomConfigReloader: false
+
+resources:
+  limits:
+    cpu: 100m
+    memory: 128Mi
+  requests:
+    cpu: 50m
+    memory: 64Mi
+
+admissionWebhooks:
+  enabled: false
+
+securityContext:
+  seccompProfile:
+    type: RuntimeDefault
+  capabilities:
+    drop:
+      - ALL
+  allowPrivilegeEscalation: false
+
+nodeSelector:
+  node-role.kubernetes.io/control-plane: ""
+tolerations:
+  - key: node-role.kubernetes.io/control-plane
+    effect: NoSchedule

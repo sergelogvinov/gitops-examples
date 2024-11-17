@@ -1,0 +1,78 @@
+fullnameOverride: blackbox
+
+resources:
+  limits:
+    cpu: 100m
+    memory: 128Mi
+  requests:
+    cpu: 50m
+    memory: 64Mi
+
+nodeSelector:
+  node-role.kubernetes.io/control-plane: ""
+tolerations:
+  - key: node-role.kubernetes.io/control-plane
+    effect: NoSchedule
+
+pspEnabled: false
+
+config:
+  modules:
+    http_2xx:
+      prober: http
+      timeout: 5s
+      http:
+        valid_status_codes: [] # Defaults to 2xx
+        method: GET
+        headers: {}
+        fail_if_ssl: false
+        fail_if_not_ssl: false
+        preferred_ip_protocol: "ip4"
+    http_ok:
+      prober: http
+      timeout: 10s
+      http:
+        valid_status_codes: [200, 203, 301, 302, 307, 308]
+        method: GET
+        headers: {}
+        fail_if_ssl: false
+        fail_if_not_ssl: false
+        preferred_ip_protocol: "ip4"
+
+    https_2xx:
+      prober: http
+      timeout: 10s
+      http:
+        valid_status_codes: [] # Defaults to 2xx
+        method: GET
+        headers: {}
+        fail_if_ssl: false
+        fail_if_not_ssl: true
+        preferred_ip_protocol: "ip4"
+    https_2xx_insecure:
+      prober: http
+      timeout: 10s
+      http:
+        valid_status_codes: [] # Defaults to 2xx
+        method: GET
+        headers: {}
+        fail_if_ssl: false
+        fail_if_not_ssl: true
+        preferred_ip_protocol: "ip4"
+        tls_config:
+          insecure_skip_verify: true
+
+    https_400:
+      prober: http
+      timeout: 5s
+      http:
+        valid_status_codes: [400]
+        method: GET
+        headers: {}
+        fail_if_ssl: false
+        fail_if_not_ssl: true
+        preferred_ip_protocol: "ip4"
+
+    tcp_connect:
+      prober: tcp
+      timeout: 5s

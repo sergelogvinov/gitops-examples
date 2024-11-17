@@ -1,0 +1,29 @@
+apiVersion: operator.victoriametrics.com/v1beta1
+kind: VMSingle
+metadata:
+  name: vm
+spec:
+  replicaCount: 1
+  revisionHistoryLimitCount: 2
+
+  retentionPeriod: "1d"
+  removePvcAfterDelete: true
+  useStrictSecurity: true
+  priorityClassName: system-cluster-critical
+
+  extraArgs:
+    maxLabelsPerTimeseries: "40"
+
+  resources:
+    limits:
+      cpu: 1
+      memory: 4Gi
+    requests:
+      cpu: 200m
+      memory: 2Gi
+
+  # nodeSelector:
+  #   node-role.kubernetes.io/control-plane: ""
+  tolerations:
+    - key: node-role.kubernetes.io/control-plane
+      effect: NoSchedule

@@ -1,0 +1,141 @@
+victoriaMetricsConfig:
+  enabled: true
+
+  recordingRules:
+    groups:
+      - name: recording-nodes-cAdvisor.rules
+        rules:
+          # Node mem cAdvisor
+          - record: instance:spec_memory_limit_bytes:bytes:sum
+            expr:
+              sum(container_spec_memory_limit_bytes{pod="",id!~"/kubepods/.*"})
+              BY (kubernetes_io_hostname,id)
+          - record: instance:memory_usage:bytes:sum
+            expr: sum(container_memory_usage_bytes{pod="",id!~"/kubepods/.*"})
+              BY (kubernetes_io_hostname,id)
+          - record: instance:memory_working_set:bytes:sum
+            expr:
+              sum(container_memory_working_set_bytes{pod="",id!~"/kubepods/.*"})
+              BY (kubernetes_io_hostname,id)
+          - record: instance:memory_rss:bytes:sum
+            expr: sum(container_memory_rss{pod="",id!~"/kubepods/.*"})
+              BY (kubernetes_io_hostname,id)
+          - record: instance:memory_cache:bytes:sum
+            expr: sum(container_memory_cache{pod="",id!~"/kubepods/.*"})
+              BY (kubernetes_io_hostname,id)
+          - record: instance:memory_pagefaults:bytes:sum
+            expr:
+              sum(container_memory_failures_total{pod="",id!~"/kubepods/.*"})
+              BY (kubernetes_io_hostname,id)
+          - record: instance:memory_oom:bytes:sum
+            expr: sum(container_memory_failcnt{pod="",id!~"/kubepods/.*"})
+              BY (kubernetes_io_hostname,id)
+
+          # Node cpu cAdvisor
+          - record: instance:cpu_usage:rate:sum
+            expr:
+              sum(irate(container_cpu_usage_seconds_total{container="",cpu="total",id!~"/kubepods/.*"}[2m]))
+              BY (kubernetes_io_hostname,id) * 1000
+
+          # Node network cAdvisor
+          - record: instance:node_network_receive_bytes:rate:sum
+            expr:
+              sum(rate(container_network_receive_bytes_total{container="",interface=~"eth[01]"}[2m]))
+              BY (interface,kubernetes_io_hostname,kubernetes_io_role)
+          - record: instance:node_network_transmit_bytes:rate:sum
+            expr:
+              sum(rate(container_network_transmit_bytes_total{container="",interface=~"eth[01]"}[2m]))
+              BY (interface,kubernetes_io_hostname,kubernetes_io_role)
+          - record: instance:node_network_receive_bytes:rate:avg
+            expr:
+              avg(rate(container_network_receive_bytes_total{container="",interface=~"eth[01]"}[5m]))
+              BY (interface,kubernetes_io_hostname,kubernetes_io_role)
+          - record: instance:node_network_transmit_bytes:rate:avg
+            expr:
+              avg(rate(container_network_transmit_bytes_total{container="",interface=~"eth[01]"}[5m]))
+              BY (interface,kubernetes_io_hostname,kubernetes_io_role)
+
+          - record: instance:node_cpu:sum
+            expr: count(sum(node_cpu_seconds_total) BY (instance, cpu, kubernetes_node_name)) BY (instance, kubernetes_node_name)
+          - record: instance:node_cpu:rate:sum
+            expr: sum(rate(node_cpu_seconds_total{mode!="idle",mode!="iowait"}[3m])) BY (instance, kubernetes_node_name)
+          - record: instance:node_cpu:ratio
+            expr:
+              sum(rate(node_cpu_seconds_total{mode!="idle",mode!="iowait"}[5m])) WITHOUT (cpu, mode, kubernetes_node_name) / ON(instance)
+              GROUP_LEFT() instance:node_cpu:sum
+
+          # mem cAdvisor
+          - record: cluster_namespace_controller_pod_container:spec_memory_requests_bytes
+            expr:
+              sum(label_replace(kube_pod_container_resource_requests{pod!=""},
+              "controller", "$1", "pod", "^(.*)-[a-z0-9]+")) BY (cluster, namespace,
+              controller, pod, container)
+          - record: cluster_namespace_controller_pod_container:spec_memory_limit_bytes
+            expr: sum(label_replace(container_spec_memory_limit_bytes{pod!=""},
+              "controller", "$1", "pod", "^(.*)-[a-z0-9]+")) BY (cluster, namespace,
+              controller, pod, container)
+          - record: cluster_namespace_controller_pod_container:memory_usage:bytes
+            expr: sum(label_replace(container_memory_usage_bytes{pod!=""},
+              "controller", "$1", "pod", "^(.*)-[a-z0-9]+")) BY (cluster, namespace,
+              controller, pod, container)
+          - record: cluster_namespace_controller_pod_container:memory_working_set:bytes
+            expr: sum(label_replace(container_memory_working_set_bytes{pod!=""},
+              "controller", "$1", "pod", "^(.*)-[a-z0-9]+")) BY (cluster, namespace,
+              controller, pod, container)
+          - record: cluster_namespace_controller_pod_container:memory_rss:bytes
+            expr: sum(label_replace(container_memory_rss{pod!=""},
+              "controller", "$1", "pod", "^(.*)-[a-z0-9]+")) BY (cluster, namespace,
+              controller, pod, container)
+          - record: cluster_namespace_controller_pod_container:memory_cache:bytes
+            expr: sum(label_replace(container_memory_cache{pod!=""},
+              "controller", "$1", "pod", "^(.*)-[a-z0-9]+")) BY (cluster, namespace,
+              controller, pod, container)
+          - record: cluster_namespace_controller_pod_container:memory_pagefaults:rate
+            expr:
+              sum(label_replace(irate(container_memory_failures_total{pod!="",container!="POD"}[5m]),
+              "controller", "$1", "pod", "^(.*)-[a-z0-9]+")) BY (cluster, namespace,
+              controller, pod, container, scope, failure_type)
+          - record: cluster_namespace_controller_pod_container:memory_oom:rate
+            expr:
+              sum(label_replace(irate(container_memory_failcnt{pod!="",container!="POD"}[5m]),
+              "controller", "$1", "pod", "^(.*)-[a-z0-9]+")) BY (cluster, namespace,
+              controller, pod, container)
+
+          # cpu cAdvisor
+          - record: cluster_namespace_controller_pod_container:spec_cpu_shares
+            expr: sum(label_replace(container_spec_cpu_shares, "controller",
+              "$1", "pod", "^(.*)-[a-z0-9]+")) BY (cluster, namespace, controller, pod,
+              container)
+          - record: cluster_namespace_controller_pod_container:spec_cpu_limit
+            expr: sum(label_replace(container_spec_cpu_quota, "controller",
+              "$1", "pod", "^(.*)-[a-z0-9]+")) BY (cluster, namespace, controller, pod,
+              container) / 100
+          - record: cluster_namespace_controller_pod_container:cpu_usage:rate
+            expr:
+              sum(label_replace(irate(container_cpu_usage_seconds_total[5m]),
+              "controller", "$1", "pod", "^(.*)-[a-z0-9]+")) BY (cluster, namespace,
+              controller, pod, container) * 1000
+
+          # network cAdvisor
+          - record: cluster_namespace_controller_pod_container:network_usage:receive_bytes
+            expr:
+              sum(label_replace(container_network_receive_bytes_total{pod!=""},
+              "controller","$1","pod", "^(.*)-[a-z0-9]+")) BY (namespace,interface,controller)
+          - record: cluster_namespace_controller_pod_container:network_usage:transmit_bytes
+            expr:
+              sum(label_replace(container_network_transmit_bytes_total{pod!=""},
+              "controller","$1","pod", "^(.*)-[a-z0-9]+")) BY (namespace,interface,controller)
+
+defaultRules:
+  rules:
+    kubeControllerManager: false
+    kubeSchedulerAlerting: false
+    kubeSchedulerRecording: false
+  disabled:
+    Watchdog: true
+    InfoInhibitor: true
+    CPUThrottlingHigh: true
+    KubeHpaMaxedOut: true
+    KubeCPUOvercommit: true
+    KubeMemoryOvercommit: true
+    KubeVersionMismatch: true

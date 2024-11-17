@@ -1,0 +1,16 @@
+---
+# yaml-language-server: $schema=https://json.schemastore.org/kustomization
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+generatorOptions:
+  disableNameSuffixHash: true
+resources:
+  - ./kube-state-metrics.yaml
+  - ./blackbox-exporter.yaml
+configMapGenerator:
+  - name: kube-state-metrics-helm-values
+    files:
+      - values.yaml=./kube-state-metrics-helm-values.yaml
+  - name: blackbox-exporter-helm-values
+    files:
+      - values.yaml=./blackbox-exporter-helm-values.yaml

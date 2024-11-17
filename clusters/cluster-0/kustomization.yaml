@@ -13,3 +13,7 @@ resources:
   # Logging
   - ../../apps/fluentd-route
   - ../../apps/fluent-bit
+  # Monitoring
+  - ../../apps/victoria-metrics-operator
+  - ../../apps/victoria-metrics
+  - ../../apps/prometheus

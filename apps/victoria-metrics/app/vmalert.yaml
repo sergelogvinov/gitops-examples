@@ -1,0 +1,46 @@
+apiVersion: operator.victoriametrics.com/v1beta1
+kind: VMAlert
+metadata:
+  name: vm
+spec:
+  replicaCount: 1
+  revisionHistoryLimitCount: 2
+
+  podMetadata:
+    annotations:
+      prometheus.io/scrape: "true"
+      prometheus.io/port: "8080"
+  useStrictSecurity: true
+  selectAllByDefault: true
+
+  evaluationInterval: "60s"
+  secrets: []
+  configMaps:
+    - prometheus-rules-config
+    - prometheus-rules
+  rulePath:
+    - /etc/vm/configs/prometheus-rules-config/recording_rules.yml
+    - /etc/vm/configs/prometheus-rules/*.yml
+
+  datasource:
+    url: "http://vmsingle-vm:8429"
+  remoteWrite:
+    url: "http://vmsingle-vm:8429"
+  remoteRead:
+    url: "http://vmsingle-vm:8429"
+  notifier:
+    url: "http://prometheus-alertmanager:9093"
+
+  resources:
+    limits:
+      cpu: 100m
+      memory: 256Mi
+    requests:
+      cpu: 100m
+      memory: 128Mi
+
+  nodeSelector:
+    node-role.kubernetes.io/control-plane: ""
+  tolerations:
+    - key: node-role.kubernetes.io/control-plane
+      effect: NoSchedule

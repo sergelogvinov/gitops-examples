@@ -1,0 +1,56 @@
+apiVersion: operator.victoriametrics.com/v1beta1
+kind: VMAgent
+metadata:
+  name: vm
+spec:
+  replicaCount: 1
+  revisionHistoryLimitCount: 2
+
+  podMetadata:
+    annotations:
+      prometheus.io/scrape: "true"
+      prometheus.io/port: "8429"
+  useStrictSecurity: true
+  selectAllByDefault: false
+
+  nodeScrapeNamespaceSelector:
+    matchLabels:
+      kubernetes.io/metadata.name: monitoring
+  staticScrapeNamespaceSelector:
+    matchLabels:
+      kubernetes.io/metadata.name: monitoring
+
+  scrapeInterval: 60s
+  secrets: []
+  configMaps: []
+  additionalScrapeConfigs:
+    name: prometheus-rules-scrape
+    key: scrape.yml
+  externalLabels: {}
+  extraArgs:
+    promscrape.maxScrapeSize: "67108864"
+    promscrape.maxDroppedTargets: "10000"
+    promscrape.streamParse: "true"
+    promscrape.suppressDuplicateScrapeTargetErrors: "true"
+  logLevel: INFO
+
+  remoteWrite:
+    - url: http://vmsingle-vm:8429/api/v1/write
+      inlineUrlRelabelConfig:
+        - source_labels: ["__name__"]
+          regex: ^go_.*
+          action: drop
+
+  resources:
+    limits:
+      cpu: 500m
+      memory: 500Mi
+    requests:
+      cpu: 200m
+      memory: 200Mi
+
+  nodeSelector:
+    node-role.kubernetes.io/control-plane: ""
+  tolerations:
+    - key: node-role.kubernetes.io/control-plane
+      effect: NoSchedule
