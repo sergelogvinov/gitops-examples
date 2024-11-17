@@ -21,13 +21,18 @@ Kubernetes GitOps
 ```shell
 kubectl apply --server-side --kustomize bootstrap
 kubectl apply --server-side --kustomize apps/flux-system
-sops --decrypt apps/flux-system/secrets/flux-secrets.yaml | kubectl apply -f -
+sops --decrypt apps/flux-system/secrets/fluxcd.yaml | kubectl apply -f -
 ```
 
 ## Deploy cluster
 
 ```shell
 kubectl apply --server-side --kustomize clusters/cluster-0
+```
+
+```shell
+kubectl get HelmRelease -A
+flux reconcile -n flux-system source git gitops-clusters
 ```
 
 ## Git
