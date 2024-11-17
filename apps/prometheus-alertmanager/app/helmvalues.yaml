@@ -12,7 +12,7 @@ livenessProbe:
 readinessProbe:
   initialDelaySeconds: 120
 
-replicaCount: 2
+replicaCount: 1
 
 persistence:
   enabled: false
