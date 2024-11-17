@@ -55,6 +55,8 @@ config:
   templates:
     - "/etc/alertmanager/*.tmpl"
 
+  receivers:
+    - name: none
   route:
     group_by: ["alertname"]
     group_wait: 10s
@@ -62,8 +64,6 @@ config:
     repeat_interval: 12h
 
     receiver: none
-    receivers:
-      - name: none
     routes: []
 
 templates:
