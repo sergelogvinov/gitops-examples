@@ -1,0 +1,116 @@
+priorityClassName: system-cluster-critical
+
+podAnnotations:
+  fluentbit.io/exclude: "true"
+
+service:
+  annotations:
+    fluentbit.io/exclude: "true"
+    prometheus.io/scrape: "true"
+    prometheus.io/path: "/api/v1/metrics/prometheus"
+    prometheus.io/port: "2020"
+
+updateStrategy:
+  type: RollingUpdate
+  rollingUpdate:
+    maxUnavailable: 50%
+
+config:
+  service: |
+    [SERVICE]
+      Flush         5
+      Daemon        Off
+      Log_Level     warn
+      Parsers_File  custom_parsers.conf
+      HTTP_Server   On
+      HTTP_Listen   0.0.0.0
+      HTTP_Port     2020
+      Health_Check  On
+
+  inputs: |
+    [INPUT]
+      Name              tail
+      Alias             kubernetes
+      Path              /var/log/containers/*.log
+      multiline.parser  cri
+      Tag               kubernetes.*
+
+      Skip_Long_Lines   On
+      Mem_Buf_Limit     5MB
+      Buffer_Chunk_Size 128k
+      Buffer_Max_Size   512k
+
+    # [INPUT]
+    #   Name              tail
+    #   Alias             audit
+    #   Path              /var/log/audit/kube/*.log
+    #   Tag               audit.*
+
+  filters: |
+    [FILTER]
+      Name                kubernetes
+      Alias               kubernetes
+      Match               kubernetes.*
+      Kube_Tag_Prefix     kubernetes.var.log.containers.
+      Use_Kubelet         Off
+      Merge_Log           On
+      Merge_Log_Trim      On
+      Keep_Log            Off
+      K8S-Logging.Parser  Off
+      K8S-Logging.Exclude On
+      Annotations         Off
+      Labels              On
+
+  customParsers: |
+    [PARSER]
+      Name          audit
+      Format        json
+      Time_Key      requestReceivedTimestamp
+      Time_Format   %Y-%m-%dT%H:%M:%S.%L%z
+
+  outputs: |
+    [OUTPUT]
+      Name          forward
+      Alias         fluentd-route
+      Match         *
+      Host          fluentd-route
+      Port          24224
+
+      net.keepalive               on
+      net.connect_timeout         30
+      net.keepalive_idle_timeout  300
+
+resources:
+  limits:
+    cpu: 500m
+    memory: 256Mi
+  requests:
+    cpu: 50m
+    memory: 32Mi
+
+livenessProbe:
+  initialDelaySeconds: 30
+  timeoutSeconds: 1
+  periodSeconds: 30
+
+readinessProbe:
+  initialDelaySeconds: 30
+  timeoutSeconds: 1
+  periodSeconds: 30
+
+daemonSetVolumes:
+  - name: varlog
+    hostPath:
+      path: /var/log
+
+daemonSetVolumeMounts:
+  - name: varlog
+    mountPath: /var/log
+
+tolerations:
+  - key: node-role.kubernetes.io/control-plane
+    effect: NoSchedule
+  - key: node.kubernetes.io/memory-pressure
+    effect: NoSchedule
+  - key: node.kubernetes.io/disk-pressure
+    effect: NoSchedule

@@ -1,0 +1,90 @@
+fullnameOverride: fluentd-route
+
+podAnnotations:
+  fluentbit.io/exclude: "true"
+
+service:
+  type: ClusterIP
+  ports:
+    - name: "fluentd"
+      protocol: TCP
+      containerPort: 24224
+    - name: "heartbeat"
+      protocol: UDP
+      containerPort: 24224
+
+configMaps:
+  forward-input.conf: |
+    <source>
+      @type forward
+      port  24224
+      bind  0.0.0.0
+    </source>
+
+  output.conf: |
+    <match audit.**>
+      @type relabel
+      @label @STORE
+    </match>
+
+    <match kubernetes.**>
+      @type record_modifier
+      <record>
+        time        ${record["time"] ? record["time"].to_s : Time.now.strftime('%Y-%m-%dT%H:%M:%S.%3N')}
+        #
+        source      "casino-b2b"
+        namespace   ${record["namespace"].to_s == "" ? record["kubernetes"]["namespace_name"] : record["namespace"]}
+        container   ${record["kubernetes"]["container_name"].to_s || "" }
+        pod         ${record["kubernetes"]["pod_name"].to_s       || "" }
+        node        ${record["kubernetes"]["host"].to_s           || "" }
+      </record>
+      tag kube.${record["kubernetes"]["namespace_name"]}.${record["kubernetes"]["container_name"]}.${record["kubernetes"]["pod_name"]}
+    </match>
+
+    <filter kube.ingress-nginx.**>
+      @type record_modifier
+      <record>
+        # check and convert
+        method      ${record["method"]   ? record["method"].to_s       : "" }
+        geo         ${record["geo"]      ? record["geo"].to_s          : "" }
+        status      ${record["status"]   ? record["status"].to_s       : "" }
+        log         ${record["log"]      ? record["log"].to_s          : "" }
+      </record>
+      remove_keys kubernetes,docker
+    </filter>
+
+    <match kube.**>
+        @type relabel
+        @label @STORE
+    </match>
+
+    <label @STORE>
+      <match **>
+        @type stdout
+        <format>
+          @type hash
+        </format>
+      </match>
+    </label>
+
+    <match **>
+      @type null
+    </match>
+
+resources:
+  limits:
+    cpu: 1
+    memory: 2Gi
+  requests:
+    cpu: 200m
+    memory: 512Mi
+
+metrics:
+  enabled: true
+
+useDaemonSet: true
+nodeSelector:
+  node-role.kubernetes.io/control-plane: ""
+tolerations:
+  - key: node-role.kubernetes.io/control-plane
+    effect: NoSchedule

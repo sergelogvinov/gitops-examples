@@ -10,3 +10,6 @@ resources:
   - ../../apps/metrics-server
   - ../../apps/local-path-provisioner
   - ../../apps/proxmox-ccm
+  # Logging
+  - ../../apps/fluentd-route
+  - ../../apps/fluent-bit
