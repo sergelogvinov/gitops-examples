@@ -1,0 +1,89 @@
+fullnameOverride: prometheus-alertmanager
+priorityClassName: system-cluster-critical
+
+extraArgs:
+  web.external-url: "https://alertmanager.${CLUSTER_DOMAIN}"
+
+ingress:
+  enabled: false
+
+livenessProbe:
+  initialDelaySeconds: 120
+readinessProbe:
+  initialDelaySeconds: 120
+
+replicaCount: 2
+
+persistence:
+  enabled: false
+
+securityContext:
+  seccompProfile:
+    type: RuntimeDefault
+  capabilities:
+    drop:
+      - ALL
+  readOnlyRootFilesystem: true
+
+service:
+  annotations:
+    prometheus.io/scrape: "true"
+    prometheus.io/port: "9093"
+
+podAntiAffinity: hard
+podAntiAffinityTopologyKey: kubernetes.io/hostname
+
+nodeSelector:
+  node-role.kubernetes.io/control-plane: ""
+tolerations:
+  - key: node-role.kubernetes.io/control-plane
+    effect: NoSchedule
+
+resources:
+  limits:
+    cpu: 50m
+    memory: 64Mi
+  requests:
+    cpu: 10m
+    memory: 50Mi
+
+config:
+  global:
+    resolve_timeout: 5m
+    smtp_require_tls: true
+    smtp_smarthost: "smtp.gmail.com:587"
+  templates:
+    - "/etc/alertmanager/*.tmpl"
+
+  route:
+    group_by: ["alertname"]
+    group_wait: 10s
+    group_interval: 2m
+    repeat_interval: 12h
+    receiver: slack_operation
+
+    routes: []
+
+templates:
+  template.tmpl: |
+    {{ define "slack.default.iconemoji" }}:ghost:{{ end }}
+    {{ define "slack.default.text" }}
+    {{- $root := . -}}
+    {{ range .Alerts }}
+    *Alert:* {{ .Annotations.summary }} - `{{ .Labels.severity }}`
+    *Description:* {{ .Annotations.description }}
+    {{ end }}
+    {{ end }}
+    {{ define "slack.default.title" }}[${CLUSTER_NAME}:{{ .Status | toUpper }}{{ if eq .Status "firing" }}:{{ .Alerts.Firing | len }}{{ end }}] {{ .GroupLabels.SortedPairs.Values | join " " }}{{ end }}
+    {{ define "opsgenie.default.message" }}[${CLUSTER_NAME}] {{ .GroupLabels.SortedPairs.Values | join " " }}{{ end }}
+
+configmapReload:
+  enabled: true
+
+  resources:
+    limits:
+      cpu: 50m
+      memory: 32Mi
+    requests:
+      cpu: 10m
+      memory: 16Mi

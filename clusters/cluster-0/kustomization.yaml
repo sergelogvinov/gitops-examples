@@ -17,3 +17,4 @@ resources:
   - ../../apps/victoria-metrics-operator
   - ../../apps/victoria-metrics
   - ../../apps/prometheus
+  # - ../../apps/prometheus-alertmanager

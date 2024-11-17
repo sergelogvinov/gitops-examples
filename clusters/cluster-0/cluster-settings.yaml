@@ -5,3 +5,5 @@ metadata:
   name: cluster-settings
   namespace: flux-system
 data:
+  CLUSTER_DOMAIN: "cluster-0.example.com"
+  CLUSTER_NAME: "Cluster-0"
