@@ -2,9 +2,9 @@
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: HelmRepository
 metadata:
-  name: sergelogvinov
+  name: prometheus-community
   namespace: flux-system
 spec:
-  interval: 48h
+  interval: 120m
   type: oci
-  url: oci://ghcr.io/sergelogvinov/charts
+  url: oci://ghcr.io/prometheus-community/charts

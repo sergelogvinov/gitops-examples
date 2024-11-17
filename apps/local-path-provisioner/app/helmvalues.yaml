@@ -1,0 +1,39 @@
+storageClass:
+  create: true
+  defaultClass: true
+  provisionerName: rancher.io/local-path
+
+nodePathMap:
+  - node: DEFAULT_PATH_FOR_NON_LISTED_NODES
+    paths:
+      - /var/data
+
+securityContext:
+  allowPrivilegeEscalation: false
+  seccompProfile:
+    type: RuntimeDefault
+  capabilities:
+    drop: ["ALL"]
+  runAsUser: 65534
+  runAsGroup: 65534
+  readOnlyRootFilesystem: true
+
+resources:
+  limits:
+    cpu: 50m
+    memory: 64Mi
+  requests:
+    cpu: 50m
+    memory: 32Mi
+
+helperPod:
+  resources:
+    requests:
+      cpu: 100m
+      memory: 64Mi
+
+nodeSelector:
+  node-role.kubernetes.io/control-plane: ""
+tolerations:
+  - key: "node-role.kubernetes.io/control-plane"
+    effect: NoSchedule
