@@ -14,6 +14,4 @@ resources:
   - ./jetstack.yaml
   - ./kedacore.yaml
   - ./metrics-server.yaml
-  - ./prometheus.yaml
-  - ./sinextra.yaml
   - ./victoria-metrics.yaml
