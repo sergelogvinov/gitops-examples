@@ -46,4 +46,6 @@ git config user.signingkey 349CAAD68AF02E2B
 git config commit.gpgsign true
 ```
 
-Reference: https://docs.github.com/en/authentication/managing-commit-signature-verification/telling-git-about-your-signing-key
+## References
+
+* https://docs.github.com/en/authentication/managing-commit-signature-verification/telling-git-about-your-signing-key
