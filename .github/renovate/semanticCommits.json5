@@ -4,21 +4,42 @@
     {
       "matchDatasources": ["docker"],
       "matchUpdateTypes": ["major"],
-      "commitMessagePrefix": "feat",
+      "commitMessagePrefix": "feat: ",
       "commitMessageTopic": "{{depName}}",
       "commitMessageExtra": "({{currentVersion}} → {{newVersion}})"
     },
     {
       "matchDatasources": ["docker"],
       "matchUpdateTypes": ["minor"],
-      "commitMessagePrefix": "feat",
+      "commitMessagePrefix": "feat: ",
       "commitMessageTopic": "{{depName}}",
       "commitMessageExtra": "({{currentVersion}} → {{newVersion}})"
     },
     {
       "matchDatasources": ["docker"],
       "matchUpdateTypes": ["patch"],
-      "commitMessagePrefix": "fix",
+      "commitMessagePrefix": "fix: ",
+      "commitMessageTopic": "{{depName}}",
+      "commitMessageExtra": "({{currentVersion}} → {{newVersion}})"
+    },
+        {
+      "matchDatasources": ["helm"],
+      "matchUpdateTypes": ["major"],
+      "commitMessagePrefix": "feat: ",
+      "commitMessageTopic": "{{depName}}",
+      "commitMessageExtra": "({{currentVersion}} → {{newVersion}})"
+    },
+    {
+      "matchDatasources": ["helm"],
+      "matchUpdateTypes": ["minor"],
+      "commitMessagePrefix": "feat: ",
+      "commitMessageTopic": "{{depName}}",
+      "commitMessageExtra": "({{currentVersion}} → {{newVersion}})"
+    },
+    {
+      "matchDatasources": ["helm"],
+      "matchUpdateTypes": ["patch"],
+      "commitMessagePrefix": "fix: ",
       "commitMessageTopic": "{{depName}}",
       "commitMessageExtra": "({{currentVersion}} → {{newVersion}})"
     }
