@@ -13,6 +13,10 @@ configMapGenerator:
     files:
       - values.yaml=./prometheus-alertmanager.yaml
 secretGenerator:
+  - name: rbac-common-helm-values
+    namespace: kube-system
+    files:
+      - values.yaml=./cluster-rbac.yaml
   - name: prometheus-alertmanager-helm-values
     namespace: monitoring
     files:

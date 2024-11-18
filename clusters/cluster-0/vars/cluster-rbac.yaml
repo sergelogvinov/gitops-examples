@@ -1,0 +1,4 @@
+fullnameOverride: cluster
+
+clusterAdmins:
+  - sergey.logvinov
