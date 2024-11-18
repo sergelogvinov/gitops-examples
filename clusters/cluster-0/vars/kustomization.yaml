@@ -17,3 +17,7 @@ secretGenerator:
     namespace: monitoring
     files:
       - values.yaml=./secrets.prometheus-alertmanager.yaml
+  - name: proxmox-csi-plugin-helm-values
+    namespace: csi-proxmox
+    files:
+      - values.yaml=./secrets.proxmox.yaml

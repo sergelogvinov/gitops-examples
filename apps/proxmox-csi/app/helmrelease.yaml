@@ -28,6 +28,11 @@ spec:
     remediation:
       retries: 3
 
+  valuesFrom:
+    - kind: Secret
+      name: proxmox-csi-plugin-helm-values
+      optional: true
+
   values:
     replicaCount: 1
 
