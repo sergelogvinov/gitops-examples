@@ -4,42 +4,48 @@
     {
       "matchDatasources": ["docker"],
       "matchUpdateTypes": ["major"],
-      "commitMessagePrefix": "feat: ",
+      "semanticCommitType": "feat",
+      "semanticCommitScope": "container",
       "commitMessageTopic": "{{depName}}",
       "commitMessageExtra": "({{currentVersion}} → {{newVersion}})"
     },
     {
       "matchDatasources": ["docker"],
       "matchUpdateTypes": ["minor"],
-      "commitMessagePrefix": "feat: ",
+      "semanticCommitType": "feat",
+      "semanticCommitScope": "container",
       "commitMessageTopic": "{{depName}}",
       "commitMessageExtra": "({{currentVersion}} → {{newVersion}})"
     },
     {
       "matchDatasources": ["docker"],
       "matchUpdateTypes": ["patch"],
-      "commitMessagePrefix": "fix: ",
+      "semanticCommitType": "fix",
+      "semanticCommitScope": "container",
       "commitMessageTopic": "{{depName}}",
       "commitMessageExtra": "({{currentVersion}} → {{newVersion}})"
     },
         {
       "matchDatasources": ["helm"],
       "matchUpdateTypes": ["major"],
-      "commitMessagePrefix": "feat: ",
+      "semanticCommitType": "feat",
+      "semanticCommitScope": "helm",
       "commitMessageTopic": "{{depName}}",
       "commitMessageExtra": "({{currentVersion}} → {{newVersion}})"
     },
     {
       "matchDatasources": ["helm"],
       "matchUpdateTypes": ["minor"],
-      "commitMessagePrefix": "feat: ",
+      "semanticCommitType": "feat",
+      "semanticCommitScope": "helm",
       "commitMessageTopic": "{{depName}}",
       "commitMessageExtra": "({{currentVersion}} → {{newVersion}})"
     },
     {
       "matchDatasources": ["helm"],
       "matchUpdateTypes": ["patch"],
-      "commitMessagePrefix": "fix: ",
+      "semanticCommitType": "fix",
+      "semanticCommitScope": "helm",
       "commitMessageTopic": "{{depName}}",
       "commitMessageExtra": "({{currentVersion}} → {{newVersion}})"
     }
