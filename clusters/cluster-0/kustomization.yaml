@@ -6,8 +6,9 @@ resources:
   - ./fluxcd.yaml
   # Flux components
   - ../../apps/flux-system
-  - ../../apps/talos-upgrade-controller
   # Kubernetes components
+  - ../../apps/rbac
+  - ../../apps/talos-upgrade-controller
   - ../../apps/cert-manager
   - ../../apps/metrics-server
   - ../../apps/local-path-provisioner
