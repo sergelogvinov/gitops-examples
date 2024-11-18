@@ -16,6 +16,7 @@ resources:
   - ../../apps/proxmox-csi
   # - ../../apps/csi-snapshotter
   - ../../apps/csi-autoresizer
+  - ../../apps/external-secrets
   # Logging
   - ../../apps/fluentd-route
   - ../../apps/fluent-bit

@@ -1,0 +1,84 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: external-secrets
+spec:
+  interval: 60m
+
+  maxHistory: 2
+  driftDetection:
+    mode: enabled
+
+  chart:
+    spec:
+      chart: external-secrets
+      version: 0.10.5
+      sourceRef:
+        kind: HelmRepository
+        name: external-secrets-charts
+        namespace: flux-system
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+
+  values:
+    replicaCount: 1
+    leaderElect: true
+
+    installCRDs: true
+    crds:
+      createClusterExternalSecret: false
+      createClusterSecretStore: true
+
+    processClusterExternalSecret: false
+    processClusterStore: true
+
+    image:
+      repository: ghcr.io/external-secrets/external-secrets
+
+    certController:
+      image:
+        repository: ghcr.io/external-secrets/external-secrets
+      resources:
+        requests:
+          cpu: 50m
+          memory: 64Mi
+        limits:
+          cpu: 100m
+          memory: 64Mi
+
+    webhook:
+      image:
+        repository: ghcr.io/external-secrets/external-secrets
+      resources:
+        requests:
+          cpu: 50m
+          memory: 64Mi
+        limits:
+          cpu: 100m
+          memory: 64Mi
+
+    resources:
+      limits:
+        cpu: 200m
+        memory: 128Mi
+      requests:
+        cpu: 100m
+        memory: 128Mi
+
+    global:
+      nodeSelector:
+        node-role.kubernetes.io/control-plane: ""
+      tolerations:
+        - key: node-role.kubernetes.io/control-plane
+          effect: NoSchedule
+
+  valuesFrom:
+    - kind: ConfigMap
+      name: external-secrets-helm-values
+      optional: true
