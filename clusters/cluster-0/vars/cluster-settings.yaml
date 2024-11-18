@@ -11,5 +11,7 @@ data:
   CLUSTER_INGRESS_CLASS: "nginx"
   CLUSTER_INGRESS_DOMAIN: "hello.com"
 
+  # renovate: datasource=docker depName=ghcr.io/siderolabs/installer
   TALOS_VERSION: "v1.8.3"
+  # renovate: datasource=docker depName=ghcr.io/siderolabs/kubelet
   KUBERNETES_VERSION: "v1.31.2"
