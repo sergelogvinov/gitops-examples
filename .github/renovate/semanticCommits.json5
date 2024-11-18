@@ -1,0 +1,26 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "packageRules": [
+    {
+      "matchDatasources": ["docker"],
+      "matchUpdateTypes": ["major"],
+      "commitMessagePrefix": "feat",
+      "commitMessageTopic": "{{depName}}",
+      "commitMessageExtra": "({{currentVersion}} → {{newVersion}})"
+    },
+    {
+      "matchDatasources": ["docker"],
+      "matchUpdateTypes": ["minor"],
+      "commitMessagePrefix": "feat",
+      "commitMessageTopic": "{{depName}}",
+      "commitMessageExtra": "({{currentVersion}} → {{newVersion}})"
+    },
+    {
+      "matchDatasources": ["docker"],
+      "matchUpdateTypes": ["patch"],
+      "commitMessagePrefix": "fix",
+      "commitMessageTopic": "{{depName}}",
+      "commitMessageExtra": "({{currentVersion}} → {{newVersion}})"
+    }
+  ]
+}
