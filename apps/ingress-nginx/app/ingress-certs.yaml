@@ -1,0 +1,27 @@
+---
+apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata:
+  name: default
+spec:
+  selfSigned: {}
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: default
+spec:
+  secretName: default-tls
+  commonName: ${CLUSTER_INGRESS_DOMAIN}
+  privateKey:
+    algorithm: ECDSA
+    size: 256
+  usages:
+    - server auth
+    - client auth
+  dnsNames:
+    - ${CLUSTER_INGRESS_DOMAIN}
+    - www.${CLUSTER_INGRESS_DOMAIN}
+  issuerRef:
+    name: default
+    kind: Issuer

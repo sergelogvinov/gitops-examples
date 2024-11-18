@@ -8,3 +8,5 @@ data:
   CLUSTER_DOMAIN: "cluster-0.sinextra.dev"
   CLUSTER_NAME: "Cluster-0"
   CLUSTER_EMAIL: "cluster@sinextra.dev"
+  CLUSTER_INGRESS_CLASS: "nginx"
+  CLUSTER_INGRESS_DOMAIN: "hello.com"

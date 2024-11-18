@@ -23,3 +23,5 @@ resources:
   - ../../apps/prometheus
   - ../../apps/prometheus-alertmanager
   - ../../apps/prometheus-node-exporter
+  # Ingress
+  - ../../apps/ingress-nginx
