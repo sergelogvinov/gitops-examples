@@ -10,3 +10,6 @@ data:
   CLUSTER_EMAIL: "cluster@sinextra.dev"
   CLUSTER_INGRESS_CLASS: "nginx"
   CLUSTER_INGRESS_DOMAIN: "hello.com"
+
+  TALOS_VERSION: "v1.8.3"
+  KUBERNETES_VERSION: "v1.31.1"
