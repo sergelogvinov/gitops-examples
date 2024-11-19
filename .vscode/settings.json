@@ -1,5 +1,9 @@
 {
+    "files.associations": {
+        "*.json5": "jsonc",
+    },
     "yaml.schemas": {
+        "https://json.schemastore.org/github-workflow.json": ".github/workflows/*.{yml,yaml}",
         "Kubernetes": "./apps/*.yaml"
     },
     "git.rebaseWhenSync": true
