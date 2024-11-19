@@ -48,6 +48,54 @@
       "semanticCommitScope": "helm",
       "commitMessageTopic": "{{depName}}",
       "commitMessageExtra": "({{currentVersion}} → {{newVersion}})"
+    },
+        {
+      "matchDatasources": ["github-releases", "github-tags"],
+      "matchUpdateTypes": ["major"],
+      "semanticCommitType": "feat",
+      "semanticCommitScope": "",
+      "commitMessageTopic": "{{depName}}",
+      "commitMessageExtra": "({{currentVersion}} → {{newVersion}})"
+    },
+    {
+      "matchDatasources": ["github-releases", "github-tags"],
+      "matchUpdateTypes": ["minor"],
+      "semanticCommitType": "feat",
+      "semanticCommitScope": "",
+      "commitMessageTopic": "{{depName}}",
+      "commitMessageExtra": "({{currentVersion}} → {{newVersion}})"
+    },
+    {
+      "matchDatasources": ["github-releases", "github-tags"],
+      "matchUpdateTypes": ["patch"],
+      "semanticCommitType": "fix",
+      "semanticCommitScope": "",
+      "commitMessageTopic": "{{depName}}",
+      "commitMessageExtra": "({{currentVersion}} → {{newVersion}})"
+    },
+        {
+      "matchManagers": ["github-actions"],
+      "matchUpdateTypes": ["major"],
+      "semanticCommitType": "feat",
+      "semanticCommitScope": "",
+      "commitMessageTopic": "{{depName}}",
+      "commitMessageExtra": "({{currentVersion}} → {{newVersion}})"
+    },
+    {
+      "matchManagers": ["github-actions"],
+      "matchUpdateTypes": ["minor"],
+      "semanticCommitType": "feat",
+      "semanticCommitScope": "",
+      "commitMessageTopic": "{{depName}}",
+      "commitMessageExtra": "({{currentVersion}} → {{newVersion}})"
+    },
+    {
+      "matchManagers": ["github-actions"],
+      "matchUpdateTypes": ["patch"],
+      "semanticCommitType": "fix",
+      "semanticCommitScope": "",
+      "commitMessageTopic": "{{depName}}",
+      "commitMessageExtra": "({{currentVersion}} → {{newVersion}})"
     }
   ]
 }

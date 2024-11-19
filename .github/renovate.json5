@@ -7,7 +7,6 @@
     ":timezone(Europe/Tallinn)",
     ":dependencyDashboard",
     ":disableRateLimiting",
-    ":prConcurrentLimit10",
     ":semanticCommits",
     ":semanticCommitScopeDisabled",
     "github>sergelogvinov/gitops//.github/renovate/customManagers.json5",
@@ -53,5 +52,17 @@
     "fileMatch": [
       "(^|/)kustomization\\.ya?ml$"
     ]
-  }
+  },
+  "packageRules": [
+    {
+      "matchDatasources": ["helm","helmfile"],
+      "matchPackagePatterns": ["cert-manager"],
+      "major": {
+          "enabled": false
+      },
+      "minor": {
+          "enabled": false
+      }
+    }
+  ]
 }
