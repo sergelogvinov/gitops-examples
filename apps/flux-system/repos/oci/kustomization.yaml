@@ -6,3 +6,4 @@ resources:
   - sergelogvinov.yaml
   - siderolabs.yaml
   - prometheus-community.yaml
+  - actions-runner-controller-charts.yaml

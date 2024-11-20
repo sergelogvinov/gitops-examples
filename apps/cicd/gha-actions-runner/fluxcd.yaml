@@ -1,0 +1,16 @@
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: &app gha-runner-scale-set-controller
+  namespace: flux-system
+spec:
+  targetNamespace: operator-gha
+  path: ./apps/cicd/gha-actions-runner/gha-runner-scale-set-controller
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: gitops-clusters
+  wait: true
+  interval: 30m
+  retryInterval: 5m

@@ -22,7 +22,7 @@
   ],
   "separateMajorMinor": true,
   "separateMultipleMajor": true,
-  "rebaseWhen": "conflicted",
+  "rebaseWhen": "behind-base-branch",
   "ignorePaths": [
     "**/secrets.*",
     "**/secrets/*.ya?ml"
@@ -55,13 +55,18 @@
   },
   "packageRules": [
     {
-      "matchDatasources": ["helm","helmfile"],
-      "matchPackagePatterns": ["cert-manager"],
+      "matchDatasources": [
+        "helm",
+        "helmfile"
+      ],
+      "matchPackagePatterns": [
+        "cert-manager"
+      ],
       "major": {
-          "enabled": false
+        "enabled": false
       },
       "minor": {
-          "enabled": false
+        "enabled": false
       }
     }
   ]
