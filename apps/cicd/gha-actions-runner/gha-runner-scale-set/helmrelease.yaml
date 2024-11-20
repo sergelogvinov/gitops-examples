@@ -1,0 +1,95 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: github-actions-runners
+  namespace: operator-gha
+spec:
+  interval: 60m
+
+  targetNamespace: cicd
+  storageNamespace: operator-gha
+
+  maxHistory: 2
+  driftDetection:
+    mode: enabled
+
+  chart:
+    spec:
+      chart: github-actions-runners
+      version: 2.1.1
+      sourceRef:
+        kind: HelmRepository
+        name: sergelogvinov
+        namespace: flux-system
+  install:
+    crds: CreateReplace
+    remediation:
+      retries: 3
+  upgrade:
+    crds: CreateReplace
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+
+  valuesFrom:
+    - kind: Secret
+      name: github-actions-runner-helm-values
+      optional: true
+  values:
+    image:
+      repository: ghcr.io/sergelogvinov/github-actions-runner
+      tag: "2.320.0"
+
+    runnerGroup: "Builder"
+    runnerScaleSetName: "Builder"
+    runnerVersion: "0.9.3"
+
+    githubConfigUrl: https://github.com/sergelogvinov
+
+    persistence:
+      enabled: false
+      storageClass: proxmox
+      size: 10Gi
+
+    dind:
+      resources:
+        limits:
+          cpu: 3
+          memory: 8Gi
+        requests:
+          cpu: 100m
+          memory: 2Gi
+      persistence:
+        enabled: false
+        annotations:
+          resize.topolvm.io/increase: 10Gi
+          resize.topolvm.io/storage_limit: 200Gi
+          resize.topolvm.io/threshold: 15%
+        storageClass: proxmox
+        size: 50Gi
+
+    mirrors:
+      enabled: true
+      persistence:
+        enabled: false
+        annotations:
+          resize.topolvm.io/increase: 10Gi
+          resize.topolvm.io/storage_limit: 200Gi
+          resize.topolvm.io/threshold: 15%
+        storageClass: proxmox
+        size: 50Gi
+
+    registry:
+      enabled: false
+      persistence:
+        enabled: false
+        annotations:
+          resize.topolvm.io/increase: 10Gi
+          resize.topolvm.io/storage_limit: 200Gi
+          resize.topolvm.io/threshold: 15%
+        storageClass: proxmox
+        size: 50Gi
+
+    metrics:
+      enabled: false

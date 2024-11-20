@@ -25,3 +25,7 @@ secretGenerator:
     namespace: csi-proxmox
     files:
       - values.yaml=./secrets.proxmox.yaml
+  - name: github-actions-runner-helm-values
+    namespace: operator-gha
+    files:
+      - values.yaml=./secrets.github-actions-runner.yaml
