@@ -18,10 +18,10 @@ jobs:
       statuses: read
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
 
       - name: Renovate
-        uses: renovatebot/github-action@v41.0.3
+        uses: renovatebot/github-action@e02bf7b1c996027e55e910400653576a8293246c # v41.0.3
         with:
           configurationFile: .github/renovate-global.json
           token: ${{ secrets.GITHUB_TOKEN }}
