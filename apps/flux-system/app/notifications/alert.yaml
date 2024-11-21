@@ -25,3 +25,22 @@ spec:
     - "dial.*tcp.*timeout"
     - "waiting.*socket"
   suspend: false
+---
+apiVersion: notification.toolkit.fluxcd.io/v1beta3
+kind: Alert
+metadata:
+  name: helm-release
+  namespace: flux-system
+spec:
+  providerRef:
+    name: discord
+  eventSources:
+    - kind: HelmRelease
+      name: "*"
+      namespace: "*"
+  inclusionList:
+    - ".*succeeded.*"
+  exclusionList:
+    - ".*uninstall.*"
+    - ".*test.*"
+  suspend: false
