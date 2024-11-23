@@ -1,0 +1,19 @@
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: &app proxmox-csi
+  namespace: flux-system
+spec:
+  targetNamespace: csi-proxmox
+  commonMetadata:
+    labels:
+      app.kubernetes.io/name: *app
+  path: ./apps/clouds/proxmox-csi/app
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: gitops-clusters
+  wait: true
+  interval: 30m
+  retryInterval: 5m

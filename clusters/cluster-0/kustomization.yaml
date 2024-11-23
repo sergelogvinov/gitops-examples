@@ -7,24 +7,24 @@ resources:
   # Flux components
   - ../../apps/flux-system
   # Kubernetes components
-  - ../../apps/rbac
-  - ../../apps/talos-upgrade-controller
-  - ../../apps/cert-manager
-  - ../../apps/metrics-server
-  - ../../apps/local-path-provisioner
-  - ../../apps/proxmox-ccm
-  - ../../apps/proxmox-csi
-  # - ../../apps/csi-snapshotter
-  - ../../apps/csi-autoresizer
-  - ../../apps/external-secrets
+  - ../../apps/base/rbac
+  - ../../apps/clouds/talos-upgrade-controller
+  - ../../apps/base/cert-manager
+  - ../../apps/base/metrics-server
+  - ../../apps/base/local-path-provisioner
+  - ../../apps/clouds/proxmox-ccm
+  - ../../apps/clouds/proxmox-csi
+  # - ../../apps/clouds/csi-snapshotter
+  # - ../../apps/clouds/csi-autoresizer
+  - ../../apps/base/external-secrets
   # Logging
-  - ../../apps/fluentd-route
-  - ../../apps/fluent-bit
+  - ../../apps/logging/fluentd-route
+  - ../../apps/logging/fluent-bit
   # Monitoring
-  - ../../apps/victoria-metrics-operator
-  - ../../apps/victoria-metrics
-  - ../../apps/prometheus
-  - ../../apps/prometheus-alertmanager
-  - ../../apps/prometheus-node-exporter
+  - ../../apps/monitoring/victoria-metrics-operator
+  - ../../apps/monitoring/victoria-metrics
+  - ../../apps/monitoring/prometheus
+  - ../../apps/monitoring/prometheus-alertmanager
+  - ../../apps/monitoring/prometheus-node-exporter
   # Ingress
-  - ../../apps/ingress-nginx
+  - ../../apps/ingress/ingress-nginx
