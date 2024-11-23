@@ -5,6 +5,8 @@ kind: Kustomization
 generatorOptions:
   disableNameSuffixHash: true
 resources:
+  - ./secrets.fluxcd.yaml
+  - ./secrets.discord.yaml
   - ./cluster-settings.yaml
   - ./priorityclass.yaml
   - ./proxmox-storage.yaml

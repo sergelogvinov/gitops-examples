@@ -14,10 +14,10 @@ spec:
   sourceRef:
     kind: GitRepository
     name: gitops-clusters
-  decryption:
-    provider: sops
-    secretRef:
-      name: sops-age
+  # decryption:
+  #   provider: sops
+  #   secretRef:
+  #     name: sops-age
   postBuild:
     substituteFrom:
       - kind: ConfigMap
