@@ -72,7 +72,7 @@ spec:
         datasources:
           - name: prometheus
             type: prometheus
-            url: http://vmsingle-vm.monitoring.svc:8429/select/0/prometheus/
+            url: http://vmsingle-vm.monitoring.svc:8429/prometheus/
             access: proxy
           - name: loki
             type: loki
