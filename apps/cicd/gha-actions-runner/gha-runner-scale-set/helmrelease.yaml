@@ -45,6 +45,11 @@ spec:
       name: arc
       namespace: operator-gha
 
+    autoscaling:
+      enabled: false
+      minReplicas: 0
+      maxReplicas: 3
+
     # runnerGroup: ""
     runnerScaleSetName: "builder"
     runnerVersion: "0.9.3"

@@ -3,3 +3,12 @@ apiVersion: v1
 kind: Namespace
 metadata:
   name: operator-gha
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: cicd
+  labels:
+    pod-security.kubernetes.io/enforce: privileged
+    pod-security.kubernetes.io/audit: baseline
+    pod-security.kubernetes.io/warn: baseline
