@@ -21,7 +21,7 @@ metadata:
   name: &app gha-runner-scale-set
   namespace: flux-system
 spec:
-  targetNamespace: cicd
+  targetNamespace: operator-gha
   path: ./apps/cicd/gha-actions-runner/gha-runner-scale-set
   prune: true
   sourceRef:
