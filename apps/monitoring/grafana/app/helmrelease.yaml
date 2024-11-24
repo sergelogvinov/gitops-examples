@@ -99,6 +99,7 @@ spec:
             settings:
               url: http://prometheus-alertmanager.monitoring.svc:9093
 
+    assertNoLeakedSecrets: false
     grafana.ini:
       log:
         mode: console
