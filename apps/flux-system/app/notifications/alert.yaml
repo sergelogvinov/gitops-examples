@@ -34,7 +34,14 @@ metadata:
 spec:
   providerRef:
     name: discord
+  eventSeverity: info
   eventSources:
+    - kind: HelmRelease
+      name: "*"
+      namespace: kube-system
+    - kind: HelmRelease
+      name: "*"
+      namespace: cert-manager
     - kind: HelmRelease
       name: "*"
       namespace: "*"
