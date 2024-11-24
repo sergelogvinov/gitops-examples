@@ -5,8 +5,4 @@ kind: Kustomization
 generatorOptions:
   disableNameSuffixHash: true
 resources:
-  - ./helmrelease.yaml
-configMapGenerator:
-  - name: cert-manager-helm-values
-    files:
-      - values.yaml=./helmvalues.yaml
+  - ./cert-manager-issuer.yaml
