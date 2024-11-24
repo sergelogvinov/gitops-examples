@@ -21,13 +21,14 @@ Kubernetes GitOps
 ```shell
 kubectl apply --server-side --kustomize bootstrap
 kubectl apply --server-side --kustomize apps/flux-system
-sops --decrypt apps/flux-system/secrets/fluxcd.yaml | kubectl apply -f -
+sops --decrypt clusters/cluster-0/vars/secrets.fluxcd.yaml | kubectl -n flux-system apply -f -
 ```
 
 ## Deploy cluster
 
 ```shell
 kubectl apply --server-side --kustomize clusters/cluster-0
+sops --decrypt clusters/cluster-0/vars/secrets.fluxcd.yaml | kubectl -n flux-system apply -f -
 ```
 
 ```shell
