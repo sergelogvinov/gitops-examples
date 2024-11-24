@@ -1,0 +1,44 @@
+fullnameOverride: grafana-pg
+
+pgHbaConfiguration: |-
+  local   all         all                                 trust
+  local   replication postgres                            trust
+  host    all         all                   localhost     md5
+  hostssl postgres    postgres              10.0.0.0/8    md5
+  hostssl postgres    postgres              10.0.0.0/8    md5
+  hostssl replication postgres              10.0.0.0/8    md5
+  hostssl replication postgres              10.0.0.0/8    md5
+  #
+  host    grafana     grafana               10.0.0.0/8    md5
+  hostssl grafana     grafana               10.0.0.0/8    md5
+
+postgresqlServerMemory: 128
+resources:
+  limits:
+    memory: 512Mi
+    cpu: 500m
+  requests:
+    memory: 256Mi
+    cpu: 100m
+
+persistence:
+  enabled: true
+  storageClass: proxmox
+  size: 10Gi
+
+backup:
+  enabled: false
+  recovery: false
+
+backupCheck:
+  enabled: false
+  schedule: "35 4 * * */7"
+
+metrics:
+  enabled: false
+
+# nodeSelector:
+#   node-role.kubernetes.io/control-plane: ""
+tolerations:
+  - key: node-role.kubernetes.io/control-plane
+    effect: NoSchedule

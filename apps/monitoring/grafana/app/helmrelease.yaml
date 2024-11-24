@@ -1,0 +1,126 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: grafana
+spec:
+  interval: 60m
+
+  maxHistory: 2
+  driftDetection:
+    mode: enabled
+
+  chart:
+    spec:
+      chart: grafana
+      version: 8.6.1
+      sourceRef:
+        kind: HelmRepository
+        name: grafana
+        namespace: flux-system
+
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+
+  valuesFrom:
+    - kind: Secret
+      name: grafana-helm-values
+
+  values:
+    rbac:
+      namespaced: true
+
+    service:
+      ipFamilyPolicy: PreferDualStack
+    ingress:
+      enabled: false
+
+    podAnnotations:
+      fluentbit.io/exclude: "true"
+
+    securityContext:
+      runAsNonRoot: true
+      runAsUser: 472
+      runAsGroup: 472
+      fsGroup: 472
+      fsGroupChangePolicy: "OnRootMismatch"
+
+    containerSecurityContext:
+      allowPrivilegeEscalation: false
+      seccompProfile:
+        type: RuntimeDefault
+      capabilities:
+        drop: ["ALL"]
+
+    persistence:
+      enabled: false
+
+    plugins:
+      - vertamedia-clickhouse-datasource
+      - grafana-clickhouse-datasource
+      - natel-discrete-panel
+      # - https://github.com/VictoriaMetrics/victorialogs-datasource/releases/download/v0.8.0/victorialogs-datasource-v0.8.0.zip;victorialogs-datasource
+
+    datasources:
+      datasources.yaml:
+        apiVersion: 1
+        datasources:
+          - name: prometheus
+            type: prometheus
+            url: http://vmsingle-vm.monitoring.svc:8429/select/0/prometheus/
+            access: proxy
+          - name: loki
+            type: loki
+            url: http://loki-read.logs.svc:3100
+            access: proxy
+            jsonData:
+              timeout: "50"
+          - name: clickhouse
+            type: grafana-clickhouse-datasource
+            jsonData:
+              defaultDatabase: logs
+              port: 9000
+              server: clickhouse.logs.svc
+              username: reader
+              tlsSkipVerify: false
+
+    notifiers:
+      notifiers.yaml:
+        notifiers:
+          - name: Alertmanager
+            type: prometheus-alertmanager
+            uid: alertmanager
+            is_default: true
+            settings:
+              url: http://prometheus-alertmanager.monitoring.svc:9093
+
+    grafana.ini:
+      log:
+        mode: console
+      database:
+        type: postgres
+        host: grafana-pg
+        name: grafana
+        user: grafana
+        ssl_mode: require
+      analytics:
+        check_for_updates: false
+        check_for_plugin_updates: false
+        reporting_enabled: false
+      news:
+        news_feed_enabled: false
+      plugins:
+        allow_loading_unsigned_plugins: "victorialogs-datasource"
+      users:
+        auto_assign_org_role: Viewer
+
+    # nodeSelector:
+    #   node-role.kubernetes.io/control-plane: ""
+    # tolerations:
+    #   - key: node-role.kubernetes.io/control-plane
+    #     effect: NoSchedule

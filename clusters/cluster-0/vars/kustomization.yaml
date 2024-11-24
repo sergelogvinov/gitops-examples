@@ -24,6 +24,11 @@ secretGenerator:
     namespace: monitoring
     files:
       - values.yaml=./secrets.prometheus-alertmanager.yaml
+  - name: grafana-helm-values
+    namespace: monitoring
+    files:
+      - values.yaml=./secrets.grafana.yaml
+
   - name: proxmox-csi-plugin-helm-values
     namespace: csi-proxmox
     files:
