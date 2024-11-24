@@ -19,8 +19,8 @@ resources:
   - ../../apps/clouds/csi-autoresizer
   - ../../apps/base/external-secrets
   # Logging
-  # - ../../apps/logging/fluentd-route
-  # - ../../apps/logging/fluent-bit
+  - ../../apps/logging/fluentd-route
+  - ../../apps/logging/fluent-bit
   # Monitoring
   - ../../apps/monitoring/victoria-metrics-operator
   - ../../apps/monitoring/victoria-metrics
