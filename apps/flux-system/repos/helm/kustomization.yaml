@@ -15,3 +15,4 @@ resources:
   - ./kedacore.yaml
   - ./metrics-server.yaml
   - ./victoria-metrics.yaml
+  - ./percona.yaml
