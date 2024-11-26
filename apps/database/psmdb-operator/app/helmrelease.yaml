@@ -13,7 +13,7 @@ spec:
   chart:
     spec:
       chart: psmdb-operator
-      version: 1.16.3
+      version: 1.18.0
       sourceRef:
         kind: HelmRepository
         name: percona
@@ -28,6 +28,10 @@ spec:
 
   values:
     watchAllNamespaces: true
+
+    podAnnotations:
+      prometheus.io/scrape: "true"
+      prometheus.io/port: "8080"
 
     podSecurityContext:
       runAsNonRoot: true

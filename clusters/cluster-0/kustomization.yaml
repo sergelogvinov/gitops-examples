@@ -36,3 +36,5 @@ resources:
   # Apps
   - ../../apps/cicd/gha-actions-runner
   - ../../apps/cicd/teamcity
+  # Database
+  - ../../apps/database/psmdb-operator
