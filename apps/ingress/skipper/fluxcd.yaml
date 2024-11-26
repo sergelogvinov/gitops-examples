@@ -5,7 +5,7 @@ metadata:
   name: &app skipper
   namespace: flux-system
 spec:
-  targetNamespace: skipper
+  targetNamespace: ingress-skipper
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
