@@ -1,0 +1,18 @@
+ingressClass: skipper
+ingressClassResource:
+  enabled: true
+  name: skipper
+
+# hostNetwork: true
+# hostPort:
+#   ports:
+#     http: 8080
+#     https: 8443
+
+priorityClassName: system-cluster-critical
+
+useDaemonSet: true
+terminationGracePeriodSeconds: 120
+
+nodeSelector:
+  node-role.kubernetes.io/web: ""

@@ -25,8 +25,6 @@ Commit the changes and push to the repository.
 
 ```shell
 kubectl apply --server-side --kustomize bootstrap
-kubectl apply --server-side --kustomize apps/flux-system
-sops --decrypt clusters/cluster-0/vars/secrets.fluxcd.yaml | kubectl -n flux-system apply -f -
 ```
 
 ## Deploy cluster
