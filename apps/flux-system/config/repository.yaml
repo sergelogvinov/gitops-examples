@@ -8,7 +8,7 @@ spec:
   interval: 30m
   ref:
     branch: main
-  url: https://github.com/sergelogvinov/gitops.git
+  url: https://github.com/sergelogvinov/gitops-examples.git
   secretRef:
     name: github-token
   ignore: |

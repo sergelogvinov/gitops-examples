@@ -16,6 +16,11 @@ Kubernetes GitOps
 └── 📁 ...                      # other clusters
 ```
 
+## Clone
+
+Clone repository, and change git url in file `apps/flux-system/config/repository.yaml`
+Commit the changes and push to the repository.
+
 ## Bootstrap
 
 ```shell
