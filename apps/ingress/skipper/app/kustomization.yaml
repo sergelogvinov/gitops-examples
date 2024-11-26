@@ -7,6 +7,6 @@ generatorOptions:
 resources:
   - ./helmrelease.yaml
 configMapGenerator:
-  - name: ingress-nginx-helm-values
+  - name: ingress-skipper-helm-values
     files:
       - values.yaml=./helmvalues.yaml

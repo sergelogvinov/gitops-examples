@@ -28,4 +28,4 @@ spec:
 
   valuesFrom:
     - kind: ConfigMap
-      name: ingress-nginx-helm-values
+      name: ingress-skipper-helm-values
