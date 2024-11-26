@@ -32,7 +32,7 @@ resources:
   - ../../apps/monitoring/grafana
   # Ingress
   - ../../apps/ingress/ingress-nginx
-  - ../../apps/ingress/ingress-skipper
+  - ../../apps/ingress/skipper
   # Apps
   - ../../apps/cicd/gha-actions-runner
   - ../../apps/cicd/teamcity

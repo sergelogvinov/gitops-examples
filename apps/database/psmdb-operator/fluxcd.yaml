@@ -9,7 +9,7 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
-  path: ./apps/cicd/psmdb-operator/app
+  path: ./apps/database/psmdb-operator/app
   prune: true
   sourceRef:
     kind: GitRepository
