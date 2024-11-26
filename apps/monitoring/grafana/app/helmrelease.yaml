@@ -90,7 +90,7 @@ spec:
               tlsSkipVerify: false
 
     dashboards:
-      Infrastructure:
+      infrastructure:
         cert-manager:
           url: https://gitlab.com/uneeq-oss/cert-manager-mixin/-/raw/master/dashboards/cert-manager.json?ref_type=heads
           datasource: prometheus
