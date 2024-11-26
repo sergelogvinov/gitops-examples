@@ -12,11 +12,13 @@ resources:
   - ../../apps/clouds/talos-upgrade-controller
   - ../../apps/base/cert-manager
   - ../../apps/base/metrics-server
+  # Kubernetes ccm/csi
   - ../../apps/base/local-path-provisioner
   - ../../apps/clouds/proxmox-ccm
   - ../../apps/clouds/proxmox-csi
   # - ../../apps/clouds/csi-snapshotter
   - ../../apps/clouds/csi-autoresizer
+  # Secrets
   - ../../apps/base/external-secrets
   # Logging
   - ../../apps/logging/fluentd-route
@@ -30,6 +32,7 @@ resources:
   - ../../apps/monitoring/grafana
   # Ingress
   - ../../apps/ingress/ingress-nginx
-  # - ../../apps/ingress/ingress-skipper
+  - ../../apps/ingress/ingress-skipper
   # Apps
   - ../../apps/cicd/gha-actions-runner
+  - ../../apps/cicd/teamcity

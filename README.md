@@ -1,24 +1,60 @@
 # Gitops examples
 
-Kubernetes GitOps
+Kubernetes GitOps examples with FluxCD.
 
 ```shell
-📁 app
+📁 apps
 ├── 📁 name-of-application
-│   ├── 📁 app                  # application values
-│   │  ├── helmrelease.yaml     # fluxcd crd
-│   │  ├── helmvalues.yaml      # helm values
-│   │  └── kustomization.yaml   # kustomization parameters
-│   ├── fluxcd.yaml             # fluxcd crd
-│   ├── helmfile.yaml           # helmfile (manual deploy)
-│   ├── kustomization.yaml      # kustomization parameters
-│   └── namespace.yaml          # namespace definition
-└── 📁 ...                      # other clusters
+│   ├── 📁 app
+│   │  ├── helmrelease.yaml             # fluxcd crd
+│   │  ├── helmvalues.yaml              # helm values
+│   │  └── kustomization.yaml           # kustomization parameters
+│   │
+│   ├── fluxcd.yaml                     # fluxcd crd
+│   ├── helmfile.yaml                   # helmfile (manual deploy)
+│   └── kustomization.yaml              # kustomization parameters
+│
+├── 📁 group-of-application
+│   ├── 📁 name-of-application
+│   │   ├── 📁 app
+│   │   │   ├── helmrelease.yaml        # fluxcd crd
+│   │   │   ├── helmvalues.yaml         # helm values
+│   │   │   └── kustomization.yaml      # kustomization parameters
+│   │   │
+│   │   ├── fluxcd.yaml                 # fluxcd crd
+│   │   ├── helmfile.yaml               # helmfile (manual deploy)
+│   │   ├── kustomization.yaml          # kustomization parameters
+│   │   └── namespace.yaml              # namespace definition
+│   │
+│   └── 📁 name-of-application
+│       ├── 📁 app
+│       │   ├── helmrelease.yaml        # fluxcd crd
+│       │   ├── helmvalues.yaml         # helm values
+│       │   └── kustomization.yaml      # kustomization parameters
+│       │
+│       ├── fluxcd.yaml                 # fluxcd crd
+│       ├── helmfile.yaml               # helmfile (manual deploy)
+│       ├── kustomization.yaml          # kustomization parameters
+│       └── namespace.yaml              # namespace definition
+│
+└── 📁 clusters                         # clusters
+    └── 📁 cluster-1                    # cluster name
+       ├── 📁 vars
+       │   ├── cluster.yaml             # cluster common variables
+       │   ├── secrets.fluxcd.yaml      # fluxcd secrets git-token, slack-token etc.
+       │   └── kustomization.yaml       # kustomization parameters
+       │
+       ├── fluxcd.yaml                 # fluxcd crd
+       └── kustomization.yaml          # component list
 ```
 
-## Clone
+## Prepare
 
-Clone repository, and change git url in file `apps/flux-system/config/repository.yaml`
+Clone repository, and add change:
+* git url in file `apps/flux-system/config/repository.yaml`
+* git-token in file `clusters/cluster-0/vars/secrets.fluxcd.yaml`
+* comment/uncomment application in file `clusters/cluster-0/kustomization.yaml`
+
 Commit the changes and push to the repository.
 
 ## Bootstrap
@@ -33,6 +69,8 @@ kubectl apply --server-side --kustomize bootstrap
 kubectl apply --server-side --kustomize clusters/cluster-0
 sops --decrypt clusters/cluster-0/vars/secrets.fluxcd.yaml | kubectl -n flux-system apply -f -
 ```
+
+## Refresh source
 
 ```shell
 kubectl get HelmRelease -A
@@ -53,3 +91,11 @@ git config commit.gpgsign true
 ## References
 
 * https://docs.github.com/en/authentication/managing-commit-signature-verification/telling-git-about-your-signing-key
+
+## Inspiration
+
+* https://github.com/jfroy/flatops.git
+* https://github.com/kashalls/home-cluster.git
+* https://github.com/onedr0p/home-ops.git
+* https://github.com/xunholy/k8s-gitops.git
+* https://github.com/szinn/k8s-homelab.git
