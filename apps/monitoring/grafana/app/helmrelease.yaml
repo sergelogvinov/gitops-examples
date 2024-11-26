@@ -89,6 +89,28 @@ spec:
               username: reader
               tlsSkipVerify: false
 
+    dashboards:
+      Infrastructure:
+        cert-manager:
+          url: https://gitlab.com/uneeq-oss/cert-manager-mixin/-/raw/master/dashboards/cert-manager.json?ref_type=heads
+          datasource: prometheus
+        # victoria-operator:
+        #   gnetId: 17869
+        #   revision: 3
+        #   datasource: prometheus
+        victoria-agent:
+          gnetId: 12683
+          revision: 21
+          datasource: Prometheus
+        victoria-alert:
+          gnetId: 14950
+          revision: 13
+          datasource: prometheus
+        victoria-single:
+          gnetId: 10229
+          revision: 37
+          datasource: prometheus
+
     notifiers:
       notifiers.yaml:
         notifiers:
