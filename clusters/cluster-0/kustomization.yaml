@@ -23,6 +23,7 @@ resources:
   # Logging
   - ../../apps/logging/fluentd-route
   - ../../apps/logging/fluent-bit
+  - ../../apps/logging/event-exporter
   # Monitoring
   - ../../apps/monitoring/victoria-metrics-operator
   - ../../apps/monitoring/victoria-metrics
