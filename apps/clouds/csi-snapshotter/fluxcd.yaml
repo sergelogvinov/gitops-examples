@@ -1,0 +1,19 @@
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: &app csi-snapshotter
+  namespace: flux-system
+spec:
+  targetNamespace: csi-snapshotter
+  commonMetadata:
+    labels:
+      app.kubernetes.io/name: *app
+  path: ./apps/clouds/csi-snapshotter/app
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: gitops-clusters
+  wait: true
+  interval: 30m
+  retryInterval: 5m

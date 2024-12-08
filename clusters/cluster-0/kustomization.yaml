@@ -10,6 +10,7 @@ resources:
   # Kubernetes components
   - ../../apps/base/rbac
   - ../../apps/clouds/talos-upgrade-controller
+  # - ../../apps/clouds/talos-backup
   - ../../apps/base/cert-manager
   - ../../apps/base/metrics-server
   # Kubernetes ccm/csi

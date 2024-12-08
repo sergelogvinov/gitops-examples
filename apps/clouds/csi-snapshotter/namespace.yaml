@@ -1,0 +1,26 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: csi-snapshotter
+---
+apiVersion: notification.toolkit.fluxcd.io/v1beta3
+kind: Alert
+metadata:
+  name: default
+  namespace: csi-snapshotter
+spec:
+  providerRef:
+    name: alert-manager
+  eventSeverity: error
+  eventSources:
+    - kind: HelmRelease
+      name: "*"
+    - kind: Kustomization
+      name: "*"
+  exclusionList:
+    - "error.*lookup github\\.com"
+    - "error.*lookup raw\\.githubusercontent\\.com"
+    - "dial.*tcp.*timeout"
+    - "waiting.*socket"
+  suspend: false

@@ -1,0 +1,35 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: scaleway-csi
+spec:
+  interval: 60m
+
+  maxHistory: 2
+  driftDetection:
+    mode: enabled
+
+  chart:
+    spec:
+      chart: scaleway-csi
+      version: 0.2.0
+      sourceRef:
+        kind: HelmRepository
+        name: scaleway
+        namespace: flux-system
+
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+
+  valuesFrom:
+    - kind: ConfigMap
+      name: scaleway-csi-helm-values
+    - kind: Secret
+      name: scaleway-csi-helm-values
+      optional: true

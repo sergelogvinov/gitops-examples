@@ -1,0 +1,25 @@
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: &app talos-backup
+  namespace: flux-system
+spec:
+  dependsOn:
+    - name: cluster
+  targetNamespace: operator-talos
+  commonMetadata:
+    labels:
+      app.kubernetes.io/name: *app
+  path: ./apps/clouds/talos-backup/app
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: gitops-clusters
+  postBuild:
+    substituteFrom:
+      - kind: ConfigMap
+        name: cluster-settings
+  wait: true
+  interval: 30m
+  retryInterval: 5m

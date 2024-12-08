@@ -1,0 +1,19 @@
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: &app scaleway-csi
+  namespace: flux-system
+spec:
+  targetNamespace: csi-scaleway
+  commonMetadata:
+    labels:
+      app.kubernetes.io/name: *app
+  path: ./apps/clouds/scaleway-csi/app
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: gitops-clusters
+  wait: true
+  interval: 30m
+  retryInterval: 1m

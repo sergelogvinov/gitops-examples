@@ -1,0 +1,30 @@
+replicaCount: 1
+
+volumeSnapshotClasses: []
+storageClasses: []
+
+controller:
+  scaleway:
+    existingSecretName: "scaleway-csi-secret"
+
+  migration:
+    enabled: false
+  snapshotter:
+    enabled: false
+  snapshotController:
+    enabled: false
+  webhook:
+    enabled: false
+
+  nodeSelector:
+    node-role.kubernetes.io/control-plane: ""
+  tolerations:
+    - key: node-role.kubernetes.io/control-plane
+      effect: NoSchedule
+
+node:
+  nodeSelector:
+    node.cloudprovider.kubernetes.io/platform: scaleway
+  tolerations:
+    - key: node-role.kubernetes.io/control-plane
+      effect: NoSchedule
