@@ -1,0 +1,212 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  labels:
+    addon.kops.k8s.io/name: gcp-cloud-controller.addons.k8s.io
+    component: cloud-controller-manager-gcp
+  name: cloud-controller-manager-gcp
+  namespace: kube-system
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  labels:
+    addon.kops.k8s.io/name: gcp-cloud-controller.addons.k8s.io
+    addonmanager.kubernetes.io/mode: Reconcile
+    component: cloud-controller-manager-gcp
+  name: system:cloud-controller-manager-gcp
+rules:
+- apiGroups:
+  - ""
+  - events.k8s.io
+  resources:
+  - events
+  verbs:
+  - create
+  - patch
+  - update
+- apiGroups:
+  - coordination.k8s.io
+  resources:
+  - leases
+  verbs:
+  - create
+  - get
+  - list
+  - watch
+  - update
+- apiGroups:
+  - coordination.k8s.io
+  resourceNames:
+  - cloud-controller-manager-gcp
+  resources:
+  - leases
+  verbs:
+  - get
+  - update
+- apiGroups:
+  - ""
+  resources:
+  - endpoints
+  - serviceaccounts
+  verbs:
+  - create
+  - get
+  - update
+- apiGroups:
+  - ""
+  resources:
+  - nodes
+  verbs:
+  - get
+  - update
+  - patch
+- apiGroups:
+  - ""
+  resources:
+  - namespaces
+  verbs:
+  - get
+- apiGroups:
+  - ""
+  resources:
+  - nodes/status
+  verbs:
+  - patch
+  - update
+- apiGroups:
+  - ""
+  resources:
+  - secrets
+  verbs:
+  - create
+  - delete
+  - get
+  - update
+- apiGroups:
+  - authentication.k8s.io
+  resources:
+  - tokenreviews
+  verbs:
+  - create
+- apiGroups:
+  - '*'
+  resources:
+  - '*'
+  verbs:
+  - list
+  - watch
+- apiGroups:
+  - ""
+  resources:
+  - serviceaccounts/token
+  verbs:
+  - create
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  labels:
+    addon.kops.k8s.io/name: gcp-cloud-controller.addons.k8s.io
+    component: cloud-controller-manager-gcp
+  name: cloud-controller-manager:apiserver-authentication-reader-gcp
+  namespace: kube-system
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: extension-apiserver-authentication-reader
+subjects:
+- apiGroup: ""
+  kind: ServiceAccount
+  name: cloud-controller-manager-gcp
+  namespace: kube-system
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  labels:
+    addon.kops.k8s.io/name: gcp-cloud-controller.addons.k8s.io
+    addonmanager.kubernetes.io/mode: Reconcile
+    component: cloud-controller-manager-gcp
+  name: system:cloud-controller-manager-gcp
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: system:cloud-controller-manager-gcp
+subjects:
+- apiGroup: ""
+  kind: ServiceAccount
+  name: cloud-controller-manager-gcp
+  namespace: kube-system
+---
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  labels:
+    addon.kops.k8s.io/name: gcp-cloud-controller.addons.k8s.io
+    component: cloud-controller-manager-gcp
+  name: cloud-controller-manager-gcp
+  namespace: kube-system
+spec:
+  selector:
+    matchLabels:
+      component: cloud-controller-manager-gcp
+  template:
+    metadata:
+      labels:
+        component: cloud-controller-manager-gcp
+        tier: control-plane
+    spec:
+      affinity:
+        nodeAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - preference:
+              matchExpressions:
+              - key: node.cloudprovider.kubernetes.io/platform
+                operator: In
+                values:
+                - gcp
+            weight: 100
+      containers:
+      - args:
+        - -v=2
+        - --cloud-provider=gce
+        - --cloud-config=/etc/gce/gce.conf
+        - --allocate-node-cidrs=false
+        - --cluster-cidr=10.64.0.0/12
+        - --controllers=cloud-node-lifecycle
+        - --leader-elect-resource-name=cloud-controller-manager-gcp
+        - --use-service-account-credentials
+        - --secure-port=10258
+        env: []
+        image: quay.io/openshift/origin-gcp-cloud-controller-manager:4.20.0
+        imagePullPolicy: IfNotPresent
+        name: cloud-controller-manager
+        resources:
+          requests:
+            cpu: 200m
+        volumeMounts:
+        - mountPath: /etc/gce
+          name: cloud-config
+      hostNetwork: false
+      nodeSelector:
+        kubernetes.io/os: linux
+        node-role.kubernetes.io/control-plane: ""
+        node.cloudprovider.kubernetes.io/platform: gcp
+      priorityClassName: system-cluster-critical
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 65521
+        seccompProfile:
+          type: RuntimeDefault
+      serviceAccountName: cloud-controller-manager-gcp
+      tolerations:
+      - effect: NoSchedule
+        key: node-role.kubernetes.io/control-plane
+      volumes:
+      - configMap:
+          defaultMode: 420
+          name: gcp-cloud-controller-manager
+        name: cloud-config
+  updateStrategy:
+    type: RollingUpdate

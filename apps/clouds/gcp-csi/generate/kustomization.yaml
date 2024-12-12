@@ -1,0 +1,156 @@
+---
+# kubectl kustomize apps/clouds/gcp-csi/generate > apps/clouds/gcp-csi/app/gcp-csi.yaml
+#
+# yaml-language-server: $schema=https://json.schemastore.org/kustomization
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - github.com/kubernetes-sigs/gcp-compute-persistent-disk-csi-driver/deploy/kubernetes/base/controller?ref=v1.15.2
+  - github.com/kubernetes-sigs/gcp-compute-persistent-disk-csi-driver/deploy/kubernetes/base/node_linux?ref=v1.15.2
+transformers:
+  - github.com/kubernetes-sigs/gcp-compute-persistent-disk-csi-driver/deploy/kubernetes/images/stable-master?ref=v1.15.2
+namespace: csi-gcp
+patches:
+  - path: verbose.yaml
+    target:
+      group: apps
+      kind: Deployment
+      name: csi-gce-pd-controller
+      version: v1
+  - path: verbose-node.yaml
+    target:
+      group: apps
+      kind: DaemonSet
+      name: csi-gce-pd-node
+      version: v1
+  - patch: |
+      apiVersion: apps/v1
+      kind: Deployment
+      metadata:
+        name: all
+      spec:
+        template:
+          spec:
+            containers:
+              - $patch: delete
+                name: csi-snapshotter
+    target:
+      kind: Deployment
+      name: csi-gce-pd-controller
+  - patch: |
+      apiVersion: apps/v1
+      kind: Deployment
+      metadata:
+        name: all
+      spec:
+        template:
+          spec:
+            containers:
+              - name: gce-pd-driver
+                args:
+                  - --v=2
+                  - --endpoint=unix:/csi/csi.sock
+                  - --cloud-config=/etc/gce/gce.conf
+                  - --run-node-service=false
+                volumeMounts:
+                  - name: cloud-config
+                    mountPath: /etc/gce
+            volumes:
+              - name: cloud-config
+                configMap:
+                  defaultMode: 420
+                  name: gcp-cloud-csi
+    target:
+      kind: Deployment
+      name: csi-gce-pd-controller
+  - patch: |
+      apiVersion: apps/v1
+      kind: Deployment
+      metadata:
+        name: all
+      spec:
+        template:
+          spec:
+            hostNetwork: false
+            affinity:
+              nodeAffinity:
+                preferredDuringSchedulingIgnoredDuringExecution:
+                  - weight: 100
+                    preference:
+                      matchExpressions:
+                        - key: node.cloudprovider.kubernetes.io/platform
+                          operator: In
+                          values:
+                            - gcp
+            nodeSelector:
+              kubernetes.io/os: linux
+              node-role.kubernetes.io/control-plane: ""
+            tolerations:
+              - key: node-role.kubernetes.io/control-plane
+                effect: NoSchedule
+    target:
+      kind: Deployment
+      name: csi-gce-pd-controller
+  - patch: |
+      apiVersion: apps/v1
+      kind: Deployment
+      metadata:
+        name: all
+      spec:
+        template:
+          spec:
+            containers:
+              - name: csi-driver-registrar
+                resources:
+                  limits:
+                    cpu: 50m
+                    memory: 50Mi
+                  requests:
+                    cpu: 10m
+                    memory: 10Mi
+              - name: gce-pd-driver
+                resources:
+                  limits:
+                    memory: 50Mi
+                  requests:
+                    memory: 10Mi
+                volumeMounts:
+                  - $patch: delete
+                    name: udev-rules-etc
+                    mountPath: /etc/udev
+                  - $patch: delete
+                    name: udev-rules-lib
+                    mountPath: /lib/udev
+                  - $patch: delete
+                    name: udev-socket
+                    mountPath: /run/udev
+            hostNetwork: false
+            nodeSelector:
+              kubernetes.io/os: linux
+              node.cloudprovider.kubernetes.io/platform: gcp
+            tolerations:
+              - key: node.kubernetes.io/disk-pressure
+                operator: Exists
+                effect: NoSchedule
+              - key: node.kubernetes.io/unschedulable
+                operator: Exists
+                effect: NoSchedule
+            volumes:
+              - $patch: delete
+                name: udev-rules-etc
+                hostPath:
+                  path: /etc/udev
+                  type: Directory
+              - $patch: delete
+                name: udev-rules-lib
+                hostPath:
+                  path: /lib/udev
+                  type: Directory
+              - $patch: delete
+                name: udev-socket
+                hostPath:
+                  path: /run/udev
+                  type: Directory
+    target:
+      kind: DaemonSet
+      name: csi-gce-pd-node

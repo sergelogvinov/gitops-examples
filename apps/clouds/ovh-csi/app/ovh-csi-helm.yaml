@@ -1,0 +1,44 @@
+storageClass:
+  enabled: false
+
+secret:
+  enabled: true
+  create: false
+  filename: cloud.conf
+  name: openstack-cloud-controller-manager
+
+logVerbosityLevel: 4
+
+csi:
+  plugin:
+    image:
+      repository: ghcr.io/sergelogvinov/cinder-csi-plugin
+      pullPolicy: Always
+      tag: v1.31.3
+    volumes:
+      - name: tmp
+        emptyDir: {}
+    volumeMounts:
+      - name: cloud-config
+        mountPath: /etc/kubernetes
+        readOnly: true
+    nodePlugin:
+      nodeSelector:
+        node.cloudprovider.kubernetes.io/platform: openstack
+      tolerations:
+        - key: node-role.kubernetes.io/control-plane
+          effect: NoSchedule
+        - key: node.kubernetes.io/unschedulable
+          operator: Exists
+          effect: NoSchedule
+        - key: node.kubernetes.io/disk-pressure
+          operator: Exists
+          effect: NoSchedule
+    controllerPlugin:
+      replicas: 1
+      nodeSelector:
+        node-role.kubernetes.io/control-plane: ""
+        node.cloudprovider.kubernetes.io/platform: openstack
+      tolerations:
+        - key: "node-role.kubernetes.io/control-plane"
+          effect: NoSchedule

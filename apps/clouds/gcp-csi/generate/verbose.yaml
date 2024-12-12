@@ -1,0 +1,15 @@
+- op: replace
+  path: /spec/template/spec/containers/0/args/0
+  value: "--v=2"
+- op: replace
+  path: /spec/template/spec/containers/1/args/0
+  value: "--v=2"
+- op: replace
+  path: /spec/template/spec/containers/2/args/0
+  value: "--v=2"
+- op: replace
+  path: /spec/template/spec/containers/3/args/0
+  value: "--v=2"
+- op: replace
+  path: /spec/template/spec/containers/4/args/0
+  value: "--v=2"

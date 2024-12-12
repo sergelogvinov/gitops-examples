@@ -1,0 +1,11 @@
+---
+# helm template --namespace=csi-ovh cinder-csi -f ovh-csi-helm.yaml cpo/openstack-cinder-csi > ovh-csi.yaml
+#
+# yaml-language-server: $schema=https://json.schemastore.org/kustomization
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+generatorOptions:
+  disableNameSuffixHash: true
+resources:
+  - ./ovh-csi.yaml
+  # - ./ovh-storage.yaml

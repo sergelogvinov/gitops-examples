@@ -1,0 +1,53 @@
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  annotations:
+    storageclass.kubernetes.io/is-default-class: "false"
+  name: csi-cinder-classic-xfs
+provisioner: cinder.csi.openstack.org
+reclaimPolicy: Delete
+allowVolumeExpansion: true
+parameters:
+  type: classic
+  availability: nova
+  csi.storage.k8s.io/fstype: xfs
+volumeBindingMode: WaitForFirstConsumer
+---
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  annotations:
+    storageclass.kubernetes.io/is-default-class: "false"
+  name: csi-cinder-high-speed-xfs
+provisioner: cinder.csi.openstack.org
+reclaimPolicy: Delete
+allowVolumeExpansion: true
+parameters:
+  type: high-speed
+  availability: nova
+  csi.storage.k8s.io/fstype: xfs
+volumeBindingMode: WaitForFirstConsumer
+---
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  annotations:
+    storageclass.kubernetes.io/is-default-class: "false"
+  name: csi-cinder-high-speed-2-xfs
+provisioner: cinder.csi.openstack.org
+reclaimPolicy: Delete
+allowVolumeExpansion: true
+parameters:
+  type: high-speed-gen2
+  availability: nova
+  csi.storage.k8s.io/fstype: xfs
+volumeBindingMode: WaitForFirstConsumer
+---
+apiVersion: snapshot.storage.k8s.io/v1
+kind: VolumeSnapshotClass
+metadata:
+  name: csi-cinder
+driver: cinder.csi.openstack.org
+deletionPolicy: Delete
+parameters:
+  force-create: "true"

@@ -1,0 +1,42 @@
+image:
+  repository: ghcr.io/sergelogvinov/openstack-cloud-controller-manager
+  tag: v1.31.3
+
+priorityClassName: system-cluster-critical
+serviceAccountName: openstack-cloud-controller-manager
+clusterRoleName: system:openstack-cloud-controller-manager
+
+secret:
+  create: false
+  name: openstack-cloud-controller-manager
+
+logVerbosityLevel: 4
+
+controllerExtraArgs: |-
+  - --webhook-secure-port=0
+  - --allocate-node-cidrs=false
+  - --leader-elect-resource-name=cloud-controller-manager-openstack
+extraEnv:
+  - name: OS_CCM_REGIONAL
+    value: "true"
+enabledControllers:
+  # - cloud-node
+  - cloud-node-lifecycle
+
+podSecurityContext:
+  seccompProfile:
+    type: RuntimeDefault
+  runAsUser: 1001
+  runAsNonRoot: true
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 100Mi
+
+extraVolumes: []
+extraVolumeMounts: []
+
+nodeSelector:
+  node-role.kubernetes.io/control-plane: ""
+  node.cloudprovider.kubernetes.io/platform: openstack
