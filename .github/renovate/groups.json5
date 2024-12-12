@@ -4,23 +4,57 @@
     {
       description: "Flux Group",
       groupName: "Flux",
-      matchPackagePatterns: ["^flux", "^ghcr.io/fluxcd/"],
-      matchDatasources: ["docker", "github-tags"],
+      matchPackagePatterns: [
+        "^flux",
+        "^ghcr.io/fluxcd/"
+      ],
+      matchDatasources: [
+        "docker",
+        "github-tags"
+      ],
       versioning: "semver",
       group: {
-        commitMessageTopic: "{{{groupName}}} group",
+        commitMessageTopic: "{{{groupName}}} group"
       },
-      separateMinorPatch: true,
+      separateMinorPatch: true
     },
     {
       "description": "Talos Group",
       "groupName": "Talos",
-      "matchPackagePatterns": ["siderolabs/talosctl", "siderolabs/installer"],
-      "matchDatasources": ["docker"],
+      "matchPackagePatterns": [
+        "^ghcr.io/siderolabs/"
+      ],
+      "matchDatasources": [
+        "docker",
+        "github-tags"
+      ],
       "group": {
         "commitMessageTopic": "{{{groupName}}} group"
       },
-      "separateMinorPatch": true
+      "matchUpdateTypes": [
+        "major",
+        "minor"
+      ],
+      "enabled": false
+    },
+    {
+      "description": "SigStorage Group",
+      "groupName": "Storage",
+      "matchPackagePatterns": [
+        "^registry.k8s.io/sig-storage/"
+      ],
+      "matchDatasources": [
+        "docker",
+        "github-tags"
+      ],
+      "group": {
+        "commitMessageTopic": "{{{groupName}}} group"
+      },
+      "matchUpdateTypes": [
+        "major",
+        "minor"
+      ],
+      "enabled": false
     }
   ]
 }
