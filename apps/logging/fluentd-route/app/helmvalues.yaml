@@ -3,24 +3,12 @@ fullnameOverride: fluentd-route
 podAnnotations:
   fluentbit.io/exclude: "true"
 
-service:
-  type: ClusterIP
-  ports:
-    - name: "fluentd"
-      protocol: TCP
-      containerPort: 24224
-    - name: "heartbeat"
-      protocol: UDP
-      containerPort: 24224
+inputCerts:
+  create: true
+  clients:
+    - fluent-bit
 
 configMaps:
-  forward-input.conf: |
-    <source>
-      @type forward
-      port  24224
-      bind  0.0.0.0
-    </source>
-
   output.conf: |
     <match audit.**>
       @type relabel
@@ -32,7 +20,6 @@ configMaps:
       <record>
         time        ${record["time"] ? record["time"].to_s : Time.now.strftime('%Y-%m-%dT%H:%M:%S.%3N')}
         #
-        source      "casino-b2b"
         namespace   ${record["namespace"].to_s == "" ? record["kubernetes"]["namespace_name"] : record["namespace"]}
         container   ${record["kubernetes"]["container_name"].to_s || "" }
         pod         ${record["kubernetes"]["pod_name"].to_s       || "" }
@@ -58,6 +45,11 @@ configMaps:
         @label @STORE
     </match>
 
+    <match **>
+      @type null
+    </match>
+
+  peers.conf: |
     <label @STORE>
       <match **>
         @type stdout
@@ -66,10 +58,6 @@ configMaps:
         </format>
       </match>
     </label>
-
-    <match **>
-      @type null
-    </match>
 
 resources:
   limits:
@@ -81,6 +69,8 @@ resources:
 
 metrics:
   enabled: true
+
+priorityClassName: system-cluster-critical
 
 useDaemonSet: true
 nodeSelector:

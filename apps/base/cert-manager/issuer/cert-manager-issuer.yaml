@@ -13,6 +13,7 @@ spec:
       - http01:
           ingress:
             serviceType: ClusterIP
+            ingressClassName: ${CLUSTER_INGRESS_CLASS}
             podTemplate:
               spec:
                 tolerations:
@@ -20,3 +21,51 @@ spec:
                     effect: NoSchedule
                 nodeSelector:
                   node-role.kubernetes.io/control-plane: ""
+---
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-proxy
+spec:
+  acme:
+    server: https://acme-v02.api.letsencrypt.org/directory
+    email: "${CLUSTER_EMAIL}"
+    privateKeySecretRef:
+      name: letsencrypt-private-key
+    solvers:
+      - http01:
+          ingress:
+            serviceType: ClusterIP
+            ingressClassName: proxy
+            podTemplate:
+              spec:
+                affinity:
+                  nodeAffinity:
+                    requiredDuringSchedulingIgnoredDuringExecution:
+                      nodeSelectorTerms:
+                        - matchExpressions:
+                            - key: project.io/node-pool
+                              operator: In
+                              values:
+                                - web
+                tolerations:
+                  - key: node-role.kubernetes.io/control-plane
+                    effect: NoSchedule
+---
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-cloudflare
+spec:
+  acme:
+    server: https://acme-v02.api.letsencrypt.org/directory
+    email: "${CLUSTER_EMAIL}"
+    privateKeySecretRef:
+      name: letsencrypt-cloudflare-private-key
+    solvers:
+      - dns01:
+          cloudflare:
+            email: "${CLUSTER_EMAIL}"
+            apiTokenSecretRef:
+              name: cloudflare
+              key: token

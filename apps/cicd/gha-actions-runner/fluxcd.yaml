@@ -12,7 +12,7 @@ spec:
     kind: GitRepository
     name: gitops-clusters
   wait: true
-  interval: 30m
+  interval: 72h
   retryInterval: 5m
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
@@ -21,6 +21,8 @@ metadata:
   name: &app gha-runner-scale-set
   namespace: flux-system
 spec:
+  dependsOn:
+    - name: gha-runner-scale-set-controller
   targetNamespace: operator-gha
   path: ./apps/cicd/gha-actions-runner/gha-runner-scale-set
   prune: true
@@ -28,5 +30,5 @@ spec:
     kind: GitRepository
     name: gitops-clusters
   wait: true
-  interval: 60m
+  interval: 12h
   retryInterval: 5m

@@ -4,7 +4,7 @@ kind: HelmRelease
 metadata:
   name: gha-runner-scale-set-controller
 spec:
-  interval: 60m
+  interval: 60h
 
   maxHistory: 2
   driftDetection:
@@ -55,3 +55,9 @@ spec:
       requests:
         cpu: 50m
         memory: 32Mi
+
+    nodeSelector:
+      node-role.kubernetes.io/control-plane: ""
+    tolerations:
+      - key: node-role.kubernetes.io/control-plane
+        effect: NoSchedule

@@ -15,5 +15,5 @@ spec:
     kind: GitRepository
     name: gitops-clusters
   wait: true
-  interval: 30m
+  interval: 1h
   retryInterval: 5m

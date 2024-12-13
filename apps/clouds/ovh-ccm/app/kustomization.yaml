@@ -1,5 +1,5 @@
 ---
-# helm template --namespace=kube-system openstack-cloud-controller-manager -f ovh-ccm-helm.yaml cpo/openstack-cloud-controller-manager > ovh-ccm.yaml
+# helm template --namespace=kube-system openstack-cloud-controller-manager -f apps/clouds/ovh-ccm/app/ovh-ccm-helm.yaml cpo/openstack-cloud-controller-manager > apps/clouds/ovh-ccm/app/ovh-ccm.yaml
 #
 # yaml-language-server: $schema=https://json.schemastore.org/kustomization
 apiVersion: kustomize.config.k8s.io/v1beta1

@@ -14,5 +14,6 @@ resources:
   - ./jetstack.yaml
   - ./kedacore.yaml
   - ./metrics-server.yaml
-  - ./victoria-metrics.yaml
   - ./percona.yaml
+  - ./scaleway.yaml
+  - ./victoria-metrics.yaml

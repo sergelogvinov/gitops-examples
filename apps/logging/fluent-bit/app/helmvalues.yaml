@@ -1,5 +1,8 @@
 priorityClassName: system-cluster-critical
 
+image:
+  repository: fluent/fluent-bit
+
 podAnnotations:
   fluentbit.io/exclude: "true"
 
@@ -40,11 +43,11 @@ config:
       Buffer_Chunk_Size 128k
       Buffer_Max_Size   512k
 
-    # [INPUT]
-    #   Name              tail
-    #   Alias             audit
-    #   Path              /var/log/audit/kube/*.log
-    #   Tag               audit.*
+    [INPUT]
+      Name              tail
+      Alias             audit
+      Path              /var/log/audit/kube/*.log
+      Tag               audit.*
 
   filters: |
     [FILTER]
@@ -59,7 +62,18 @@ config:
       K8S-Logging.Parser  Off
       K8S-Logging.Exclude On
       Annotations         Off
-      Labels              On
+      Labels              Off
+
+    [FILTER]
+      Name          modify
+      Match         kubernetes.*
+      Add           source ${CLUSTER_NAME}
+      Remove        logtag
+
+    [FILTER]
+      Name          modify
+      Match         audit.*
+      Add           source ${CLUSTER_NAME}
 
   customParsers: |
     [PARSER]
@@ -75,6 +89,13 @@ config:
       Match         *
       Host          fluentd-route
       Port          24224
+
+      tls           on
+      tls.verify    on
+      tls.debug     1
+      tls.ca_file   /etc/ssl/fluent-bit/ca.crt
+      tls.crt_file  /etc/ssl/fluent-bit/tls.crt
+      tls.key_file  /etc/ssl/fluent-bit/tls.key
 
       net.keepalive               on
       net.connect_timeout         30
@@ -106,6 +127,15 @@ daemonSetVolumes:
 daemonSetVolumeMounts:
   - name: varlog
     mountPath: /var/log
+
+extraVolumes:
+  - name: fluent-tls
+    secret:
+      secretName: fluentd-route-client-fluent-bit-tls
+
+extraVolumeMounts:
+  - name: fluent-tls
+    mountPath: /etc/ssl/fluent-bit
 
 tolerations:
   - key: node-role.kubernetes.io/control-plane

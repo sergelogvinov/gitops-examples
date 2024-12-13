@@ -4,7 +4,7 @@ kind: HelmRelease
 metadata:
   name: ingress-nginx
 spec:
-  interval: 60m
+  interval: 60h
 
   maxHistory: 2
   driftDetection:
@@ -29,3 +29,6 @@ spec:
   valuesFrom:
     - kind: ConfigMap
       name: ingress-nginx-helm-values
+    - kind: Secret
+      name: ingress-nginx-helm-values
+      optional: true

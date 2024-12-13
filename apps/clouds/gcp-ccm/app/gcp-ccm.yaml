@@ -179,7 +179,7 @@ spec:
         - --use-service-account-credentials
         - --secure-port=10258
         env: []
-        image: quay.io/openshift/origin-gcp-cloud-controller-manager:4.20.0
+        image: ghcr.io/sergelogvinov/cloud-controller-manager-gcp:1.30
         imagePullPolicy: IfNotPresent
         name: cloud-controller-manager
         resources:

@@ -14,6 +14,10 @@ spec:
   sourceRef:
     kind: GitRepository
     name: gitops-clusters
+  postBuild:
+    substituteFrom:
+      - kind: ConfigMap
+        name: cluster-settings
   wait: true
-  interval: 30m
+  interval: 72h
   retryInterval: 5m

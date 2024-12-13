@@ -1,0 +1,102 @@
+---
+# kubectl kustomize apps/clouds/scaleway-ccm/generate > apps/clouds/scaleway-ccm/app/scaleway-ccm.yaml
+#
+# yaml-language-server: $schema=https://json.schemastore.org/kustomization
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - https://raw.githubusercontent.com/scaleway/scaleway-cloud-controller-manager/refs/heads/master/examples/k8s-scaleway-ccm-latest.yml
+images:
+  - name: scaleway/scaleway-cloud-controller-manager
+    newName: ghcr.io/sergelogvinov/cloud-controller-manager-scaleway
+    newTag: "1.31"
+labels:
+  - pairs:
+      component: cloud-controller-manager-scaleway
+    includeSelectors: true
+    includeTemplates: true
+nameSuffix: -scaleway
+namespace: kube-system
+patches:
+  - target:
+      kind: Deployment
+    patch: |
+      - op: replace
+        path: /metadata/name
+        value: cloud-controller-manager
+      - op: remove
+        path: /spec/template/metadata/annotations
+        value: scheduler.alpha.kubernetes.io/critical-pod
+  - patch: |
+      apiVersion: apps/v1
+      kind: Deployment
+      metadata:
+        name: all
+      spec:
+        template:
+          spec:
+            priorityClassName: system-cluster-critical
+            containers:
+              - name: scaleway-cloud-controller-manager
+                args:
+                - -v=2
+                - --cloud-provider=scaleway
+                - --controllers=cloud-node-lifecycle
+                - --leader-elect-resource-name=cloud-controller-manager-scaleway
+                - --allow-untagged-cloud
+                # - --use-service-account-credentials
+                - --secure-port=10258
+                resources:
+                  limits:
+                    cpu: 500m
+                    memory: 512Mi
+                  requests:
+                    cpu: 100m
+                    memory: 64Mi
+                envFrom:
+                  - secretRef:
+                      name: scaleway-secret
+    target:
+      kind: Deployment
+  # NodeAffinity
+  - patch: |
+      apiVersion: apps/v1
+      kind: Deployment
+      metadata:
+        name: all
+      spec:
+        template:
+          spec:
+            hostNetwork: false
+            securityContext:
+              runAsNonRoot: true
+              runAsUser: 65521
+              seccompProfile:
+                type: RuntimeDefault
+            affinity:
+              nodeAffinity:
+                preferredDuringSchedulingIgnoredDuringExecution:
+                  - weight: 100
+                    preference:
+                      matchExpressions:
+                        - key: node.cloudprovider.kubernetes.io/platform
+                          operator: In
+                          values:
+                            - scaleway
+            nodeSelector:
+              kubernetes.io/os: linux
+              node-role.kubernetes.io/control-plane: ""
+            tolerations:
+              - key: node-role.kubernetes.io/control-plane
+                effect: NoSchedule
+    target:
+      kind: Deployment
+  # ServiceAccount name
+  - target:
+      kind: ClusterRole
+      name: system:cloud-controller-manager
+    patch: |
+      - op: replace
+        path: /rules/0/resourceNames
+        value:
+          - cloud-controller-manager-scaleway

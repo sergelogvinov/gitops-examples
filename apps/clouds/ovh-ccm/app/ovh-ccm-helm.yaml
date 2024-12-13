@@ -1,6 +1,6 @@
 image:
-  repository: ghcr.io/sergelogvinov/openstack-cloud-controller-manager
-  tag: v1.31.3
+  repository: ghcr.io/sergelogvinov/cloud-controller-manager-openstack
+  tag: "1.31"
 
 priorityClassName: system-cluster-critical
 serviceAccountName: openstack-cloud-controller-manager

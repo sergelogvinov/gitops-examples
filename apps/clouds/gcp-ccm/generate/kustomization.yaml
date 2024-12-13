@@ -8,8 +8,8 @@ resources:
   - github.com/openshift/cloud-provider-gcp/deploy/packages/default
 images:
   - name: k8scloudprovidergcp/cloud-controller-manager
-    newName: quay.io/openshift/origin-gcp-cloud-controller-manager
-    newTag: 4.20.0
+    newName: ghcr.io/sergelogvinov/cloud-controller-manager-gcp
+    newTag: "1.30"
 labels:
   - pairs:
       component: cloud-controller-manager-gcp

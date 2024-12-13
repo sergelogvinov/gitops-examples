@@ -48,7 +48,9 @@ controller:
     proxy-read-timeout: "60"
     proxy-send-timeout: "60"
 
-    ssl-protocols: "TLSv1.2"
+    ssl-protocols: "TLSv1.2 TLSv1.3"
+    ssl-ecdh-curve: "prime256v1:secp384r1"
+
     hsts: "true"
     hsts-max-age: "31536000"
     hsts-include-subdomains: "true"

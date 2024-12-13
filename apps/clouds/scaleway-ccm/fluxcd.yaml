@@ -2,21 +2,18 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &app fluentd-route
+  name: &app scaleway-ccm
   namespace: flux-system
 spec:
-  dependsOn:
-    - name: cluster
-    - name: cert-manager
   targetNamespace: kube-system
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
-  path: ./apps/logging/fluentd-route/app
+  path: ./apps/clouds/scaleway-ccm/app
   prune: true
   sourceRef:
     kind: GitRepository
     name: gitops-clusters
   wait: true
   interval: 72h
-  retryInterval: 5m
+  retryInterval: 1m

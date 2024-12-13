@@ -170,7 +170,7 @@ spec:
     spec:
       nodeSelector:
         node-role.kubernetes.io/control-plane: ""
-        # node.cloudprovider.kubernetes.io/platform: openstack
+        node.cloudprovider.kubernetes.io/platform: openstack
       securityContext:
         runAsNonRoot: true
         runAsUser: 1001
@@ -185,8 +185,7 @@ spec:
       serviceAccountName: openstack-cloud-controller-manager
       containers:
         - name: openstack-cloud-controller-manager
-          image: "ghcr.io/sergelogvinov/openstack-cloud-controller-manager:v1.31.3"
-          imagePullPolicy: Always
+          image: "ghcr.io/sergelogvinov/cloud-controller-manager-openstack:1.31"
           args:
             - /bin/openstack-cloud-controller-manager
             - --v=4
