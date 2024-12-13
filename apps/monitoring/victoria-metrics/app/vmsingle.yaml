@@ -6,6 +6,11 @@ spec:
   replicaCount: 1
   revisionHistoryLimitCount: 2
 
+  podMetadata:
+    annotations:
+      prometheus.io/scrape: "true"
+      prometheus.io/port: "8429"
+
   retentionPeriod: "1d"
   removePvcAfterDelete: true
   useStrictSecurity: true

@@ -28,3 +28,9 @@ node:
   tolerations:
     - key: node-role.kubernetes.io/control-plane
       effect: NoSchedule
+    - key: node.kubernetes.io/unschedulable
+      operator: Exists
+      effect: NoSchedule
+    - key: node.kubernetes.io/disk-pressure
+      operator: Exists
+      effect: NoSchedule

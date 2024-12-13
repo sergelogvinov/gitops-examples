@@ -5,6 +5,8 @@ metadata:
   name: &app prometheus-alertmanager
   namespace: flux-system
 spec:
+  dependsOn:
+    - name: cluster
   targetNamespace: monitoring
   commonMetadata:
     labels:
@@ -23,5 +25,5 @@ spec:
       - kind: ConfigMap
         name: cluster-settings
   wait: true
-  interval: 30m
+  interval: 1h
   retryInterval: 5m

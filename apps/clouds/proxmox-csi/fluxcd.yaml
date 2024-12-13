@@ -5,6 +5,8 @@ metadata:
   name: &app proxmox-csi
   namespace: flux-system
 spec:
+  dependsOn:
+    - name: cluster
   targetNamespace: csi-proxmox
   commonMetadata:
     labels:
@@ -15,5 +17,5 @@ spec:
     kind: GitRepository
     name: gitops-clusters
   wait: true
-  interval: 30m
-  retryInterval: 5m
+  interval: 72h
+  retryInterval: 1m

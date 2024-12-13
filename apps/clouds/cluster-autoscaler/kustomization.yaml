@@ -2,8 +2,4 @@
 # yaml-language-server: $schema=https://json.schemastore.org/kustomization
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
-resources:
-  - ./alert.yaml
-  - ./alert-manager.yaml
-  - ./provider-discord.yaml
-  # - ./provider-slack.yaml
+resources: []

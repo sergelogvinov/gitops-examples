@@ -5,6 +5,8 @@ metadata:
   name: &app csi-autoresizer
   namespace: flux-system
 spec:
+  dependsOn:
+    - name: cert-manager
   targetNamespace: csi-autoresizer
   path: ./apps/clouds/csi-autoresizer/app
   prune: true
@@ -12,5 +14,5 @@ spec:
     kind: GitRepository
     name: gitops-clusters
   wait: true
-  interval: 30m
+  interval: 72h
   retryInterval: 5m

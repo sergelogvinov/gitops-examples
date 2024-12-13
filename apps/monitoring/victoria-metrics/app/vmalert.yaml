@@ -39,6 +39,27 @@ spec:
       cpu: 100m
       memory: 128Mi
 
+  affinity:
+    podAffinity:
+      preferredDuringSchedulingIgnoredDuringExecution:
+        - weight: 50
+          podAffinityTerm:
+            topologyKey: topology.kubernetes.io/zone
+            labelSelector:
+              matchExpressions:
+                - key: app.kubernetes.io/name
+                  operator: In
+                  values:
+                    - vmsingle
+        - weight: 100
+          podAffinityTerm:
+            topologyKey: topology.kubernetes.io/region
+            labelSelector:
+              matchExpressions:
+                - key: app.kubernetes.io/name
+                  operator: In
+                  values:
+                    - vmsingle
   nodeSelector:
     node-role.kubernetes.io/control-plane: ""
   tolerations:

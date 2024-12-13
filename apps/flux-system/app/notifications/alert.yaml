@@ -41,7 +41,7 @@ spec:
       namespace: kube-system
     - kind: HelmRelease
       name: "*"
-      namespace: cert-manager
+      namespace: monitoring
     - kind: HelmRelease
       name: "*"
       namespace: "*"

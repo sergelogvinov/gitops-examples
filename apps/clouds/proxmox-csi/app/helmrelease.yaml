@@ -4,7 +4,7 @@ kind: HelmRelease
 metadata:
   name: proxmox-csi-plugin
 spec:
-  interval: 60m
+  interval: 60h
 
   maxHistory: 2
   driftDetection:
@@ -30,14 +30,13 @@ spec:
   valuesFrom:
     - kind: Secret
       name: proxmox-csi-plugin-helm-values
-      optional: true
+      # optional: true
 
   values:
     replicaCount: 1
 
     nodeSelector:
       node-role.kubernetes.io/control-plane: ""
-      node.cloudprovider.kubernetes.io/platform: nocloud
     tolerations:
       - key: node-role.kubernetes.io/control-plane
         effect: NoSchedule
