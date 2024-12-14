@@ -51,7 +51,7 @@ spec:
       maxReplicas: 3
 
     # runnerGroup: ""
-    runnerScaleSetName: "builder"
+    runnerScaleSetName: Builder
     runnerVersion: "0.9.3"
 
     githubConfigUrl: https://github.com/sergelogvinov/containers
