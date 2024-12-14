@@ -1,0 +1,35 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: gcp-cloud-controller-manager
+  namespace: kube-system
+data:
+  gce.conf: |
+    [global]
+    project-id =
+    network-name =
+    local-zone = europe-west4
+    zone = europe-west4-a
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: gcp-cloud-autoscaler
+  namespace: kube-system
+data:
+  gce.conf: |
+    [global]
+    project-id =
+    network-name =
+    local-zone = europe-west4
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: gcp-cloud-csi
+  namespace: csi-gcp
+data:
+  gce.conf: |
+    [global]
+    project-id =
+    zone = europe-west4-a

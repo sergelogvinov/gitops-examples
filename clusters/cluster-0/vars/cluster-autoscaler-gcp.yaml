@@ -1,0 +1,10 @@
+autoDiscovery:
+  clusterName: gce
+
+autoscalingGroupsnamePrefix:
+  # - name: db
+  #   maxSize: 2
+  #   minSize: 0
+  # - name: worker
+  #   maxSize: 2
+  #   minSize: 0

@@ -1,0 +1,34 @@
+---
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: azure-premium
+  annotations:
+    resize.topolvm.io/enabled: "true"
+provisioner: kubernetes.io/azure-disk
+parameters:
+  kind: Managed
+  cachingMode: ReadOnly
+  fsType: xfs
+  skuName: Premium_LRS
+  zoned: "true"
+allowVolumeExpansion: true
+reclaimPolicy: Delete
+volumeBindingMode: WaitForFirstConsumer
+---
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: azure-ssd
+  annotations:
+    resize.topolvm.io/enabled: "true"
+provisioner: kubernetes.io/azure-disk
+parameters:
+  kind: Managed
+  cachingMode: ReadOnly
+  fsType: xfs
+  skuName: StandardSSD_LRS
+  zoned: "true"
+allowVolumeExpansion: true
+reclaimPolicy: Delete
+volumeBindingMode: WaitForFirstConsumer

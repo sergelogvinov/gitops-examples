@@ -8,18 +8,52 @@ resources:
   - ./secrets.fluxcd.yaml
   - ./secrets.discord.yaml
   - ./cluster-settings.yaml
+  # - ./cluster-secrets.yaml
+  # - ./cluster-gcp.yaml
   - ./priorityclass.yaml
-  - ./proxmox-storage.yaml
+  # - ./secrets.openstack-csi.yaml
+  # - ./secrets.gcpsm-csi.yaml
+  # - ./secrets.gcpsm-autoscaler.yaml
+  - ./csi-azure.yaml
+  - ./csi-gcp.yaml
+  - ./csi-ovh.yaml
+  - ./csi-proxmox.yaml
+  # - ./secrets.ingress-nginx-dhparam.yaml
+  # - ./secrets.external-secrets.yaml
+  # - ./secrets.cloudflare.yaml
+  # - ./secrets.helm-sa.yaml
 configMapGenerator:
-  - name: prometheus-alertmanager-route-helm-values
-    namespace: monitoring
-    files:
-      - values.yaml=./prometheus-alertmanager.yaml
+  []
+  # - name: cluster-autoscaler-gcp-helm-values
+  #   namespace: kube-system
+  #   files:
+  #     - values.yaml=./cluster-autoscaler-gcp.yaml
+  # - name: cluster-autoscaler-azure-helm-values
+  #   namespace: kube-system
+  #   files:
+  #     - values.yaml=./cluster-autoscaler-azure.yaml
 secretGenerator:
   - name: rbac-common-helm-values
     namespace: kube-system
     files:
       - values.yaml=./cluster-rbac.yaml
+  - name: fluentd-route-helm-values
+    namespace: kube-system
+    files:
+      - values.yaml=./fluentd-route.yaml
+  # - name: talos-backup-helm-values
+  #   namespace: operator-talos
+  #   files:
+  #     - values.yaml=./secrets.talos-backup.yaml
+  - name: proxmox-ccm-plugin-helm-values
+    namespace: kube-system
+    files:
+      - values.yaml=./secrets.proxmox.yaml
+  - name: proxmox-csi-plugin-helm-values
+    namespace: csi-proxmox
+    files:
+      - values.yaml=./secrets.proxmox.yaml
+
   - name: prometheus-alertmanager-helm-values
     namespace: monitoring
     files:
@@ -29,10 +63,11 @@ secretGenerator:
     files:
       - values.yaml=./secrets.grafana.yaml
 
-  - name: proxmox-csi-plugin-helm-values
-    namespace: csi-proxmox
-    files:
-      - values.yaml=./secrets.proxmox.yaml
+  # - name: ingress-nginx-helm-values
+  #   namespace: ingress-nginx
+  #   files:
+  #     - values.yaml=./ingress-nginx.yaml
+
   - name: github-actions-runner-helm-values
     namespace: operator-gha
     files:
