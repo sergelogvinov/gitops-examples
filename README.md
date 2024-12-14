@@ -66,8 +66,8 @@ kubectl apply --server-side --kustomize bootstrap
 ## Deploy cluster
 
 ```shell
-kubectl apply --server-side --kustomize clusters/cluster-0
 sops --decrypt clusters/cluster-0/vars/secrets.fluxcd.yaml | kubectl -n flux-system apply -f -
+kubectl apply --server-side --kustomize clusters/cluster-0
 ```
 
 ## Refresh source

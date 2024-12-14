@@ -24,14 +24,14 @@ resources:
   # Logging
   - ../../apps/logging/fluentd-route
   - ../../apps/logging/fluent-bit
-  - ../../apps/logging/event-exporter
+  # - ../../apps/logging/event-exporter
   # Monitoring
   - ../../apps/monitoring/victoria-metrics-operator
   - ../../apps/monitoring/victoria-metrics
   - ../../apps/monitoring/prometheus
   - ../../apps/monitoring/prometheus-alertmanager
   - ../../apps/monitoring/prometheus-node-exporter
-  - ../../apps/monitoring/grafana
+  # - ../../apps/monitoring/grafana
   # Ingress
   - ../../apps/ingress/ingress-nginx
   - ../../apps/ingress/skipper
