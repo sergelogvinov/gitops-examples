@@ -1,0 +1,87 @@
+---
+# kubectl kustomize --enable-helm apps/clouds/azure-csi/generate > apps/clouds/azure-csi/app/azure-csi.yaml
+#
+# yaml-language-server: $schema=https://json.schemastore.org/kustomization
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+helmCharts:
+  - name: azuredisk-csi-driver
+    valuesInline:
+      controller:
+        cloudConfigSecretName: azure-managed-identity
+        cloudConfigSecretNamespace: kube-system
+
+        replicas: 1
+        vmType: vmss
+        allowEmptyCloudConfig: true
+        hostNetwork: false
+
+        nodeSelector:
+          node-role.kubernetes.io/control-plane: ""
+          node.cloudprovider.kubernetes.io/platform: azure
+        tolerations:
+          - key: node-role.kubernetes.io/control-plane
+            effect: NoSchedule
+          - key: node.kubernetes.io/disk-pressure
+            operator: Exists
+            effect: NoSchedule
+      linux:
+        enabled: true
+        # nodeAffinity:
+        #   requiredDuringSchedulingIgnoredDuringExecution:
+        #     nodeSelectorTerms:
+        #       - matchExpressions:
+        #           - key: project.io/node-pool
+        #             operator: In
+        #             values:
+        #               - db
+        #               - worker
+        nodeSelector:
+          node.cloudprovider.kubernetes.io/platform: azure
+        tolerations:
+          - key: node-role.kubernetes.io/control-plane
+            effect: NoSchedule
+          - key: node.kubernetes.io/disk-pressure
+            operator: Exists
+            effect: NoSchedule
+          - key: node.kubernetes.io/unschedulable
+            operator: Exists
+            effect: NoSchedule
+      windows:
+        enabled: false
+    releaseName: azuredisk-csi-driver
+    version: 1.31.0
+    repo: https://raw.githubusercontent.com/kubernetes-sigs/azuredisk-csi-driver/master/charts
+namespace: csi-azure
+patches:
+  - patch: |
+      apiVersion: apps/v1
+      kind: all
+      metadata:
+        name: all
+      spec:
+        template:
+          spec:
+            containers:
+              - name: azuredisk
+                env:
+                  - name: AZURE_CREDENTIAL_FILE
+                    value: /etc/azure/azure.json
+                    valueFrom:
+                volumeMounts:
+                  - $patch: delete
+                    name: azure-cred
+                    mountPath: /etc/kubernetes/
+                  - name: cloud-config
+                    mountPath: /etc/azure
+                    readOnly: true
+            volumes:
+              - $patch: delete
+                hostPath:
+                  path: /etc/kubernetes
+                name: azure-cred
+              - name: cloud-config
+                secret:
+                  secretName: azure-managed-identity
+    target:
+      kind: (Deployment|DaemonSet)

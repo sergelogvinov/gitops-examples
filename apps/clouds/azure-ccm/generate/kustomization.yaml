@@ -1,0 +1,102 @@
+---
+# kubectl kustomize --enable-helm apps/clouds/azure-ccm/generate > apps/clouds/azure-ccm/app/azure-ccm.yaml
+#
+# yaml-language-server: $schema=https://json.schemastore.org/kustomization
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+helmCharts:
+  - name: cloud-provider-azure
+    valuesInline:
+      cloudNodeManager:
+        enabled: false
+      cloudControllerManager:
+        imageRepository: ghcr.io/sergelogvinov
+        imageName: cloud-controller-manager-azure
+        imageTag: "1.31"
+
+        allocateNodeCidrs: false
+        configureCloudRoutes: false
+        cloudConfig: /etc/azure/azure.json
+        federatedTokenPath: ""
+        containerResourceManagement:
+          limitsCPU: "100m"
+          limitsMem: "512Mi"
+          requestsCPU: "100m"
+          requestsMem: "128Mi"
+        nodeSelector:
+          node-role.kubernetes.io/control-plane: ""
+          node.cloudprovider.kubernetes.io/platform: azure
+        tolerations:
+          - key: node-role.kubernetes.io/control-plane
+            effect: NoSchedule
+    releaseName: cloud-provider-azure
+    version: 1.31.1
+    repo: https://raw.githubusercontent.com/kubernetes-sigs/cloud-provider-azure/master/helm/repo
+labels:
+  - pairs:
+      k8s-app: cloud-controller-manager-azure
+    includeSelectors: true
+    includeTemplates: true
+nameSuffix: -azure
+namespace: kube-system
+patches:
+  - patch: |
+      - op: remove
+        path: /subjects/1
+    target:
+      kind: (ClusterRoleBinding|RoleBinding)
+      name: (system:cloud-controller-manager|system:cloud-controller-manager:extension-apiserver-authentication-reader)
+  #
+  - patch: |
+      apiVersion: apps/v1
+      kind: DaemonSet
+      metadata:
+        name: all
+      spec:
+        template:
+          spec:
+            containers:
+              - name: cloud-controller-manager
+                command:
+                  - /cloud-controller-manager
+                args:
+                  - "--allocate-node-cidrs=false"
+                  - "--cloud-config=/etc/azure/azure.json"
+                  - "--cloud-provider=azure"
+                  - "--cluster-cidr=10.244.0.0/16"
+                  - "--cluster-name=kubernetes"
+                  - "--configure-cloud-routes=false"
+                  - "--controllers=cloud-node-lifecycle" # disable cloud-node controller
+                  - "--leader-elect=true"
+                  - "--leader-elect-resource-name=cloud-controller-manager-azure"
+                  - "--route-reconciliation-period=10s"
+                  - "--secure-port=10268"
+                  - "--v=2"
+                volumeMounts:
+                  - name: cloud-config
+                    mountPath: /etc/azure
+                    readOnly: true
+                  - $patch: delete
+                    name: etc-kubernetes
+                  - $patch: delete
+                    name: ssl-mount
+                  - $patch: delete
+                    name: msi
+            volumes:
+              - name: cloud-config
+                secret:
+                  secretName: azure-managed-identity
+              - $patch: delete
+                hostPath:
+                  path: /etc/kubernetes
+                name: etc-kubernetes
+              - $patch: delete
+                hostPath:
+                  path: /etc/ssl
+                name: ssl-mount
+              - $patch: delete
+                hostPath:
+                  path: /var/lib/waagent/ManagedIdentity-Settings
+                name: msi
+    target:
+      kind: Deployment

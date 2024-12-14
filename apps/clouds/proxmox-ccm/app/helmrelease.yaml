@@ -4,7 +4,7 @@ kind: HelmRelease
 metadata:
   name: proxmox-cloud-controller-manager
 spec:
-  interval: 60m
+  interval: 60h
 
   maxHistory: 2
   driftDetection:
@@ -27,16 +27,16 @@ spec:
     remediation:
       retries: 3
 
-  values:
-    existingConfigSecret: proxmox-cloud-controller-manager
+  valuesFrom:
+    - kind: Secret
+      name: proxmox-ccm-plugin-helm-values
+      # optional: true
 
-    affinity:
-      nodeAffinity:
-        requiredDuringSchedulingIgnoredDuringExecution:
-          nodeSelectorTerms:
-            - matchExpressions:
-                - key: node-role.kubernetes.io/control-plane
-                  operator: Exists
+  values:
+    # existingConfigSecret: proxmox-cloud-controller-manager
+
+    nodeSelector:
+      node-role.kubernetes.io/control-plane: ""
 
     enabledControllers:
       - cloud-node-lifecycle

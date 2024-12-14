@@ -1,0 +1,91 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: cluster-autoscaler-azure
+  namespace: kube-system
+spec:
+  interval: 60h
+
+  maxHistory: 2
+  driftDetection:
+    mode: enabled
+
+  chart:
+    spec:
+      chart: cluster-autoscaler
+      version: 9.43.2
+      sourceRef:
+        kind: HelmRepository
+        name: autoscaler
+        namespace: flux-system
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+
+  valuesFrom:
+    - kind: ConfigMap
+      name: cluster-autoscaler-azure-helm-values
+
+  values:
+    fullnameOverride: cluster-autoscaler-azure
+    priorityClassName: system-cluster-critical
+
+    image:
+      repository: ghcr.io/sergelogvinov/cluster-autoscaler
+      tag: "1.31"
+
+    cloudProvider: azure
+    cloudConfigPath: /etc/azure/azure.json
+
+    extraArgs:
+      cloud-config: /etc/azure/azure.json
+      regional: true
+      balance-similar-node-groups: true
+      logtostderr: true
+      stderrthreshold: info
+      scan-interval: 15s
+      scale-down-delay-after-add: 5m
+      v: 4
+
+    azureUseManagedIdentityExtension: true
+    extraVolumeSecrets:
+      cloud-config:
+        name: azure-managed-identity
+        mountPath: /etc/azure
+
+    containerSecurityContext:
+      allowPrivilegeEscalation: false
+      seccompProfile:
+        type: RuntimeDefault
+      capabilities:
+        drop: ["ALL"]
+
+    resources:
+      limits:
+        cpu: 100m
+        memory: 300Mi
+      requests:
+        cpu: 100m
+        memory: 300Mi
+
+    affinity:
+      nodeAffinity:
+        preferredDuringSchedulingIgnoredDuringExecution:
+          - preference:
+              matchExpressions:
+                - key: node.cloudprovider.kubernetes.io/platform
+                  operator: In
+                  values:
+                    - azure
+            weight: 100
+    nodeSelector:
+      node-role.kubernetes.io/control-plane: ""
+      node.cloudprovider.kubernetes.io/platform: azure
+    tolerations:
+      - key: node-role.kubernetes.io/control-plane
+        effect: NoSchedule
