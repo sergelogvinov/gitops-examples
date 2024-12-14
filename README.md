@@ -2,6 +2,57 @@
 
 Kubernetes GitOps examples with FluxCD.
 
+## Components
+
+This project is a collection of base addons for kubernetes.
+
+FluxCD components:
+* [Flux system](apps/flux-system)
+* [Flux git config](apps/flux-system/config)
+* [Flux repos](apps/flux-system/repos)
+
+Base addons:
+* [Cert Manager](apps/base/cert-manager)
+* [External Secrets](apps/base/external-secrets)
+* [Keda](apps/base/keda)
+* [Local path provisioner](apps/base/local-path-provisioner)
+* [Metrics server](apps/base/metrics-server)
+* [Basic RBAC](apps/base/rbac)
+
+Cloud platform integrations:
+* [Azure CCM](apps/clouds/azure-ccm)
+* [Azure CSI](apps/clouds/azure-csi)
+* [GCP CCM](apps/clouds/gcp-ccm)
+* [GCP CSI](apps/clouds/gcp-csi)
+* [OVHCloud CCM](apps/clouds/ovh-ccm)
+* [OVHCloud CSI](apps/clouds/ovh-csi)
+* [Proxmox CCM](apps/clouds/proxmox-ccm)
+* [Proxmox CSI](apps/clouds/proxmox-csi)
+* [Scaleway CCM](apps/clouds/scaleway-ccm)
+* [Scaleway CSI](apps/clouds/scaleway-csi)
+* [Talos CCM](apps/clouds/talos-ccm)
+* [Talos etcd backup](apps/clouds/talos-backup)
+* [Talos update](apps/clouds/talos-upgrade-controller)
+
+Cluster logging:
+* [Fluent Bit](apps/logging/fluent-bit)
+* [Fluentd route](apps/logging/fluentd-route)
+* [Kubernetes event exporter](apps/logging/event-exporter)
+
+Cluster monitoring:
+* [Prometheus base components](apps/monitoring/prometheus)
+* [Prometheus AlertManager](apps/monitoring/prometheus-alertmanager)
+* [Prometheus Node exporter](apps/monitoring/prometheus-node-exporter)
+* [Victoria Metrics](apps/monitoring/victoria-metrics)
+* [Victoria Metrics Operator](apps/monitoring/victoria-metrics-operator)
+* [InfluxDB](apps/monitoring/influxdb)
+
+Ingress controllers:
+* [Ingress nginx](apps/ingress/ingress-nginx)
+* [Ingress skipper](apps/ingress/skipper)
+
+## Folder structure
+
 ```shell
 📁 apps
 ├── 📁 name-of-application
@@ -76,6 +127,8 @@ kubectl apply --server-side --kustomize clusters/cluster-0
 kubectl get HelmRelease -A
 flux reconcile -n flux-system source git gitops-clusters
 ```
+
+# Development
 
 ## Git
 
