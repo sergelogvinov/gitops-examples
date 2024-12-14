@@ -9,6 +9,7 @@ resources:
   - ./secrets.discord.yaml
   - ./cluster-settings.yaml
   # - ./cluster-secrets.yaml
+  # - ./cluster-azure.yaml
   # - ./cluster-gcp.yaml
   - ./priorityclass.yaml
   # - ./secrets.openstack-csi.yaml
@@ -22,16 +23,20 @@ resources:
   # - ./secrets.external-secrets.yaml
   # - ./secrets.cloudflare.yaml
   # - ./secrets.helm-sa.yaml
+  # - ./secrets.gcpsm-secret.yaml
 configMapGenerator:
-  []
-  # - name: cluster-autoscaler-gcp-helm-values
-  #   namespace: kube-system
-  #   files:
-  #     - values.yaml=./cluster-autoscaler-gcp.yaml
-  # - name: cluster-autoscaler-azure-helm-values
-  #   namespace: kube-system
-  #   files:
-  #     - values.yaml=./cluster-autoscaler-azure.yaml
+  - name: prometheus-alertmanager-route-helm-values
+    namespace: monitoring
+    files:
+      - values.yaml=./prometheus-alertmanager.yaml
+  - name: cluster-autoscaler-gcp-helm-values
+    namespace: kube-system
+    files:
+      - values.yaml=./cluster-autoscaler-gcp.yaml
+  - name: cluster-autoscaler-azure-helm-values
+    namespace: kube-system
+    files:
+      - values.yaml=./cluster-autoscaler-azure.yaml
 secretGenerator:
   - name: rbac-common-helm-values
     namespace: kube-system
