@@ -1,12 +1,3 @@
-extraVolumes:
-  - name: peers-tls
-    secret:
-      secretName: fluentd-route-peers-tls
-
-extraVolumeMounts:
-  - name: peers-tls
-    mountPath: /fluentd/etc/peers/
-
 configMaps:
   peers.conf: |
     <label @STORE>
