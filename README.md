@@ -2,6 +2,24 @@
 
 Kubernetes GitOps examples with FluxCD.
 
+All components are designed to work in a hybrid cloud environment, which means they can run across different cloud providers or even between cloud and on-premises systems.
+
+The [Talos](https://github.com/siderolabs/talos) uses as kubernetes distribution. Talos is well-suited for hybrid setups because it focuses on security and simplicity, making it easy to manage Kubernetes clusters.
+
+The Talos Cloud Controller Manager ([Talos CCM](https://github.com/siderolabs/talos-cloud-controller-manager)) is responsible for setting labels on the nodes. These labels are very important because they help the system components know how to manage workloads. For example, some workloads require specific cloud platform to launch.
+
+## Key Features:
+
+* `Flexible Deployment`: The CCM, CSI, and NodeAutoScaler components can all be deployed together or separately. This gives you the flexibility to only use what you need.
+* `Multi Cloud Support`: You can combine components from different cloud providers in the same cluster. For example, you might use one provider for storage and another for scaling. This helps avoid being locked into a single provider.
+* `Hybrid Cloud Ready`: The setup works well across public cloud, private cloud, or on-premises environments, allowing seamless integration between them.
+* `Consistent Setup Across Environments`: No matter if your cluster is running in the public cloud, private cloud, or on-premises, the setup will remain consistent. This ensures easier management and smooth transitions between environments.
+
+## Cloud Platform Integrations
+
+Most of the CCMs was patched to work with hybrid environments. You can find the patches in my repo [containers](https://github.com/sergelogvinov/containers).
+
+
 ## Components
 
 This project is a collection of base addons for kubernetes.
@@ -24,6 +42,8 @@ Cloud platform integrations:
 * [Azure CSI](apps/clouds/azure-csi)
 * [GCP CCM](apps/clouds/gcp-ccm)
 * [GCP CSI](apps/clouds/gcp-csi)
+* [Oracle CCM](apps/clouds/oracle-ccm)
+* [Oracle CSI](apps/clouds/oracle-csi)
 * [OVHCloud CCM](apps/clouds/ovh-ccm)
 * [OVHCloud CSI](apps/clouds/ovh-csi)
 * [Proxmox CCM](apps/clouds/proxmox-ccm)
@@ -33,6 +53,10 @@ Cloud platform integrations:
 * [Talos CCM](apps/clouds/talos-ccm)
 * [Talos etcd backup](apps/clouds/talos-backup)
 * [Talos update](apps/clouds/talos-upgrade-controller)
+* [Cluster Node AutoScaler](apps/clouds/cluster-autoscaler)
+    * [Azure](apps/clouds/cluster-autoscaler/azure)
+    * [GCP](apps/clouds/cluster-autoscaler/gcp)
+    * [Oracle](apps/clouds/cluster-autoscaler/oracle)
 
 Cluster logging:
 * [Fluent Bit](apps/logging/fluent-bit)
