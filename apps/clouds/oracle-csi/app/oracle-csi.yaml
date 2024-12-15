@@ -1,0 +1,421 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: csi-oci-node-sa
+  namespace: csi-oci
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: csi-oci
+  namespace: kube-system
+rules:
+  - apiGroups:
+      - ""
+    resources:
+      - events
+    verbs:
+      - get
+      - list
+      - watch
+      - create
+      - update
+      - patch
+  - apiGroups:
+      - ""
+    resources:
+      - nodes
+    verbs:
+      - get
+      - list
+      - watch
+  - apiGroups:
+      - volume.oci.oracle.com
+    resources:
+      - blockscsiinfos
+    verbs:
+      - get
+      - list
+      - watch
+      - create
+      - delete
+      - update
+      - patch
+  - apiGroups:
+      - ""
+    resources:
+      - persistentvolumes
+    verbs:
+      - get
+      - list
+      - watch
+      - create
+      - delete
+      - patch
+  - apiGroups:
+      - ""
+    resources:
+      - persistentvolumeclaims
+    verbs:
+      - get
+      - list
+      - watch
+      - update
+      - create
+  - apiGroups:
+      - storage.k8s.io
+    resources:
+      - storageclasses
+      - volumeattachments
+      - volumeattachments/status
+      - csinodes
+    verbs:
+      - get
+      - list
+      - watch
+      - patch
+  - apiGroups:
+      - coordination.k8s.io
+    resources:
+      - leases
+    verbs:
+      - get
+      - list
+      - watch
+      - create
+      - delete
+      - update
+      - patch
+  - apiGroups:
+      - ""
+    resources:
+      - endpoints
+    verbs:
+      - get
+      - watch
+      - create
+      - update
+  - apiGroups:
+      - ""
+    resources:
+      - pods
+    verbs:
+      - get
+      - list
+      - watch
+  - apiGroups:
+      - ""
+    resources:
+      - persistentvolumeclaims/status
+    verbs:
+      - patch
+  - apiGroups:
+      - snapshot.storage.k8s.io
+    resources:
+      - volumesnapshotclasses
+    verbs:
+      - get
+      - list
+      - watch
+  - apiGroups:
+      - snapshot.storage.k8s.io
+    resources:
+      - volumesnapshotcontents
+    verbs:
+      - create
+      - get
+      - list
+      - watch
+      - update
+      - delete
+      - patch
+  - apiGroups:
+      - snapshot.storage.k8s.io
+    resources:
+      - volumesnapshotcontents/status
+    verbs:
+      - update
+      - patch
+  - apiGroups:
+      - snapshot.storage.k8s.io
+    resources:
+      - volumesnapshots
+    verbs:
+      - get
+      - list
+      - watch
+      - update
+      - patch
+  - apiGroups:
+      - snapshot.storage.k8s.io
+    resources:
+      - volumesnapshots/status
+    verbs:
+      - update
+      - patch
+  - apiGroups:
+      - ""
+    resources:
+      - serviceaccounts
+    verbs:
+      - get
+      - list
+      - watch
+      - create
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: csi-oci-binding
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: csi-oci
+subjects:
+  - kind: ServiceAccount
+    name: csi-oci-node-sa
+    namespace: csi-oci
+---
+apiVersion: v1
+data:
+  iscsiadm: |
+    #!/bin/sh
+    if [ -x /host/sbin/iscsiadm ]; then
+      chroot /host /sbin/iscsiadm "$@"
+    elif [ -x /host/usr/local/sbin/iscsiadm ]; then
+      chroot /host /usr/local/sbin/iscsiadm "$@"
+    elif [ -x /host/bin/iscsiadm ]; then
+      chroot /host /bin/iscsiadm "$@"
+    elif [ -x /host/usr/local/bin/iscsiadm ]; then
+      chroot /host /usr/local/bin/iscsiadm "$@"
+    else
+      chroot /host iscsiadm "$@"
+    fi
+kind: ConfigMap
+metadata:
+  name: oci-csi-iscsiadm
+  namespace: csi-oci
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: csi-oci-controller
+  namespace: csi-oci
+spec:
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: csi-oci-controller
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: csi-oci-controller
+        role: csi-oci
+    spec:
+      containers:
+        - args:
+            - --endpoint=unix://var/run/shared-tmpfs/csi.sock
+            - --fss-csi-endpoint=unix://var/run/shared-tmpfs/csi-fss.sock
+          command:
+            - /usr/local/bin/oci-csi-controller-driver
+          image: ghcr.io/sergelogvinov/csi-oci:1.30
+          imagePullPolicy: IfNotPresent
+          name: oci-csi-controller-driver
+          volumeMounts:
+            - mountPath: /etc/oci/
+              name: config
+              readOnly: true
+            - mountPath: /var/run/shared-tmpfs
+              name: shared-tmpfs
+        - args:
+            - --csi-address=/var/run/shared-tmpfs/csi.sock
+            - --volume-name-prefix=csi
+            - --feature-gates=Topology=true
+            - --timeout=120s
+            - --leader-election
+            - --leader-election-namespace=kube-system
+          image: registry.k8s.io/sig-storage/csi-provisioner:v5.0.1
+          name: csi-volume-provisioner
+          volumeMounts:
+            - mountPath: /var/run/shared-tmpfs
+              name: shared-tmpfs
+        - args:
+            - --csi-address=/var/run/shared-tmpfs/csi.sock
+            - --timeout=120s
+            - --leader-election=true
+            - --leader-election-namespace=kube-system
+          image: registry.k8s.io/sig-storage/csi-attacher:v4.6.1
+          name: csi-attacher
+          volumeMounts:
+            - mountPath: /var/run/shared-tmpfs
+              name: shared-tmpfs
+        - args:
+            - --csi-address=/var/run/shared-tmpfs/csi.sock
+            - --leader-election
+          image: registry.k8s.io/sig-storage/csi-resizer:v1.11.1
+          imagePullPolicy: IfNotPresent
+          name: csi-resizer
+          volumeMounts:
+            - mountPath: /var/run/shared-tmpfs
+              name: shared-tmpfs
+      dnsPolicy: ClusterFirst
+      hostNetwork: false
+      nodeSelector:
+        node-role.kubernetes.io/control-plane: ""
+        node.cloudprovider.kubernetes.io/platform: oracle
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      serviceAccount: csi-oci-node-sa
+      serviceAccountName: csi-oci-node-sa
+      terminationGracePeriodSeconds: 30
+      tolerations:
+        - effect: NoSchedule
+          key: node-role.kubernetes.io/control-plane
+        - effect: NoSchedule
+          key: node.kubernetes.io/disk-pressure
+          operator: Exists
+      volumes:
+        - name: config
+          secret:
+            items:
+              - key: cloud-provider.yaml
+                path: config.yaml
+            secretName: oci-cloud-controller-manager
+        - emptyDir: {}
+          name: shared-tmpfs
+---
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: csi-oci-node
+  namespace: csi-oci
+spec:
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: csi-oci-node
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: csi-oci-node
+        role: csi-oci
+    spec:
+      containers:
+        - args:
+            - --v=2
+            - --endpoint=unix:///csi/csi.sock
+            - --nodeid=$(KUBE_NODE_NAME)
+            - --loglevel=debug
+            - --fss-csi-driver-enabled=false
+          command:
+            - /usr/local/bin/oci-csi-node-driver
+          env:
+            - name: KUBE_NODE_NAME
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: spec.nodeName
+            - name: PATH
+              value: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/host/usr/bin:/host/sbin
+          image: ghcr.io/sergelogvinov/csi-oci:1.30
+          name: oci-csi-node-driver
+          securityContext:
+            privileged: true
+          volumeMounts:
+            - mountPath: /csi
+              name: plugin-dir
+            - mountPath: /var/lib/kubelet
+              mountPropagation: Bidirectional
+              name: pods-mount-dir
+            - mountPath: /dev
+              name: device-dir
+            - mountPath: /host
+              mountPropagation: HostToContainer
+              name: host-root
+            - mountPath: /sbin/iscsiadm
+              name: chroot-iscsiadm
+              subPath: iscsiadm
+            - mountPath: /host/var/lib/kubelet
+              mountPropagation: Bidirectional
+              name: encrypt-pods-mount-dir
+        - args:
+            - --csi-address=/csi/csi.sock
+            - --kubelet-registration-path=/var/lib/kubelet/plugins/blockvolume.csi.oraclecloud.com/csi.sock
+          image: registry.k8s.io/sig-storage/csi-node-driver-registrar:v2.12.0
+          lifecycle:
+            preStop:
+              exec:
+                command:
+                  - /bin/sh
+                  - -c
+                  - rm -rf /registration/blockvolume.csi.oraclecloud.com /registration/blockvolume.csi.oraclecloud.com-reg.sock
+          name: csi-node-registrar
+          securityContext:
+            privileged: true
+          volumeMounts:
+            - mountPath: /csi
+              name: plugin-dir
+            - mountPath: /registration
+              name: registration-dir
+      dnsPolicy: ClusterFirst
+      hostNetwork: false
+      nodeSelector:
+        node.cloudprovider.kubernetes.io/platform: oracle
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      serviceAccount: csi-oci-node-sa
+      serviceAccountName: csi-oci-node-sa
+      terminationGracePeriodSeconds: 30
+      tolerations:
+        - effect: NoSchedule
+          key: node.kubernetes.io/disk-pressure
+          operator: Exists
+        - effect: NoSchedule
+          key: node.kubernetes.io/unschedulable
+          operator: Exists
+      volumes:
+        - hostPath:
+            path: /var/lib/kubelet/plugins_registry/
+            type: DirectoryOrCreate
+          name: registration-dir
+        - hostPath:
+            path: /var/lib/kubelet/plugins/blockvolume.csi.oraclecloud.com
+            type: DirectoryOrCreate
+          name: plugin-dir
+        - hostPath:
+            path: /var/lib/kubelet/plugins/fss.csi.oraclecloud.com
+            type: DirectoryOrCreate
+          name: fss-plugin-dir
+        - hostPath:
+            path: /var/lib/kubelet
+            type: Directory
+          name: pods-mount-dir
+        - hostPath:
+            path: /var/lib/kubelet
+            type: Directory
+          name: encrypt-pods-mount-dir
+        - hostPath:
+            path: /dev
+            type: ""
+          name: device-dir
+        - hostPath:
+            path: /
+            type: Directory
+          name: host-root
+        - configMap:
+            defaultMode: 493
+            name: oci-csi-iscsiadm
+          name: chroot-iscsiadm
+  updateStrategy:
+    rollingUpdate:
+      maxUnavailable: 1
+    type: RollingUpdate
+---
+apiVersion: storage.k8s.io/v1
+kind: CSIDriver
+metadata:
+  name: blockvolume.csi.oraclecloud.com
+spec:
+  fsGroupPolicy: File

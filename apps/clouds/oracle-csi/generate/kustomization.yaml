@@ -1,0 +1,159 @@
+---
+# kubectl kustomize apps/clouds/oracle-csi/generate > apps/clouds/oracle-csi/app/oracle-csi.yaml
+#
+# yaml-language-server: $schema=https://json.schemastore.org/kustomization
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - https://github.com/oracle/oci-cloud-controller-manager/releases/download/v1.30.0/oci-csi-node-rbac.yaml
+  - https://github.com/oracle/oci-cloud-controller-manager/releases/download/v1.30.0/oci-csi-controller-driver.yaml
+  - https://github.com/oracle/oci-cloud-controller-manager/releases/download/v1.30.0/oci-csi-node-driver.yaml
+images:
+  - name: ghcr.io/oracle/cloud-provider-oci
+    newName: ghcr.io/sergelogvinov/csi-oci
+    newTag: "1.30"
+namespace: csi-oci
+patches:
+  - patch: |
+      - op: remove
+        path: /metadata/annotations
+      - op: remove
+        path: /metadata/generation
+    target:
+      kind: (Deployment|DaemonSet)
+  - patch: |
+      $patch: delete
+      apiVersion: v1
+      kind: ConfigMap
+      metadata:
+        name: all
+    target:
+      kind: ConfigMap
+      name: oci-fss-csi
+  - patch: |
+      $patch: delete
+      apiVersion: storage.k8s.io/v1
+      kind: CSIDriver
+      metadata:
+        name: all
+    target:
+      kind: CSIDriver
+      name: fss.csi.oraclecloud.com
+
+  - patch: |
+      apiVersion: apps/v1
+      kind: Deployment
+      metadata:
+        name: all
+      spec:
+        template:
+          spec:
+            imagePullSecrets:
+              - $patch: delete
+            hostNetwork: false
+            containers:
+              - name: oci-csi-controller-driver
+                volumeMounts:
+                  - $patch: delete
+                    name: kubernetes
+                    mountPath: /etc/kubernetes
+                    readOnly: true
+                  - name: config
+                    mountPath: /etc/oci/
+                    readOnly: true
+              - name: csi-volume-provisioner
+                volumeMounts:
+                  - $patch: delete
+                    name: config
+                    mountPath: /etc/oci/
+                    readOnly: true
+              - name: csi-attacher
+                volumeMounts:
+                  - $patch: delete
+                    name: config
+                    mountPath: /etc/oci/
+                    readOnly: true
+              - $patch: delete
+                name: snapshot-controller
+              - $patch: delete
+                name: csi-fss-volume-provisioner
+              - $patch: delete
+                name: csi-snapshotter
+            nodeSelector:
+              node-role.kubernetes.io/control-plane: ""
+              node.cloudprovider.kubernetes.io/platform: oracle
+            tolerations:
+              - key: node-role.kubernetes.io/control-plane
+                effect: NoSchedule
+              - key: node.kubernetes.io/disk-pressure
+                operator: Exists
+                effect: NoSchedule
+            volumes:
+              - $patch: delete
+                hostPath:
+                  path: /etc/kubernetes
+                name: kubernetes
+              - name: config
+                secret:
+                  secretName: oci-cloud-controller-manager
+                  items:
+                    - key: cloud-provider.yaml
+                      path: config.yaml
+    target:
+      kind: Deployment
+  - patch: |
+      apiVersion: apps/v1
+      kind: all
+      metadata:
+        name: all
+      spec:
+        template:
+          spec:
+            hostNetwork: false
+            containers:
+              - $patch: delete
+                name: csi-node-registrar-fss
+              - name: oci-csi-node-driver
+                args:
+                  - --v=2
+                  - --endpoint=unix:///csi/csi.sock
+                  - --nodeid=$(KUBE_NODE_NAME)
+                  - --loglevel=debug
+                  - --fss-csi-driver-enabled=false
+                volumeMounts:
+                  - $patch: delete
+                    name: fss-plugin-dir
+                    mountPath: /fss
+                  - $patch: delete
+                    name: fss-driver-mounts
+                    mountPath: /sbin/umount.oci-fss
+                    subPath: umount.oci-fss
+                  - $patch: delete
+                    name: fss-driver-mounts
+                    mountPath: /sbin/umount
+                    subPath: umount
+                  - $patch: delete
+                    name: fss-driver-mounts
+                    mountPath: /sbin/mount
+                    subPath: mount
+            nodeSelector:
+              node.cloudprovider.kubernetes.io/platform: oracle
+            tolerations:
+              - key: node.kubernetes.io/disk-pressure
+                operator: Exists
+                effect: NoSchedule
+              - key: node.kubernetes.io/unschedulable
+                operator: Exists
+                effect: NoSchedule
+            volumes:
+              - $patch: delete
+                hostPath:
+                  path: /etc/kubernetes
+                name: kubernetes
+              - $patch: delete
+                configMap:
+                  defaultMode: 493
+                  name: oci-fss-csi
+                name: fss-driver-mounts
+    target:
+      kind: DaemonSet

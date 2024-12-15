@@ -1,0 +1,254 @@
+---
+# kubectl kustomize apps/clouds/oracle-ccm/generate > apps/clouds/oracle-ccm/app/oracle-ccm.yaml
+#
+# yaml-language-server: $schema=https://json.schemastore.org/kustomization
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - https://github.com/oracle/oci-cloud-controller-manager/releases/download/v1.30.0/oci-cloud-controller-manager-rbac.yaml
+  - https://github.com/oracle/oci-cloud-controller-manager/releases/download/v1.30.0/oci-cloud-controller-manager.yaml
+images:
+  - name: ghcr.io/oracle/cloud-provider-oci
+    newName: ghcr.io/sergelogvinov/cloud-controller-manager-oci
+    newTag: "1.30"
+labels:
+  - pairs:
+      component: cloud-controller-manager-oci
+    includeSelectors: true
+    includeTemplates: true
+nameSuffix: -oracle
+namespace: kube-system
+patches:
+  - patch: |
+      apiVersion: apps/v1
+      kind: DaemonSet
+      metadata:
+        name: all
+      spec:
+        template:
+          spec:
+            securityContext:
+              seccompProfile:
+                type: RuntimeDefault
+              runAsUser: 1001
+              runAsNonRoot: true
+            priorityClassName: system-cluster-critical
+            dnsPolicy: None
+            dnsConfig:
+              nameservers:
+                - 169.254.169.254
+            containers:
+              - name: oci-cloud-controller-manager
+                args:
+                  - -v=4
+                  - --cloud-config=/etc/oci/cloud-provider.yaml
+                  - --cloud-provider=oci
+                  - --allocate-node-cidrs=false
+                  - --controllers=cloud-node-lifecycle
+                  - --leader-elect-resource-name=cloud-controller-manager-oci
+                  - --bind-address=127.0.0.1
+                volumeMounts:
+                  - $patch: delete
+                    name: kubernetes
+                    mountPath: /etc/kubernetes
+                    readOnly: true
+            hostNetwork: false
+            nodeSelector:
+              node.cloudprovider.kubernetes.io/platform: oracle
+            tolerations:
+              - key: node-role.kubernetes.io/control-plane
+                effect: NoSchedule
+              - key: node.kubernetes.io/disk-pressure
+                operator: Exists
+                effect: NoSchedule
+              - key: node.kubernetes.io/unschedulable
+                operator: Exists
+                effect: NoSchedule
+            volumes:
+              - $patch: delete
+                hostPath:
+                  path: /etc/kubernetes
+                name: kubernetes
+    target:
+      kind: DaemonSet
+
+  # - patch: |
+  #     $patch: delete
+  #     apiVersion: rbac.authorization.k8s.io/v1
+  #     kind: ClusterRoleBinding
+  #     metadata:
+  #       name: all
+  #   target:
+  #     kind: ClusterRoleBinding
+  #     name: system:controller:cloud-node-controller
+  # - patch: |
+  #     $patch: delete
+  #     apiVersion: rbac.authorization.k8s.io/v1
+  #     kind: ClusterRole
+  #     metadata:
+  #       name: all
+  #   target:
+  #     kind: ClusterRole
+  #     name: (system:controller:cloud-node-controller|system:controller:pvl-controller)
+  # - patch: |
+  #     $patch: delete
+  #     apiVersion: rbac.authorization.k8s.io/v1
+  #     kind: RoleBinding
+  #     metadata:
+  #       name: all
+  #   target:
+  #     kind: RoleBinding
+  #     name: system::leader-locking-cloud-controller-manager
+  # - patch: |
+  #     $patch: delete
+  #     apiVersion: rbac.authorization.k8s.io/v1
+  #     kind: Role
+  #     metadata:
+  #       name: all
+  #   target:
+  #     kind: Role
+  #     name: system::leader-locking-cloud-controller-manager
+  # #
+  # - patch: |
+  #     apiVersion: apps/v1
+  #     kind: DaemonSet
+  #     metadata:
+  #       name: all
+  #     spec:
+  #       template:
+  #         spec:
+  #           containers:
+  #             - name: cloud-controller-manager
+  #               env:
+  #                 - $patch: delete
+  #                   name: KUBERNETES_SERVICE_HOST
+  #               livenessProbe:
+  #                 $patch: delete
+  #               volumeMounts:
+  #                 - $patch: delete
+  #                   name: cloudconfig
+  #                   mountPath: /etc/kubernetes/cloud.config
+  #           volumes:
+  #             - $patch: delete
+  #               hostPath:
+  #                 path: /etc/kubernetes/cloud.config
+  #                 type: ""
+  #               name: cloudconfig
+  #   target:
+  #     kind: DaemonSet
+  #     name: cloud-controller-manager
+  # - patch: |
+  #     apiVersion: apps/v1
+  #     kind: DaemonSet
+  #     metadata:
+  #       name: all
+  #     spec:
+  #       template:
+  #         spec:
+  #           containers:
+  #             - name: cloud-controller-manager
+  #               args:
+  #               - -v=2
+  #               - --cloud-provider=gce
+  #               - --cloud-config=/etc/gce/gce.conf
+  #               - --allocate-node-cidrs=false
+  #               - --cluster-cidr=10.64.0.0/12
+  #               - --controllers=cloud-node-lifecycle
+  #               - --leader-elect-resource-name=cloud-controller-manager-gcp
+  #               - --use-service-account-credentials
+  #               - --secure-port=10258
+  #               volumeMounts:
+  #                 - name: cloud-config
+  #                   mountPath: /etc/gce
+  #           volumes:
+  #             - name: cloud-config
+  #               configMap:
+  #                 defaultMode: 420
+  #                 name: gcp-cloud-controller-manager
+  #   target:
+  #     kind: DaemonSet
+  #     name: cloud-controller-manager
+  # # NodeAffinity
+  # - patch: |
+  #     - op: remove
+  #       path: /spec/template/spec/affinity
+  #   target:
+  #     kind: DaemonSet
+  #     name: cloud-controller-manager
+  # - patch: |
+  #     apiVersion: apps/v1
+  #     kind: DaemonSet
+  #     metadata:
+  #       name: all
+  #     spec:
+  #       template:
+  #         spec:
+  #           hostNetwork: false
+  #           securityContext:
+  #             runAsNonRoot: true
+  #             runAsUser: 65521
+  #             seccompProfile:
+  #               type: RuntimeDefault
+  #           affinity:
+  #             nodeAffinity:
+  #               preferredDuringSchedulingIgnoredDuringExecution:
+  #                 - weight: 100
+  #                   preference:
+  #                     matchExpressions:
+  #                       - key: node.cloudprovider.kubernetes.io/platform
+  #                         operator: In
+  #                         values:
+  #                           - gcp
+  #           nodeSelector:
+  #             kubernetes.io/os: linux
+  #             node-role.kubernetes.io/control-plane: ""
+  #             node.cloudprovider.kubernetes.io/platform: gcp
+  #           tolerations:
+  #             - key: node-role.kubernetes.io/control-plane
+  #               effect: NoSchedule
+  #   target:
+  #     kind: DaemonSet
+  #     name: cloud-controller-manager
+  # # ServiceAccount name
+  # - target:
+  #     kind: ClusterRole
+  #     name: system:cloud-controller-manager
+  #   patch: |
+  #     - op: replace
+  #       path: /rules/2/resourceNames
+  #       value:
+  #         - cloud-controller-manager-gcp
+  # # - target:
+  # #     kind: (ServiceAccount|DaemonSet)
+  # #   patch: |
+  # #     - op: replace
+  # #       path: /metadata/name
+  # #       value: cloud-controller-manager-gcp
+  # # - target:
+  # #     kind: RoleBinding
+  # #     name: cloud-controller-manager:apiserver-authentication-reader
+  # #   patch: |
+  # #     - op: replace
+  # #       path: /metadata/name
+  # #       value: cloud-controller-manager-gcp:extension-apiserver-authentication-reader
+  # # - target:
+  # #     kind: ClusterRoleBinding
+  # #     name: system:cloud-controller-manager
+  # #   patch: |
+  # #     - op: replace
+  # #       path: /metadata/name
+  # #       value: system:cloud-controller-manager-gcp
+  # # - target:
+  # #     kind: ClusterRoleBinding
+  # #     name: system:cloud-controller-manager
+  # #   patch: |
+  # #     apiVersion: rbac.authorization.k8s.io/v1
+  # #     kind: ClusterRoleBinding
+  # #     metadata:
+  # #       name: system:cloud-controller-manager-gcp
+  # #       labels:
+  # #         component: cloud-controller-manager-gcp
+  # #     roleRef:
+  # #       apiGroup: rbac.authorization.k8s.io
+  # #       kind: ClusterRole
+  # #       name: system:cloud-controller-manager-gcp

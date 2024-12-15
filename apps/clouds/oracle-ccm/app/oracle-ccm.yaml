@@ -1,0 +1,222 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  labels:
+    component: cloud-controller-manager-oci
+  name: cloud-controller-manager-oracle
+  namespace: kube-system
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  labels:
+    component: cloud-controller-manager-oci
+    kubernetes.io/cluster-service: "true"
+  name: system:cloud-controller-manager-oracle
+rules:
+  - apiGroups:
+      - ""
+    resources:
+      - nodes
+    verbs:
+      - "*"
+  - apiGroups:
+      - ""
+    resources:
+      - nodes/status
+    verbs:
+      - patch
+  - apiGroups:
+      - ""
+    resources:
+      - services
+    verbs:
+      - list
+      - watch
+      - patch
+      - get
+  - apiGroups:
+      - ""
+    resources:
+      - services/status
+    verbs:
+      - patch
+      - get
+      - update
+  - apiGroups:
+      - ""
+    resourceNames:
+      - extension-apiserver-authentication
+    resources:
+      - configmaps
+    verbs:
+      - get
+  - apiGroups:
+      - ""
+    resources:
+      - events
+    verbs:
+      - list
+      - watch
+      - create
+      - patch
+      - update
+  - apiGroups:
+      - ""
+    resources:
+      - endpoints
+    verbs:
+      - create
+  - apiGroups:
+      - ""
+    resourceNames:
+      - cloud-controller-manager
+    resources:
+      - endpoints
+    verbs:
+      - get
+      - list
+      - watch
+      - update
+  - apiGroups:
+      - ""
+    resources:
+      - configmaps
+    verbs:
+      - create
+  - apiGroups:
+      - coordination.k8s.io
+    resources:
+      - leases
+    verbs:
+      - get
+      - create
+      - update
+      - delete
+      - patch
+      - watch
+  - apiGroups:
+      - ""
+    resourceNames:
+      - cloud-controller-manager
+    resources:
+      - configmaps
+    verbs:
+      - get
+      - update
+  - apiGroups:
+      - ""
+    resourceNames:
+      - extension-apiserver-authentication
+    resources:
+      - configmaps
+    verbs:
+      - get
+      - list
+      - watch
+  - apiGroups:
+      - ""
+    resources:
+      - serviceaccounts
+    verbs:
+      - create
+      - list
+      - get
+      - watch
+  - apiGroups:
+      - ""
+    resources:
+      - secrets
+    verbs:
+      - get
+      - list
+  - apiGroups:
+      - ""
+    resources:
+      - persistentvolumes
+    verbs:
+      - list
+      - watch
+      - patch
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  labels:
+    component: cloud-controller-manager-oci
+  name: oci-cloud-controller-manager-oracle
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: system:cloud-controller-manager-oracle
+subjects:
+  - kind: ServiceAccount
+    name: cloud-controller-manager-oracle
+    namespace: kube-system
+---
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  labels:
+    component: cloud-controller-manager-oci
+    k8s-app: oci-cloud-controller-manager
+  name: oci-cloud-controller-manager-oracle
+  namespace: kube-system
+spec:
+  selector:
+    matchLabels:
+      component: cloud-controller-manager-oci
+      tier: control-plane
+  template:
+    metadata:
+      labels:
+        component: cloud-controller-manager-oci
+        tier: control-plane
+    spec:
+      containers:
+        - args:
+            - -v=4
+            - --cloud-config=/etc/oci/cloud-provider.yaml
+            - --cloud-provider=oci
+            - --allocate-node-cidrs=false
+            - --controllers=cloud-node-lifecycle
+            - --leader-elect-resource-name=cloud-controller-manager-oci
+            - --bind-address=127.0.0.1
+          command:
+            - /usr/local/bin/oci-cloud-controller-manager
+          image: ghcr.io/sergelogvinov/cloud-controller-manager-oci:1.30
+          name: oci-cloud-controller-manager
+          volumeMounts:
+            - mountPath: /etc/oci
+              name: cfg
+              readOnly: true
+      dnsConfig:
+        nameservers:
+          - 169.254.169.254
+      dnsPolicy: None
+      hostNetwork: false
+      nodeSelector:
+        node-role.kubernetes.io/control-plane: ""
+        node.cloudprovider.kubernetes.io/platform: oracle
+      priorityClassName: system-cluster-critical
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1001
+        seccompProfile:
+          type: RuntimeDefault
+      serviceAccountName: cloud-controller-manager-oracle
+      tolerations:
+        - effect: NoSchedule
+          key: node-role.kubernetes.io/control-plane
+        - effect: NoSchedule
+          key: node.kubernetes.io/disk-pressure
+          operator: Exists
+        - effect: NoSchedule
+          key: node.kubernetes.io/unschedulable
+          operator: Exists
+      volumes:
+        - name: cfg
+          secret:
+            secretName: oci-cloud-controller-manager
+  updateStrategy:
+    type: RollingUpdate
