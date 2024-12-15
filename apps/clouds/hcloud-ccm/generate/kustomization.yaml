@@ -1,0 +1,46 @@
+---
+# kubectl kustomize --enable-helm apps/clouds/hcloud-ccm/generate > apps/clouds/hcloud-ccm/app/hcloud-ccm.yaml
+#
+# yaml-language-server: $schema=https://json.schemastore.org/kustomization
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - role.yaml
+  - rolebinding.yaml
+helmCharts:
+  - name: hcloud-cloud-controller-manager
+    valuesInline:
+      nameOverride: cloud-controller-manager-hcloud
+
+      args:
+        controllers: cloud-node-lifecycle
+
+      env:
+        HCLOUD_TOKEN:
+          valueFrom:
+            secretKeyRef:
+              name: hcloud
+              key: token
+        HCLOUD_INSTANCES_ADDRESS_FAMILY:
+          value: dualstack
+
+      robot:
+        enabled: false
+
+      nodeSelector:
+        node-role.kubernetes.io/control-plane: ""
+      tolerations:
+        - key: node-role.kubernetes.io/control-plane
+          effect: NoSchedule
+    releaseName: hcloud-cloud-controller-manager
+    version: 1.21.0
+    repo: https://charts.hetzner.cloud
+namespace: kube-system
+patches:
+  - patch: |
+      - op: replace
+        path: /roleRef/name
+        value: system:cloud-controller-manager-hcloud
+    target:
+      kind: ClusterRoleBinding
+      name: system:cloud-controller-manager-hcloud

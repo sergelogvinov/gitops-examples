@@ -42,6 +42,8 @@ Cloud platform integrations:
 * [Azure CSI](apps/clouds/azure-csi)
 * [GCP CCM](apps/clouds/gcp-ccm)
 * [GCP CSI](apps/clouds/gcp-csi)
+* [Hetzner Cloud CCM](apps/clouds/hcloud-ccm)
+* [Hetzner Cloud CSI](apps/clouds/hcloud-csi)
 * [Oracle CCM](apps/clouds/oracle-ccm)
 * [Oracle CSI](apps/clouds/oracle-csi)
 * [OVHCloud CCM](apps/clouds/ovh-ccm)
@@ -56,6 +58,7 @@ Cloud platform integrations:
 * [Cluster Node AutoScaler](apps/clouds/cluster-autoscaler)
     * [Azure](apps/clouds/cluster-autoscaler/azure)
     * [GCP](apps/clouds/cluster-autoscaler/gcp)
+    * [Hetzner Cloud](apps/clouds/cluster-autoscaler/hcloud)
     * [Oracle](apps/clouds/cluster-autoscaler/oracle)
 
 Cluster logging:
