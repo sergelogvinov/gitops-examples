@@ -1,0 +1,161 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: loki
+spec:
+  interval: 60m
+
+  maxHistory: 2
+  driftDetection:
+    mode: enabled
+
+  chart:
+    spec:
+      chart: loki
+      version: 6.19.0
+      sourceRef:
+        kind: HelmRepository
+        name: grafana
+        namespace: flux-system
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+
+  valuesFrom:
+    - kind: ConfigMap
+      name: loki-helm-values
+      optional: true
+
+  values:
+    deploymentMode: SimpleScalable
+
+    rbac:
+      namespaced: true
+
+    loki:
+      auth_enabled: false
+      containerSecurityContext:
+        seccompProfile:
+          type: RuntimeDefault
+
+      analytics:
+        reporting_enabled: false
+
+      server:
+        http_listen_port: 3100
+        grpc_listen_port: 9095
+        grpc_server_max_recv_msg_size: 67108864
+        grpc_server_max_send_msg_size: 33554432
+
+      limits_config:
+        max_streams_per_user: 500000
+        max_global_streams_per_user: 500000
+        ingestion_rate_strategy: local
+        ingestion_rate_mb: 256
+        ingestion_burst_size_mb: 512
+        per_stream_rate_limit: 32MB
+        per_stream_rate_limit_burst: 64MB
+
+        reject_old_samples: true
+        reject_old_samples_max_age: 6h
+
+        max_cache_freshness_per_query: 30m
+        max_query_parallelism: 64
+        max_query_series: 100000
+        max_queriers_per_tenant: 4096
+        split_queries_by_interval: 15m
+        query_timeout: 1m
+
+        retention_period: 48h
+        retention_stream:
+          - selector: '{namespace="logs"}'
+            priority: 1
+            period: 24h
+
+      commonConfig:
+        replication_factor: 1
+      compactor:
+        working_directory: /var/loki/compactor/retention
+        delete_request_store: filesystem
+        retention_enabled: true
+      ingester:
+        chunk_encoding: snappy
+
+      # storage:
+      #   bucketNames:
+      #     chunks: chunks
+      #     ruler: ruler
+      #   type: "s3"
+      # schemaConfig:
+      #   configs:
+      #     - from: "2024-04-01"
+      #       store: tsdb
+      #       object_store: s3
+      #       schema: v13
+      #       index:
+      #         prefix: loki_index_
+      #         period: 24h
+
+    singleBinary:
+      replicas: 0
+
+    backend:
+      replicas: 1
+      nodeSelector:
+        node-role.kubernetes.io/logs: ""
+    read:
+      replicas: 2
+      nodeSelector:
+        node-role.kubernetes.io/logs: ""
+    write:
+      replicas: 2
+      nodeSelector:
+        node-role.kubernetes.io/logs: ""
+    gateway:
+      replicas: 0
+
+    ingester:
+      replicas: 0
+    querier:
+      replicas: 0
+    queryFrontend:
+      replicas: 0
+    queryScheduler:
+      replicas: 0
+    distributor:
+      replicas: 0
+    compactor:
+      replicas: 0
+    indexGateway:
+      replicas: 0
+    bloomCompactor:
+      replicas: 0
+    bloomGateway:
+      replicas: 0
+
+    chunksCache:
+      enabled: false
+    resultsCache:
+      enabled: false
+    lokiCanary:
+      enabled: false
+    test:
+      enabled: false
+
+    sidecar:
+      rules:
+        enabled: false
+
+      securityContext:
+        seccompProfile:
+          type: RuntimeDefault
+        readOnlyRootFilesystem: true
+        capabilities:
+          drop:
+            - ALL
+        allowPrivilegeEscalation: false

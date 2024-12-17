@@ -48,12 +48,4 @@ helmCharts:
     version: 2.11.0
     repo: https://charts.hetzner.cloud
 namespace: csi-hcloud
-patches:
-  []
-  # - patch: |
-  #     - op: replace
-  #       path: /roleRef/name
-  #       value: system:cloud-controller-manager-hcloud
-  #   target:
-  #     kind: ClusterRoleBinding
-  #     name: system:cloud-controller-manager-hcloud
+patches: []
