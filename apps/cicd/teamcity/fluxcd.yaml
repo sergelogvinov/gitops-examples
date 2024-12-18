@@ -6,14 +6,11 @@ metadata:
   namespace: flux-system
 spec:
   targetNamespace: cicd
-  commonMetadata:
-    labels:
-      app.kubernetes.io/name: *app
   path: ./apps/cicd/teamcity/app
   prune: true
   sourceRef:
     kind: GitRepository
     name: gitops-clusters
-  wait: true
+  wait: false
   interval: 30m
   retryInterval: 5m

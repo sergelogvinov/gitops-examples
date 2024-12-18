@@ -6,7 +6,3 @@ generatorOptions:
   disableNameSuffixHash: true
 resources:
   - ./helmrelease.yaml
-configMapGenerator:
-  - name: teamcity-helm-values
-    files:
-      - values.yaml=./helmvalues.yaml
