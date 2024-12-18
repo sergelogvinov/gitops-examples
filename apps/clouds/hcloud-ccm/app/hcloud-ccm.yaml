@@ -129,7 +129,7 @@ spec:
                   key: robot-user
                   name: hcloud
                   optional: true
-          image: docker.io/hetznercloud/hcloud-cloud-controller-manager:v1.21.0
+          image: ghcr.io/sergelogvinov/cloud-controller-manager-hcloud:1.31
           name: hcloud-cloud-controller-manager
           ports:
             - containerPort: 8233

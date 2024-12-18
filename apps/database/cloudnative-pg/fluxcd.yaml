@@ -2,24 +2,18 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &app loki-single
+  name: &app cloudnative-pg
   namespace: flux-system
 spec:
-  dependsOn:
-    - name: cluster
-  targetNamespace: logs
+  targetNamespace: operator-cnpg
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
-  path: ./apps/logging/loki-single/app
+  path: ./apps/database/cloudnative-pg/app
   prune: true
   sourceRef:
     kind: GitRepository
     name: gitops-clusters
-  postBuild:
-    substituteFrom:
-      - kind: ConfigMap
-        name: cluster-settings
   wait: true
-  interval: 1h
+  interval: 30m
   retryInterval: 5m

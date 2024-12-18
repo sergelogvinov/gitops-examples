@@ -4,7 +4,8 @@ kind: HelmRelease
 metadata:
   name: loki
 spec:
-  interval: 60m
+  interval: 15m
+  timeout: 10m
 
   maxHistory: 2
   driftDetection:
@@ -53,6 +54,8 @@ spec:
         grpc_server_max_send_msg_size: 33554432
 
       limits_config:
+        max_line_size: 512KB
+        max_line_size_truncate: true
         max_streams_per_user: 500000
         max_global_streams_per_user: 500000
         ingestion_rate_strategy: local
@@ -71,18 +74,16 @@ spec:
         split_queries_by_interval: 15m
         query_timeout: 1m
 
-        retention_period: 48h
-        retention_stream:
-          - selector: '{namespace="logs"}'
-            priority: 1
-            period: 24h
+        # retention_stream:
+        #   - selector: '{namespace="kube-system"}'
+        #     priority: 1
+        #     period: 72h
+        #   - selector: '{namespace="logs"}'
+        #     priority: 1
+        #     period: 24h
 
       commonConfig:
         replication_factor: 1
-      compactor:
-        working_directory: /var/loki/compactor/retention
-        delete_request_store: filesystem
-        retention_enabled: true
       ingester:
         chunk_encoding: snappy
 
@@ -105,7 +106,7 @@ spec:
       replicas: 0
 
     backend:
-      replicas: 1
+      replicas: 2
       nodeSelector:
         node-role.kubernetes.io/logs: ""
     read:

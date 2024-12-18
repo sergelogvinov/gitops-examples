@@ -5,6 +5,7 @@ metadata:
   name: ingress-nginx
 spec:
   interval: 60h
+  timeout: 30m
 
   maxHistory: 2
   driftDetection:

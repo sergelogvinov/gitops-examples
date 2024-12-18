@@ -19,15 +19,19 @@ spec:
         name: percona
         namespace: flux-system
   install:
+    crds: CreateReplace
     remediation:
       retries: 3
   upgrade:
+    crds: CreateReplace
     cleanupOnFail: true
     remediation:
       retries: 3
 
   values:
     watchAllNamespaces: true
+    logStructured: true
+    # logLevel: "DEBUG"
 
     podAnnotations:
       prometheus.io/scrape: "true"
@@ -54,11 +58,10 @@ spec:
         memory: 256Mi
       requests:
         cpu: 100m
-        memory: 64Mi
+        memory: 128Mi
 
     nodeSelector:
       node-role.kubernetes.io/control-plane: ""
-
     tolerations:
       - key: node-role.kubernetes.io/control-plane
         effect: NoSchedule
