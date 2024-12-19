@@ -20,6 +20,6 @@ spec:
     substituteFrom:
       - kind: ConfigMap
         name: cluster-settings
-  wait: true
-  interval: 30m
+  wait: false
+  interval: 72h
   retryInterval: 5m

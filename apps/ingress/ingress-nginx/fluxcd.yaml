@@ -5,12 +5,12 @@ metadata:
   name: &app ingress-nginx
   namespace: flux-system
 spec:
+  dependsOn:
+    - name: cert-manager
   targetNamespace: ingress-nginx
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
-  dependsOn:
-    - name: cert-manager
   path: ./apps/ingress/ingress-nginx/app
   prune: true
   sourceRef:
@@ -20,6 +20,6 @@ spec:
     substituteFrom:
       - kind: ConfigMap
         name: cluster-settings
-  wait: true
-  interval: 30m
+  wait: false
+  interval: 72h
   retryInterval: 5m

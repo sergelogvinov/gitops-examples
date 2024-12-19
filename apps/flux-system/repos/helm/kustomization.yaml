@@ -6,6 +6,7 @@ resources:
   - ./autoresizer.yaml
   - ./autoscaler.yaml
   - ./bitnami.yaml
+  - ./cloudnative-pg.yaml
   - ./external-dns.yaml
   - ./external-secrets.yaml
   - ./fluent.yaml

@@ -12,5 +12,21 @@ spec:
     kind: GitRepository
     name: gitops-clusters
   wait: false
-  interval: 30m
+  interval: 60m
+  retryInterval: 5m
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: teamcity-db
+  namespace: flux-system
+spec:
+  targetNamespace: cicd
+  path: ./apps/cicd/teamcity/postgres
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: gitops-clusters
+  wait: false
+  interval: 60m
   retryInterval: 5m

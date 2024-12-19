@@ -4,7 +4,7 @@ kind: HelmRelease
 metadata:
   name: system-upgrade-controller
 spec:
-  interval: 60m
+  interval: 60h
 
   maxHistory: 2
   driftDetection:

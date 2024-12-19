@@ -1,0 +1,91 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: teamcity-db
+spec:
+  interval: 72h
+
+  maxHistory: 2
+  driftDetection:
+    mode: enabled
+    ignore:
+      - paths: ["/spec/replicas"]
+        target:
+          kind: StatefulSet
+
+  chart:
+    spec:
+      chart: postgresql-single
+      version: 1.0.3
+      sourceRef:
+        kind: HelmRepository
+        name: sergelogvinov
+        namespace: flux-system
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+
+  values:
+    fullnameOverride: teamcity-db
+    replicaCount: 1
+
+    # command: ["/pause"]
+    image:
+      tag: "16.6"
+
+    priorityClassName: production-db
+    podlabels:
+      project: db
+      severity: critical
+
+    pgHbaConfiguration: |-
+      # host  database    user                  address       auth-method
+      #
+      local   all         all                                 trust
+      local   replication postgres                            trust
+      host    all         all                   localhost     md5
+      hostssl postgres    postgres              10.0.0.0/8    md5
+      hostssl postgres    replication           10.0.0.0/8    md5
+      hostssl replication postgres              10.0.0.0/8    md5
+      hostssl replication replication           10.0.0.0/8    md5
+      #
+      host    teamcity    teamcity              10.0.0.0/8    md5
+
+    postgresqlServerMemory: 512
+    resources:
+      limits:
+        cpu: 1
+        memory: 1Gi
+      requests:
+        cpu: 500m
+        memory: 512Mi
+
+    backup:
+      resources:
+        limits:
+          cpu: 1
+          memory: 512Gi
+        requests:
+          cpu: 100m
+          memory: 64Mi
+
+    backupCheck:
+      resources:
+        limits:
+          cpu: 1
+          memory: 2Gi
+        requests:
+          cpu: 1
+          memory: 1Gi
+
+  valuesFrom:
+    - kind: ConfigMap
+      name: teamcity-db-helm-values
+    - kind: Secret
+      name: teamcity-db-helm-values
+      optional: true
