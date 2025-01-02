@@ -623,7 +623,7 @@ spec:
           env:
             - name: ADDRESS
               value: /csi/csi.sock
-          image: mcr.microsoft.com/oss/kubernetes-csi/csi-snapshotter:v8.1.0
+          image: mcr.microsoft.com/oss/kubernetes-csi/csi-snapshotter:v8.2.0
           name: csi-snapshotter
           resources:
             limits:
