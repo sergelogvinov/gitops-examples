@@ -12,7 +12,7 @@ spec:
 
   maxHistory: 2
   driftDetection:
-    mode: enabled
+    mode: warn
 
   chart:
     spec:
@@ -35,7 +35,7 @@ spec:
   valuesFrom:
     - kind: Secret
       name: github-actions-runner-helm-values
-      optional: true
+
   values:
     image:
       repository: ghcr.io/sergelogvinov/github-actions-runner
@@ -52,7 +52,6 @@ spec:
 
     # runnerGroup: ""
     runnerScaleSetName: Builder
-    runnerVersion: "0.10.1"
 
     githubConfigUrl: https://github.com/sergelogvinov/containers
 

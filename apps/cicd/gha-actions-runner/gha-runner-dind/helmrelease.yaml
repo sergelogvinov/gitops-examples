@@ -60,7 +60,6 @@ spec:
       maxReplicas: 16
 
     # runnerScaleSetName: deploy
-    runnerVersion: "0.9.3"
 
     serviceAccount:
       create: true

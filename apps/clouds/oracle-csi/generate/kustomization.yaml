@@ -136,6 +136,8 @@ patches:
                     name: fss-driver-mounts
                     mountPath: /sbin/mount
                     subPath: mount
+                  - name: sys
+                    mountPath: /sys
             nodeSelector:
               node.cloudprovider.kubernetes.io/platform: oracle
             tolerations:
@@ -155,5 +157,9 @@ patches:
                   defaultMode: 493
                   name: oci-fss-csi
                 name: fss-driver-mounts
+              - name: sys
+                hostPath:
+                  path: /sys
+                  type: Directory
     target:
       kind: DaemonSet
