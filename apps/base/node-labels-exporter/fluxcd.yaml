@@ -2,13 +2,13 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: csi-autoresizer
+  name: node-labels-exporter
   namespace: flux-system
 spec:
   dependsOn:
-    - name: cert-manager
-  targetNamespace: csi-autoresizer
-  path: ./apps/clouds/csi-autoresizer/app
+    - name: cluster
+  targetNamespace: kube-system
+  path: ./apps/base/node-labels-exporter/app
   prune: true
   sourceRef:
     kind: GitRepository

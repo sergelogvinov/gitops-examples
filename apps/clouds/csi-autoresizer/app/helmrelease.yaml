@@ -27,6 +27,10 @@ spec:
       retries: 3
 
   values:
+    webhook:
+      pvcMutatingWebhook:
+        enabled: false
+
     controller:
       args:
         prometheusURL: http://vmsingle-vm.monitoring.svc:8429

@@ -1,0 +1,44 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: hybrid-csi-plugin
+spec:
+  interval: 60h
+  timeout: 5m
+
+  maxHistory: 2
+  driftDetection:
+    mode: enabled
+    ignore:
+      - paths: ["/spec/replicas"]
+        target:
+          kind: Deployment
+
+  chart:
+    spec:
+      chart: hybrid-csi-plugin
+      version: 0.1.5
+      sourceRef:
+        kind: HelmRepository
+        name: sergelogvinov
+        namespace: flux-system
+
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+
+  values:
+    replicaCount: 2
+    metrics:
+      enabled: true
+
+    nodeSelector:
+      node-role.kubernetes.io/control-plane: ""
+    tolerations:
+      - key: node-role.kubernetes.io/control-plane
+        effect: NoSchedule
