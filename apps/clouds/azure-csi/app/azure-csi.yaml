@@ -598,7 +598,7 @@ spec:
           env:
             - name: ADDRESS
               value: /csi/csi.sock
-          image: mcr.microsoft.com/oss/kubernetes-csi/csi-attacher:v4.7.0
+          image: mcr.microsoft.com/oss/kubernetes-csi/csi-attacher:v4.8.0
           name: csi-attacher
           resources:
             limits:
