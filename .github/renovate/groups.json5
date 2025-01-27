@@ -41,7 +41,9 @@
       "description": "SigStorage Group",
       "groupName": "Storage",
       "matchPackagePatterns": [
-        "^registry.k8s.io/sig-storage/"
+        "^registry.k8s.io/sig-storage/",
+        "^registry.k8s.io/cloud-provider-gcp/gcp-compute-persistent-disk-csi-driver",
+        "^mcr.microsoft.com/oss/kubernetes-csi/"
       ],
       "matchDatasources": [
         "docker",
