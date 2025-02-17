@@ -33,31 +33,6 @@ spec:
     fullnameOverride: vm
     priorityClassName: system-cluster-critical
 
-    vmAgent:
-      secrets:
-        - web-auth-tls
-      externalLabels:
-        cluster: ${CLUSTER_NAME}
-      remoteWrite:
-        - url: ${VM_REMOTEWRITE_URL}
-          tlsConfig:
-            certFile: /etc/vm/secrets/web-auth-tls/tls.crt
-            keyFile: /etc/vm/secrets/web-auth-tls/tls.key
-            serverName: monitoring.infra.betmaster.co
-          inlineUrlRelabelConfig:
-            - source_labels: ["__name__"]
-              regex: nginx_ingress_controller_.*
-              action: drop
-            - source_labels: ["job"]
-              regex: kubernetes-apiservers
-              action: drop
-            - source_labels: ["__name__"]
-              regex: ^go_.*
-              action: drop
-            - action: replace
-              targetLabel: cluster
-              replacement: ${CLUSTER_NAME}
-
     nodeSelector:
       node-role.kubernetes.io/control-plane: ""
     tolerations:
