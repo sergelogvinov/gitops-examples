@@ -5,7 +5,5 @@ kind: Kustomization
 generatorOptions:
   disableNameSuffixHash: true
 resources:
-  - ./vmsingle.yaml
-  - ./vmagent.yaml
-  - ./vmalert.yaml
+  - ./helmrelease.yaml
   - ../config

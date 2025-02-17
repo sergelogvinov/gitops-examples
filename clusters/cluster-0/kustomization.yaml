@@ -37,6 +37,6 @@ resources:
   - ../../apps/ingress/skipper
   # Apps
   - ../../apps/cicd/gha-actions-runner
-  - ../../apps/cicd/teamcity
+  # - ../../apps/cicd/teamcity
   # Database
   - ../../apps/database/psmdb-operator
