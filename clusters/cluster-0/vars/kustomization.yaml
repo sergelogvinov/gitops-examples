@@ -25,6 +25,10 @@ resources:
   # - ./secrets.helm-sa.yaml
   # - ./secrets.gcpsm-secret.yaml
 configMapGenerator:
+  - name: victoria-metrics-helm-values
+    namespace: monitoring
+    files:
+      - values.yaml=./victoria-metrics.yaml
   - name: prometheus-alertmanager-route-helm-values
     namespace: monitoring
     files:
