@@ -85,6 +85,7 @@ rules:
   resources:
   - volumesnapshots
   verbs:
+  - create
   - get
   - list
   - watch
@@ -194,7 +195,7 @@ spec:
       - args:
         - --v=5
         - --leader-election=true
-        image: registry.k8s.io/sig-storage/snapshot-controller:v8.0.1
+        image: registry.k8s.io/sig-storage/snapshot-controller:v8.2.0
         imagePullPolicy: IfNotPresent
         name: snapshot-controller
       nodeSelector:
