@@ -1,5 +1,43 @@
 # Changelog
 
+## [0.3.0](https://github.com/sergelogvinov/gitops-examples/compare/v0.2.0...v0.3.0) (2025-03-05)
+
+
+### Features
+
+* **container:** update postgresql-single (1.0.3 → 1.1.0) ([ec3aeca](https://github.com/sergelogvinov/gitops-examples/commit/ec3aeca2ea1cf4fed1f0c309653aa05de9c262b8))
+* **container:** update postgresql-single (1.1.0 → 1.2.0) ([74ef711](https://github.com/sergelogvinov/gitops-examples/commit/74ef711ed1180353002bb96ce35fb22b10fb005f))
+* **container:** update prometheus-adapter (4.11.0 → 4.12.0) ([eacd008](https://github.com/sergelogvinov/gitops-examples/commit/eacd008d66275110577779a7b289a2e9d64bda7f))
+* **container:** update prometheus-blackbox-exporter (9.2.0 → 9.3.0) ([accca31](https://github.com/sergelogvinov/gitops-examples/commit/accca3102195bd9fb4e64d626c1732bc98861565))
+* **container:** update prometheus-node-exporter (4.43.1 → 4.44.0) ([5b44d31](https://github.com/sergelogvinov/gitops-examples/commit/5b44d31d79a3608cb83b960ed197dc480e312b77))
+* **container:** update system-upgrade-controller (0.1.2 → 0.2.1) ([03f8285](https://github.com/sergelogvinov/gitops-examples/commit/03f82858c87b9a2d3d5e3166e3313f694310b56f))
+* **container:** update teamcity (0.8.2 → 0.9.0) ([aa2e4d9](https://github.com/sergelogvinov/gitops-examples/commit/aa2e4d92b0910f4015dd6513dae00ff22594ee36))
+* update components ([7c3502b](https://github.com/sergelogvinov/gitops-examples/commit/7c3502bb125ee9605cb9ebb6d02664a8bd66e563))
+* update components ([c1bbb2a](https://github.com/sergelogvinov/gitops-examples/commit/c1bbb2a7c20bebef8cdeb58e515cc1baa1549edb))
+* update flux group ([bfe5118](https://github.com/sergelogvinov/gitops-examples/commit/bfe51186035494ac78ac21984963a24fad64cf75))
+
+
+### Bug Fixes
+
+* **container:** update alertmanager (1.15.0 → 1.15.1) ([9b56f0c](https://github.com/sergelogvinov/gitops-examples/commit/9b56f0cb133a35f95140c756df51bdff8607ce2c))
+* **container:** update kube-state-metrics (5.30.0 → 5.30.1) ([0f5f3f7](https://github.com/sergelogvinov/gitops-examples/commit/0f5f3f79aeb853950267c4cad2a4e8ad0a34d34d))
+* **container:** update prometheus-node-exporter (4.44.0 → 4.44.1) ([7473774](https://github.com/sergelogvinov/gitops-examples/commit/74737743becba64d748c63e0200969b7bb71c03b))
+* **container:** update system-upgrade-controller (0.2.1 → 0.2.2) ([d917897](https://github.com/sergelogvinov/gitops-examples/commit/d9178970a47a508b15be7619d95264114dd1abb8))
+* **helm:** update cluster-autoscaler (9.46.0 → 9.46.2) ([db8e908](https://github.com/sergelogvinov/gitops-examples/commit/db8e908ac24e63c518d7f946ed2fca536e2e3da1))
+* **helm:** update external-secrets (0.14.2 → 0.14.3) ([2643320](https://github.com/sergelogvinov/gitops-examples/commit/2643320c5e0a52544d64f276419e2c6059570c84))
+* **helm:** update fluent-bit (0.48.6 → 0.48.8) ([add58d7](https://github.com/sergelogvinov/gitops-examples/commit/add58d7f026e31806aa7951a0c8ba3305181cb59))
+* **helm:** update grafana (8.10.0 → 8.10.1) ([ae89463](https://github.com/sergelogvinov/gitops-examples/commit/ae894631dd58748ad42cd77f54d8b6c78cbec423))
+* **helm:** update psmdb-operator (1.19.0 → 1.19.1) ([39c2ab8](https://github.com/sergelogvinov/gitops-examples/commit/39c2ab8dcd37482f884531be670a8354ce6a9411))
+* **helm:** update victoria-metrics-operator (0.42.0 → 0.42.4) ([8cca83e](https://github.com/sergelogvinov/gitops-examples/commit/8cca83e3d5f03132399c222a3cb34d984cb49dba))
+* update kubernetes-csi/external-snapshotter (v8.2.0 → v8.2.1) ([b1bbfa3](https://github.com/sergelogvinov/gitops-examples/commit/b1bbfa393df7c0e3b904e2423bbeb4219a4d28a7))
+
+
+### Updates
+
+* sign ([d3c3181](https://github.com/sergelogvinov/gitops-examples/commit/d3c3181dc613b5d5a7a98bb9194385af63db040f))
+* sign ([6454f68](https://github.com/sergelogvinov/gitops-examples/commit/6454f680a61917cc7a585f2814ebce25daa215da))
+* sign ([49d0ad8](https://github.com/sergelogvinov/gitops-examples/commit/49d0ad8441b3cbd70ab4306aada260f1598c039b))
+
 ## [0.2.0](https://github.com/sergelogvinov/gitops-examples/compare/v0.1.0...v0.2.0) (2025-02-17)
 
 
