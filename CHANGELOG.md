@@ -1,5 +1,25 @@
 # Changelog
 
+## [0.4.0](https://github.com/sergelogvinov/gitops-examples/compare/v0.3.0...v0.4.0) (2025-03-06)
+
+
+### Features
+
+* **container:** update prometheus-adapter (4.12.0 → 4.13.0) ([cb4c5d0](https://github.com/sergelogvinov/gitops-examples/commit/cb4c5d0cee58b552feb04ce028551d45ba08844f))
+
+
+### Bug Fixes
+
+* **container:** update registry.k8s.io/sig-storage/snapshot-controller (v8.2.0 → v8.2.1) ([41c5930](https://github.com/sergelogvinov/gitops-examples/commit/41c59304a68b0c8b5834c02c0c11fa1f2819b71c))
+* **helm:** update cloudnative-pg (0.23.0 → 0.23.1) ([ef6a096](https://github.com/sergelogvinov/gitops-examples/commit/ef6a09620414c2c8a6ecc58b288b07739dd239de))
+* **helm:** update fluent-bit (0.48.8 → 0.48.9) ([02e0a36](https://github.com/sergelogvinov/gitops-examples/commit/02e0a36c0abd714618ad0cf6d14842758661bd1b))
+
+
+### Updates
+
+* sign ([616f70b](https://github.com/sergelogvinov/gitops-examples/commit/616f70bc7168624beb88dd254acb6c8a2242f049))
+* sign ([430ec44](https://github.com/sergelogvinov/gitops-examples/commit/430ec4420abc99da6d861e023b86c8da603db390))
+
 ## [0.3.0](https://github.com/sergelogvinov/gitops-examples/compare/v0.2.0...v0.3.0) (2025-03-05)
 
 
