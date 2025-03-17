@@ -73,7 +73,7 @@ spec:
           cpu: 100m
           memory: 2Gi
       persistence:
-        enabled: false
+        enabled: true
         annotations:
           resize.topolvm.io/increase: 10Gi
           resize.topolvm.io/storage_limit: 200Gi
