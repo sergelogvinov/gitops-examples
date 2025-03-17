@@ -1,0 +1,10 @@
+dind:
+  persistence:
+    enabled: true
+    annotations:
+      pvc-autoscaler.lorenzophys.io/enabled: "true"
+      pvc-autoscaler.lorenzophys.io/threshold: 80%
+      pvc-autoscaler.lorenzophys.io/ceiling: 300Gi
+      pvc-autoscaler.lorenzophys.io/increase: 25%
+    storageClass: proxmox
+    size: 50Gi

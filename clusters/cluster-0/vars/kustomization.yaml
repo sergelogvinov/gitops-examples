@@ -41,6 +41,11 @@ configMapGenerator:
     namespace: kube-system
     files:
       - values.yaml=./cluster-autoscaler-azure.yaml
+
+  - name: github-actions-runner-helm-values
+    namespace: operator-gha
+    files:
+      - values.yaml=./github-actions-runner.yaml
 secretGenerator:
   - name: rbac-common-helm-values
     namespace: kube-system
