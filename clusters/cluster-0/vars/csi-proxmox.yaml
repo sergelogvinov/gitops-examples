@@ -6,7 +6,7 @@ metadata:
     resize.topolvm.io/enabled: "true"
 provisioner: csi.proxmox.sinextra.dev
 parameters:
-  storage: data
+  storage: system
   cache: directsync
   csi.storage.k8s.io/fstype: xfs
   ssd: "true"
