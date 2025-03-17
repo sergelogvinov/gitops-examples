@@ -45,7 +45,7 @@ helmCharts:
             effect: NoSchedule
 
     releaseName: hcloud-csi
-    version: 2.12.0
+    version: 2.13.0
     repo: https://charts.hetzner.cloud
 namespace: csi-hcloud
 patches: []
