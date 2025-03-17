@@ -1,5 +1,41 @@
 # Changelog
 
+## [0.4.0](https://github.com/sergelogvinov/gitops-examples/compare/v0.3.0...v0.4.0) (2025-03-17)
+
+
+### Features
+
+* **container:** update prometheus-adapter (4.12.0 → 4.13.0) ([cb4c5d0](https://github.com/sergelogvinov/gitops-examples/commit/cb4c5d0cee58b552feb04ce028551d45ba08844f))
+* **helm:** update azuredisk-csi-driver (1.31.2 → 1.32.0) ([cc9ee59](https://github.com/sergelogvinov/gitops-examples/commit/cc9ee59c2415acf38b88d04dec1b24d94fbc0a00))
+* **helm:** update hcloud-csi (2.12.0 → 2.13.0) ([12eebf7](https://github.com/sergelogvinov/gitops-examples/commit/12eebf79ac8eed502aa4b81f081f67dcfb40a7e4))
+* **helm:** update loki (6.27.0 → 6.28.0) ([7ed110a](https://github.com/sergelogvinov/gitops-examples/commit/7ed110a67eb2d9573efc2f83192d92cfcbd4af63))
+* **helm:** update victoria-metrics-operator (0.42.4 → 0.43.0) ([1058c3f](https://github.com/sergelogvinov/gitops-examples/commit/1058c3f2f2545bc23d363bad83346f6e21521161))
+
+
+### Bug Fixes
+
+* add extra storage ([1ab4efb](https://github.com/sergelogvinov/gitops-examples/commit/1ab4efb9f8fa3c7ea33428737865ee9da1ffce23))
+* add extra storage ([95940ee](https://github.com/sergelogvinov/gitops-examples/commit/95940ee64cf03bdff1bdb32d18634f68ba5b3b4e))
+* **container:** update alertmanager (1.15.1 → 1.15.2) ([98758d6](https://github.com/sergelogvinov/gitops-examples/commit/98758d627453a9295ed5ff3151f5b51c6a1a17f7))
+* **container:** update hybrid-csi-plugin (0.1.5 → 0.1.6) ([e461623](https://github.com/sergelogvinov/gitops-examples/commit/e4616233f67d3b838c348439670726a9fbd3b974))
+* **container:** update registry.k8s.io/sig-storage/snapshot-controller (v8.2.0 → v8.2.1) ([41c5930](https://github.com/sergelogvinov/gitops-examples/commit/41c59304a68b0c8b5834c02c0c11fa1f2819b71c))
+* **container:** update system-upgrade-controller (0.2.2 → 0.2.3) ([0d2322d](https://github.com/sergelogvinov/gitops-examples/commit/0d2322da8182cd855cea2c2dc7d2f6aeda609334))
+* **container:** update teamcity (0.9.0 → 0.9.1) ([d523f5c](https://github.com/sergelogvinov/gitops-examples/commit/d523f5ca1c45389df22c84577e3ae891e44da0be))
+* **helm:** update cloudnative-pg (0.23.0 → 0.23.1) ([ef6a096](https://github.com/sergelogvinov/gitops-examples/commit/ef6a09620414c2c8a6ecc58b288b07739dd239de))
+* **helm:** update cloudnative-pg (0.23.1 → 0.23.2) ([8c7a1ab](https://github.com/sergelogvinov/gitops-examples/commit/8c7a1ab477b179f304ec00e8a24e91d81b4564a0))
+* **helm:** update cluster-autoscaler (9.46.2 → 9.46.3) ([f5ad4eb](https://github.com/sergelogvinov/gitops-examples/commit/f5ad4ebfb8e422a53ad779998face486dff25bb2))
+* **helm:** update external-secrets (0.14.3 → 0.14.4) ([da25aca](https://github.com/sergelogvinov/gitops-examples/commit/da25acaa6f43184ff0aba7d2276ecfd310f7e20d))
+* **helm:** update fluent-bit (0.48.8 → 0.48.9) ([02e0a36](https://github.com/sergelogvinov/gitops-examples/commit/02e0a36c0abd714618ad0cf6d14842758661bd1b))
+* **helm:** update grafana (8.10.1 → 8.10.4) ([9c45850](https://github.com/sergelogvinov/gitops-examples/commit/9c45850b8958335a5a01965cf1a93c4f87dda9d2))
+* storage class ([efc5d66](https://github.com/sergelogvinov/gitops-examples/commit/efc5d66a7643b95ee8c52b35f668f44f0a45b7a4))
+
+
+### Updates
+
+* sign ([a5e7432](https://github.com/sergelogvinov/gitops-examples/commit/a5e74320036f3559ee328d94b58e7d7cd6b8fa7e))
+* sign ([616f70b](https://github.com/sergelogvinov/gitops-examples/commit/616f70bc7168624beb88dd254acb6c8a2242f049))
+* sign ([430ec44](https://github.com/sergelogvinov/gitops-examples/commit/430ec4420abc99da6d861e023b86c8da603db390))
+
 ## [0.3.0](https://github.com/sergelogvinov/gitops-examples/compare/v0.2.0...v0.3.0) (2025-03-05)
 
 
