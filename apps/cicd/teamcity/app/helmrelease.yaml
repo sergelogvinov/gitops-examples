@@ -14,7 +14,7 @@ spec:
   chart:
     spec:
       chart: teamcity
-      version: 0.9.1
+      version: 0.9.2
       sourceRef:
         kind: HelmRepository
         name: sergelogvinov
