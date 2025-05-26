@@ -26,7 +26,13 @@ spec:
     remediation:
       retries: 3
 
+  # valuesFrom:
+  #   - kind: Secret
+  #     name: keda-helm-values
+
   values:
+    clusterDomain: ${CLUSTER_SUFFIX}
+
     priorityClassName: system-node-critical
 
     nodeSelector:

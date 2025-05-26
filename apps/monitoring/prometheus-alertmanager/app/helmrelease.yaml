@@ -5,15 +5,20 @@ metadata:
   name: prometheus-alertmanager
 spec:
   interval: 60m
+  timeout: 10m
 
   maxHistory: 2
   driftDetection:
     mode: enabled
+    ignore:
+      - paths: ["/spec/replicas"]
+        target:
+          kind: StatefulSet
 
   chart:
     spec:
       chart: alertmanager
-      version: 1.18.0
+      version: 1.19.0
       sourceRef:
         kind: HelmRepository
         name: prometheus-community

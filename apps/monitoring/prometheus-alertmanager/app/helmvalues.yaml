@@ -58,7 +58,7 @@ config:
   receivers:
     - name: none
   route:
-    group_by: ["alertname"]
+    group_by: ["alertname", "namespace"]
     group_wait: 10s
     group_interval: 2m
     repeat_interval: 12h
@@ -88,6 +88,22 @@ templates:
 
 configmapReload:
   enabled: true
+
+  extraArgs:
+    listen-address: ":8080"
+
+  livenessProbe:
+    periodSeconds: 60
+    httpGet:
+      path: /healthz
+      port: 8080
+      scheme: HTTP
+  readinessProbe:
+    periodSeconds: 60
+    httpGet:
+      path: /healthz
+      port: 8080
+      scheme: HTTP
 
   resources:
     limits:

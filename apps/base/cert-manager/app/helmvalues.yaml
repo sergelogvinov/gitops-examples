@@ -45,5 +45,3 @@ startupapicheck:
   tolerations:
     - key: node-role.kubernetes.io/control-plane
       effect: NoSchedule
-
-revisionHistoryLimit: 2

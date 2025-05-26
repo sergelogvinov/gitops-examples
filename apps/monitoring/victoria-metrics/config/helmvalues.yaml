@@ -139,3 +139,4 @@ defaultRules:
     KubeCPUOvercommit: true
     KubeMemoryOvercommit: true
     KubeVersionMismatch: true
+    KubeJobNotCompleted: true
