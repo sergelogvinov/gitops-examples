@@ -13,7 +13,7 @@ spec:
   chart:
     spec:
       chart: proxmox-csi-plugin
-      version: 0.3.6
+      version: 0.3.7
       sourceRef:
         kind: HelmRepository
         name: sergelogvinov
