@@ -8,4 +8,3 @@ generatorOptions:
   disableNameSuffixHash: true
 resources:
   - ./ovh-csi.yaml
-  # - ./ovh-storage.yaml

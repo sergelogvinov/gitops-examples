@@ -5,6 +5,9 @@ metadata:
   name: &app psmdb-operator
   namespace: flux-system
 spec:
+  dependsOn:
+    - name: cluster
+    - name: cert-manager
   targetNamespace: operator-psmdb
   commonMetadata:
     labels:

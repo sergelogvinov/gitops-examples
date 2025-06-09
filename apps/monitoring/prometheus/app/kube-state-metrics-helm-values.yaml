@@ -7,12 +7,58 @@ service:
 
 resources:
   limits:
+    cpu: 500m
     memory: 256Mi
-    cpu: 100m
   requests:
-    memory: 50Mi
     cpu: 50m
+    memory: 64Mi
 
+collectors:
+  - certificatesigningrequests
+  - configmaps
+  - cronjobs
+  - daemonsets
+  - deployments
+  - endpoints
+  - horizontalpodautoscalers
+  - ingresses
+  - jobs
+  - leases
+  - limitranges
+  - mutatingwebhookconfigurations
+  - namespaces
+  - networkpolicies
+  - nodes
+  - persistentvolumeclaims
+  - persistentvolumes
+  - poddisruptionbudgets
+  - pods
+  - resourcequotas
+  - secrets
+  - services
+  - statefulsets
+  - storageclasses
+  - validatingwebhookconfigurations
+  - volumeattachments
+
+livenessProbe:
+  periodSeconds: 30
+
+readinessProbe:
+  periodSeconds: 30
+
+affinity:
+  podAffinity:
+    preferredDuringSchedulingIgnoredDuringExecution:
+      - weight: 50
+        podAffinityTerm:
+          topologyKey: topology.kubernetes.io/region
+          labelSelector:
+            matchExpressions:
+              - key: app.kubernetes.io/name
+                operator: In
+                values:
+                  - vmagent
 nodeSelector:
   node-role.kubernetes.io/control-plane: ""
 tolerations:

@@ -5,10 +5,9 @@ metadata:
   name: &app talos-ccm
   namespace: flux-system
 spec:
+  dependsOn:
+    - name: cluster
   targetNamespace: kube-system
-  commonMetadata:
-    labels:
-      app.kubernetes.io/name: *app
   path: ./apps/clouds/talos-ccm/app
   prune: true
   sourceRef:

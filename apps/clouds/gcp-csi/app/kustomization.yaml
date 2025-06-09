@@ -6,4 +6,3 @@ generatorOptions:
   disableNameSuffixHash: true
 resources:
   - ./gcp-csi.yaml
-  # - ./gcp-storage.yaml

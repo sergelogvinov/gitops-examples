@@ -13,7 +13,7 @@ spec:
   chart:
     spec:
       chart: talos-cloud-controller-manager
-      version: 1.8.1
+      version: 0.4.6
       sourceRef:
         kind: HelmRepository
         name: siderolabs
@@ -28,9 +28,22 @@ spec:
       retries: 3
 
   values:
-    enabledControllers:
-      - cloud-node
-      - node-csr-approval
+    service:
+      containerPort: 50258
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/scheme: "https"
+        prometheus.io/port: "50258"
+
+    logVerbosityLevel: 4
 
     daemonSet:
       enabled: true
+
+    tolerations:
+      - effect: NoSchedule
+        operator: Exists
+
+  valuesFrom:
+    - kind: ConfigMap
+      name: talos-cloud-controller-manager-helm-values

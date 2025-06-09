@@ -27,6 +27,10 @@ spec:
       retries: 3
 
   values:
+    image:
+      repository: ghcr.io/sergelogvinov/pvc-autoresizer
+      tag: 0.17.3
+
     webhook:
       pvcMutatingWebhook:
         enabled: false
@@ -46,7 +50,7 @@ spec:
 
       nodeSelector:
         node-role.kubernetes.io/control-plane: ""
-        kubernetes.io/arch: amd64
+        # kubernetes.io/arch: amd64
       tolerations:
         - key: node-role.kubernetes.io/control-plane
           effect: NoSchedule
