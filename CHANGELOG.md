@@ -1,5 +1,20 @@
 # Changelog
 
+## [0.4.1](https://github.com/sergelogvinov/gitops-examples/compare/v0.4.0...v0.4.1) (2025-06-10)
+
+
+### Bug Fixes
+
+* **container:** update github-actions-runner (2.6.0 → 2.6.1) ([f6606b7](https://github.com/sergelogvinov/gitops-examples/commit/f6606b7195d7d17e1c5b5b2d7a0596d1acc81655))
+* **container:** update proxmox-csi-plugin (0.3.7 → 0.3.10) ([bc3e30b](https://github.com/sergelogvinov/gitops-examples/commit/bc3e30be524bc88e1d84595f2ccbff5ae849a90c))
+* monitoring ([9359a11](https://github.com/sergelogvinov/gitops-examples/commit/9359a1174b40b543ae123368d2c054edddda16a1))
+
+
+### Updates
+
+* sign ([535b59e](https://github.com/sergelogvinov/gitops-examples/commit/535b59ec5cd060c8d06764da093881d9577bd4de))
+* sign ([cb41d48](https://github.com/sergelogvinov/gitops-examples/commit/cb41d4847c066e274579bbb48f20ca16009364e2))
+
 ## [0.4.0](https://github.com/sergelogvinov/gitops-examples/compare/v0.3.0...v0.4.0) (2025-06-09)
 
 
