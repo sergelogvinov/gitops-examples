@@ -1,5 +1,34 @@
 # Changelog
 
+## [0.5.0](https://github.com/sergelogvinov/gitops-examples/compare/v0.4.0...v0.5.0) (2025-06-16)
+
+
+### Features
+
+* **container:** update gha-runner-scale-set-controller (0.11.0 → 0.12.0) ([17b5a62](https://github.com/sergelogvinov/gitops-examples/commit/17b5a6293831096838b4308fb1a78356515dd1de))
+* **container:** update github-actions-runner (2.6.2 → 2.7.0) ([68eb19f](https://github.com/sergelogvinov/gitops-examples/commit/68eb19f1308112feec449ce243292dbbc3fe8d83))
+* **container:** update kube-state-metrics (5.36.0 → 5.37.0) ([e041f9a](https://github.com/sergelogvinov/gitops-examples/commit/e041f9abe2aba678ee8042a42ea31194fa30a2df))
+
+
+### Bug Fixes
+
+* **container:** update github-actions-runner (2.6.0 → 2.6.1) ([f6606b7](https://github.com/sergelogvinov/gitops-examples/commit/f6606b7195d7d17e1c5b5b2d7a0596d1acc81655))
+* **container:** update github-actions-runner (2.6.1 → 2.6.2) ([6c880f2](https://github.com/sergelogvinov/gitops-examples/commit/6c880f2b0140c9a0de80807e2cfd3f4cc3bfbde4))
+* **container:** update proxmox-csi-plugin (0.3.10 → 0.3.11) ([d3d8f09](https://github.com/sergelogvinov/gitops-examples/commit/d3d8f09b5b4efeb7b772c14beddff85c7972fd7b))
+* **container:** update proxmox-csi-plugin (0.3.7 → 0.3.10) ([bc3e30b](https://github.com/sergelogvinov/gitops-examples/commit/bc3e30be524bc88e1d84595f2ccbff5ae849a90c))
+* **helm:** update grafana (9.2.2 → 9.2.3) ([fc85056](https://github.com/sergelogvinov/gitops-examples/commit/fc850564c44adf2cb6cb9d3785bad763f9335a24))
+* **helm:** update kubernetes-event-exporter (3.5.4 → 3.5.5) ([2dba2f4](https://github.com/sergelogvinov/gitops-examples/commit/2dba2f4b9be2041acc2fb2bff82ff9553acfbbac))
+* **helm:** update victoria-metrics-operator (0.49.1 → 0.49.2) ([d904ac7](https://github.com/sergelogvinov/gitops-examples/commit/d904ac77935f775886f322648bbde93420fe19ab))
+* monitoring ([9359a11](https://github.com/sergelogvinov/gitops-examples/commit/9359a1174b40b543ae123368d2c054edddda16a1))
+
+
+### Updates
+
+* sign ([e8d5613](https://github.com/sergelogvinov/gitops-examples/commit/e8d5613533752240b3945a981b9e78205ea92056))
+* sign ([e9efd74](https://github.com/sergelogvinov/gitops-examples/commit/e9efd74d196fdec7aae1280eb4bab0bd1fc55ca6))
+* sign ([535b59e](https://github.com/sergelogvinov/gitops-examples/commit/535b59ec5cd060c8d06764da093881d9577bd4de))
+* sign ([cb41d48](https://github.com/sergelogvinov/gitops-examples/commit/cb41d4847c066e274579bbb48f20ca16009364e2))
+
 ## [0.4.0](https://github.com/sergelogvinov/gitops-examples/compare/v0.3.0...v0.4.0) (2025-06-09)
 
 
