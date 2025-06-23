@@ -6,5 +6,29 @@
         "https://json.schemastore.org/github-workflow.json": ".github/workflows/*.{yml,yaml}",
         "Kubernetes": "./apps/*.yaml"
     },
-    "git.rebaseWhenSync": true
+    "git.rebaseWhenSync": true,
+    "[yaml]": {
+        "editor.insertSpaces": true,
+        "editor.tabSize": 2,
+        "editor.autoIndent": "advanced",
+        "diffEditor.ignoreTrimWhitespace": false,
+        "editor.defaultColorDecorators": "never",
+        "editor.quickSuggestions": {
+            "other": true,
+            "comments": false,
+            "strings": true
+        },
+        "editor.formatOnSave": true
+    },
+    "yaml.format.enable": true,
+    "redhat.telemetry.enabled": false,
+    "github.copilot.enable": {
+        "*": true,
+        "plaintext": true,
+        "markdown": true,
+        "scminput": false,
+        "yaml": false,
+        "jinja": false,
+        "dockerfile": false
+    },
 }

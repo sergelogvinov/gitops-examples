@@ -7,7 +7,7 @@ metadata:
     app.kubernetes.io/instance: hcloud-csi
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: hcloud-csi
-    helm.sh/chart: hcloud-csi-2.15.0
+    helm.sh/chart: hcloud-csi-2.16.0
   name: hcloud-csi-controller
   namespace: csi-hcloud
 ---
@@ -19,7 +19,7 @@ metadata:
     app.kubernetes.io/instance: hcloud-csi
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: hcloud-csi
-    helm.sh/chart: hcloud-csi-2.15.0
+    helm.sh/chart: hcloud-csi-2.16.0
   name: hcloud-csi-controller
 rules:
   - apiGroups:
@@ -161,7 +161,7 @@ metadata:
     app.kubernetes.io/instance: hcloud-csi
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: hcloud-csi
-    helm.sh/chart: hcloud-csi-2.15.0
+    helm.sh/chart: hcloud-csi-2.16.0
   name: hcloud-csi-controller
 roleRef:
   apiGroup: rbac.authorization.k8s.io
@@ -181,7 +181,7 @@ metadata:
     app.kubernetes.io/instance: hcloud-csi
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: hcloud-csi
-    helm.sh/chart: hcloud-csi-2.15.0
+    helm.sh/chart: hcloud-csi-2.16.0
   name: hcloud-csi-controller
   namespace: csi-hcloud
 spec:
@@ -200,7 +200,7 @@ spec:
         app.kubernetes.io/instance: hcloud-csi
         app.kubernetes.io/managed-by: Helm
         app.kubernetes.io/name: hcloud-csi
-        helm.sh/chart: hcloud-csi-2.15.0
+        helm.sh/chart: hcloud-csi-2.16.0
     spec:
       affinity:
         nodeAffinity:
@@ -255,8 +255,8 @@ spec:
           volumeMounts:
             - mountPath: /run/csi
               name: socket-dir
-        - command:
-            - /bin/hcloud-csi-driver-controller
+        - args:
+            - -controller
           env:
             - name: CSI_ENDPOINT
               value: unix:///run/csi/socket
@@ -272,7 +272,7 @@ spec:
                 secretKeyRef:
                   key: token
                   name: hcloud
-          image: docker.io/hetznercloud/hcloud-csi-driver:v2.15.0
+          image: docker.io/hetznercloud/hcloud-csi-driver:v2.16.0
           imagePullPolicy: IfNotPresent
           livenessProbe:
             failureThreshold: 5
@@ -320,7 +320,7 @@ metadata:
     app.kubernetes.io/instance: hcloud-csi
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: hcloud-csi
-    helm.sh/chart: hcloud-csi-2.15.0
+    helm.sh/chart: hcloud-csi-2.16.0
   name: hcloud-csi-node
   namespace: csi-hcloud
 spec:
@@ -336,7 +336,7 @@ spec:
         app.kubernetes.io/instance: hcloud-csi
         app.kubernetes.io/managed-by: Helm
         app.kubernetes.io/name: hcloud-csi
-        helm.sh/chart: hcloud-csi-2.15.0
+        helm.sh/chart: hcloud-csi-2.16.0
     spec:
       affinity:
         nodeAffinity:
@@ -374,14 +374,14 @@ spec:
           volumeMounts:
             - mountPath: /run/csi
               name: plugin-dir
-        - command:
-            - /bin/hcloud-csi-driver-node
+        - args:
+            - -node
           env:
             - name: CSI_ENDPOINT
               value: unix:///run/csi/socket
             - name: ENABLE_METRICS
               value: "false"
-          image: docker.io/hetznercloud/hcloud-csi-driver:v2.15.0
+          image: docker.io/hetznercloud/hcloud-csi-driver:v2.16.0
           imagePullPolicy: IfNotPresent
           livenessProbe:
             failureThreshold: 5
