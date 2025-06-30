@@ -1,5 +1,62 @@
 # Changelog
 
+## [0.5.0](https://github.com/sergelogvinov/gitops-examples/compare/v0.4.0...v0.5.0) (2025-06-30)
+
+
+### Features
+
+* **container:** update gha-runner-scale-set-controller (0.11.0 → 0.12.0) ([17b5a62](https://github.com/sergelogvinov/gitops-examples/commit/17b5a6293831096838b4308fb1a78356515dd1de))
+* **container:** update github-actions-runner (2.6.2 → 2.7.0) ([68eb19f](https://github.com/sergelogvinov/gitops-examples/commit/68eb19f1308112feec449ce243292dbbc3fe8d83))
+* **container:** update kube-state-metrics (5.36.0 → 5.37.0) ([e041f9a](https://github.com/sergelogvinov/gitops-examples/commit/e041f9abe2aba678ee8042a42ea31194fa30a2df))
+* **container:** update kube-state-metrics (5.37.0 → 6.1.0) ([4107343](https://github.com/sergelogvinov/gitops-examples/commit/4107343cf4d59726ce7333680afbbcee16dbe8a2))
+* **container:** update prometheus-blackbox-exporter (10.1.0 → 11.0.0) ([1f3f8b1](https://github.com/sergelogvinov/gitops-examples/commit/1f3f8b1d824dfe1702103edcffe730660c305039))
+* **helm:** update external-dns (1.16.1 → 1.17.0) ([b641aab](https://github.com/sergelogvinov/gitops-examples/commit/b641aab7d9ab378e1c7278a72bb0edda2bfcfce7))
+* **helm:** update external-secrets (0.17.0 → 0.18.0) ([23a01ea](https://github.com/sergelogvinov/gitops-examples/commit/23a01ea79f0a22aecad7f509bb0fac89ce87fa9f))
+* **helm:** update fluent-bit (0.49.1 → 0.50.0) ([1e79134](https://github.com/sergelogvinov/gitops-examples/commit/1e791348ef8b2abaeef6d7518375c18a689830c4))
+* **helm:** update hcloud-csi (2.15.0 → 2.16.0) ([eeed53d](https://github.com/sergelogvinov/gitops-examples/commit/eeed53de8de73293119149411ca0dc575f69a7a6))
+* **helm:** update victoria-metrics-operator (0.49.2 → 0.50.2) ([09cd83e](https://github.com/sergelogvinov/gitops-examples/commit/09cd83ea14f6d8bf1b74755e190964fc271e6c34))
+
+
+### Bug Fixes
+
+* **container:** update gha-runner-scale-set-controller (0.12.0 → 0.12.1) ([db29140](https://github.com/sergelogvinov/gitops-examples/commit/db291406eace5a1c73ff80748971076525d25134))
+* **container:** update github-actions-runner (2.6.0 → 2.6.1) ([f6606b7](https://github.com/sergelogvinov/gitops-examples/commit/f6606b7195d7d17e1c5b5b2d7a0596d1acc81655))
+* **container:** update github-actions-runner (2.6.1 → 2.6.2) ([6c880f2](https://github.com/sergelogvinov/gitops-examples/commit/6c880f2b0140c9a0de80807e2cfd3f4cc3bfbde4))
+* **container:** update github-actions-runner (2.7.0 → 2.7.1) ([21310d7](https://github.com/sergelogvinov/gitops-examples/commit/21310d7f1537c111e0df6fef7acaf0a7e2c8ed4a))
+* **container:** update hybrid-csi-plugin (0.1.7 → 0.1.8) ([37c114a](https://github.com/sergelogvinov/gitops-examples/commit/37c114a199a4dc97e78ad33c004c41bf65647389))
+* **container:** update prometheus-node-exporter (4.47.0 → 4.47.1) ([4462c62](https://github.com/sergelogvinov/gitops-examples/commit/4462c624c2bafcc5668916764f6865e2bd69bc82))
+* **container:** update proxmox-csi-plugin (0.3.10 → 0.3.11) ([d3d8f09](https://github.com/sergelogvinov/gitops-examples/commit/d3d8f09b5b4efeb7b772c14beddff85c7972fd7b))
+* **container:** update proxmox-csi-plugin (0.3.7 → 0.3.10) ([bc3e30b](https://github.com/sergelogvinov/gitops-examples/commit/bc3e30be524bc88e1d84595f2ccbff5ae849a90c))
+* **container:** update registry-mirrors (2.0.3 → 2.0.4) ([7d17747](https://github.com/sergelogvinov/gitops-examples/commit/7d17747dde19e898f3e5d1968e72fdc99d8d5024))
+* **container:** update skipper (0.2.7 → 0.2.8) ([b0dfa74](https://github.com/sergelogvinov/gitops-examples/commit/b0dfa7454f3bddbdfa0c5bcbe1cf738f2694364e))
+* **container:** update talos-cloud-controller-manager (0.4.6 → 0.4.7) ([8f7046a](https://github.com/sergelogvinov/gitops-examples/commit/8f7046a8f04720099a7af790627a0ec6ffe13e8e))
+* **container:** update teamcity (0.9.2 → 0.9.3) ([a2510dd](https://github.com/sergelogvinov/gitops-examples/commit/a2510dd9fb4ab44ce73bf3543b7d9bda482df68b))
+* flux generate ([4b36cdb](https://github.com/sergelogvinov/gitops-examples/commit/4b36cdb68568d5fa3b999e2637f538fb496a8b8a))
+* flux generate ([b189bf5](https://github.com/sergelogvinov/gitops-examples/commit/b189bf5b0d720e1977329eaf72d4e04fed703e06))
+* **helm:** update external-secrets (0.18.0 → 0.18.1) ([3d9ac63](https://github.com/sergelogvinov/gitops-examples/commit/3d9ac63a80af29a2b291e701d005db4866cca8d9))
+* **helm:** update grafana (9.2.2 → 9.2.3) ([fc85056](https://github.com/sergelogvinov/gitops-examples/commit/fc850564c44adf2cb6cb9d3785bad763f9335a24))
+* **helm:** update grafana (9.2.3 → 9.2.7) ([c3113a5](https://github.com/sergelogvinov/gitops-examples/commit/c3113a5976aa0c7ba9a148cc44d175b1a1f6937c))
+* **helm:** update grafana (9.2.7 → 9.2.9) ([51d6be1](https://github.com/sergelogvinov/gitops-examples/commit/51d6be1ec52e1275faef8bc85f8022de50ad426f))
+* **helm:** update keda (2.17.1 → 2.17.2) ([8e979b8](https://github.com/sergelogvinov/gitops-examples/commit/8e979b81ee10cf3308d8bc97aa5b951f6b13e459))
+* **helm:** update kubernetes-event-exporter (3.5.4 → 3.5.5) ([2dba2f4](https://github.com/sergelogvinov/gitops-examples/commit/2dba2f4b9be2041acc2fb2bff82ff9553acfbbac))
+* **helm:** update kubernetes-event-exporter (3.5.5 → 3.5.6) ([8b27e3c](https://github.com/sergelogvinov/gitops-examples/commit/8b27e3cf8301f6cfe6adad9368787b9d96794b23))
+* **helm:** update victoria-metrics-operator (0.49.1 → 0.49.2) ([d904ac7](https://github.com/sergelogvinov/gitops-examples/commit/d904ac77935f775886f322648bbde93420fe19ab))
+* **helm:** update victoria-metrics-operator (0.50.2 → 0.50.3) ([9ea5555](https://github.com/sergelogvinov/gitops-examples/commit/9ea55559f11545467e1423ed2d166fa48b1991c0))
+* monitoring ([9359a11](https://github.com/sergelogvinov/gitops-examples/commit/9359a1174b40b543ae123368d2c054edddda16a1))
+* update fluxcd/flux2 (v2.6.2 → v2.6.3) ([ee6e68a](https://github.com/sergelogvinov/gitops-examples/commit/ee6e68a4011fb917306e94fb0657743a42895dc4))
+
+
+### Updates
+
+* generate ([822cbc9](https://github.com/sergelogvinov/gitops-examples/commit/822cbc9275906da36047fa2f2135ca0a7943b1ac))
+* sign ([61c8a75](https://github.com/sergelogvinov/gitops-examples/commit/61c8a75b7d447de3d3ba7e5a06ec8e2b70f8f4db))
+* sign ([3af2c9b](https://github.com/sergelogvinov/gitops-examples/commit/3af2c9bc587ccbabf95499a88696adcd903b9d82))
+* sign ([0e7f0cc](https://github.com/sergelogvinov/gitops-examples/commit/0e7f0ccbb87eb122c5a531c114fa635269009b1a))
+* sign ([e8d5613](https://github.com/sergelogvinov/gitops-examples/commit/e8d5613533752240b3945a981b9e78205ea92056))
+* sign ([e9efd74](https://github.com/sergelogvinov/gitops-examples/commit/e9efd74d196fdec7aae1280eb4bab0bd1fc55ca6))
+* sign ([535b59e](https://github.com/sergelogvinov/gitops-examples/commit/535b59ec5cd060c8d06764da093881d9577bd4de))
+* sign ([cb41d48](https://github.com/sergelogvinov/gitops-examples/commit/cb41d4847c066e274579bbb48f20ca16009364e2))
+
 ## [0.4.0](https://github.com/sergelogvinov/gitops-examples/compare/v0.3.0...v0.4.0) (2025-06-09)
 
 
