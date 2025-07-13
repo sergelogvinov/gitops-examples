@@ -39,7 +39,7 @@ spec:
   values:
     image:
       repository: ghcr.io/sergelogvinov/github-actions-runner
-      tag: "2.325.0"
+      tag: "2.326.0"
 
     controllerServiceAccount:
       name: arc

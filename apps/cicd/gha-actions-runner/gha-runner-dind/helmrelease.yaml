@@ -48,7 +48,7 @@ spec:
 
     image:
       repository: ghcr.io/sergelogvinov/github-actions-runner
-      tag: "2.325.0-gcp"
+      tag: "2.326.0-gcp"
 
     controllerServiceAccount:
       name: arc
