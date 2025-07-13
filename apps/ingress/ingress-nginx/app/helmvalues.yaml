@@ -49,6 +49,7 @@ controller:
     proxy-send-timeout: "60"
     # for Sentry
     proxy-buffer-size: "16k"
+    proxy-busy-buffers-size: "16k"
 
     ssl-protocols: "TLSv1.2 TLSv1.3"
     ssl-ecdh-curve: "prime256v1:secp384r1"
