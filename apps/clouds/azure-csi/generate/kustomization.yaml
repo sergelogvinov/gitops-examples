@@ -50,7 +50,7 @@ helmCharts:
       windows:
         enabled: false
     releaseName: azuredisk-csi-driver
-    version: 1.33.1
+    version: 1.33.2
     repo: https://raw.githubusercontent.com/kubernetes-sigs/azuredisk-csi-driver/master/charts
 namespace: csi-azure
 patches:
