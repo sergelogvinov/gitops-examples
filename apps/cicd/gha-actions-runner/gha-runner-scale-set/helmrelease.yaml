@@ -6,6 +6,7 @@ metadata:
   namespace: operator-gha
 spec:
   interval: 60m
+  timeout: 10m
 
   targetNamespace: cicd
   storageNamespace: operator-gha
@@ -33,6 +34,9 @@ spec:
       retries: 3
 
   valuesFrom:
+    - kind: ConfigMap
+      name: github-actions-runner-helm-values
+      optional: true
     - kind: Secret
       name: github-actions-runner-helm-values
 

@@ -5,10 +5,14 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  - github.com/kubernetes-sigs/gcp-compute-persistent-disk-csi-driver/deploy/kubernetes/base/controller?ref=v1.15.3
-  - github.com/kubernetes-sigs/gcp-compute-persistent-disk-csi-driver/deploy/kubernetes/base/node_linux?ref=v1.15.3
+  - github.com/kubernetes-sigs/gcp-compute-persistent-disk-csi-driver/deploy/kubernetes/base/controller?ref=v1.19.1
+  - github.com/kubernetes-sigs/gcp-compute-persistent-disk-csi-driver/deploy/kubernetes/base/node_linux?ref=v1.19.1
 transformers:
-  - github.com/kubernetes-sigs/gcp-compute-persistent-disk-csi-driver/deploy/kubernetes/images/stable-master?ref=v1.15.3
+  - github.com/kubernetes-sigs/gcp-compute-persistent-disk-csi-driver/deploy/kubernetes/images/stable-master?ref=v1.19.1
+images:
+  - name: gke.gcr.io/gcp-compute-persistent-disk-csi-driver
+    newName: registry.k8s.io/cloud-provider-gcp/gcp-compute-persistent-disk-csi-driver
+    newTag: "v1.17.12"
 namespace: csi-gcp
 patches:
   - path: verbose.yaml

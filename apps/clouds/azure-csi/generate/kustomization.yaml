@@ -49,9 +49,8 @@ helmCharts:
             effect: NoSchedule
       windows:
         enabled: false
-    namespace: csi-azure
     releaseName: azuredisk-csi-driver
-    version: 1.33.2
+    version: 1.33.1
     repo: https://raw.githubusercontent.com/kubernetes-sigs/azuredisk-csi-driver/master/charts
 namespace: csi-azure
 patches:

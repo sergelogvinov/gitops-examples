@@ -62,7 +62,7 @@ config:
       K8S-Logging.Parser  Off
       K8S-Logging.Exclude On
       Annotations         Off
-      Labels              Off
+      Labels              On
 
     [FILTER]
       Name          modify
@@ -104,10 +104,10 @@ config:
 resources:
   limits:
     cpu: 500m
-    memory: 256Mi
+    memory: 512Mi
   requests:
     cpu: 50m
-    memory: 32Mi
+    memory: 64Mi
 
 livenessProbe:
   initialDelaySeconds: 30
