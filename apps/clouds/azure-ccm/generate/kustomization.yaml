@@ -30,7 +30,7 @@ helmCharts:
           - key: node-role.kubernetes.io/control-plane
             effect: NoSchedule
     releaseName: cloud-provider-azure
-    version: 1.33.0
+    version: 1.33.3
     repo: https://raw.githubusercontent.com/kubernetes-sigs/cloud-provider-azure/master/helm/repo
 labels:
   - pairs:
