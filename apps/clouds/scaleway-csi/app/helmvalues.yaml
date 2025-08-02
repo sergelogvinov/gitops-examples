@@ -7,6 +7,32 @@ controller:
   scaleway:
     existingSecretName: "scaleway-csi-secret"
 
+  driver:
+    resources:
+      requests:
+        cpu: 10m
+        memory: 16Mi
+  provisioner:
+    resources:
+      requests:
+        cpu: 10m
+        memory: 16Mi
+  attacher:
+    resources:
+      requests:
+        cpu: 10m
+        memory: 16Mi
+  resizer:
+    resources:
+      requests:
+        cpu: 10m
+        memory: 24Mi
+  liveness:
+    resources:
+      requests:
+        cpu: 10m
+        memory: 16Mi
+
   migration:
     enabled: false
   snapshotter:
@@ -23,6 +49,22 @@ controller:
       effect: NoSchedule
 
 node:
+  driver:
+    resources:
+      requests:
+        cpu: 10m
+        memory: 16Mi
+  registrar:
+    resources:
+      requests:
+        cpu: 10m
+        memory: 16Mi
+  liveness:
+    resources:
+      requests:
+        cpu: 10m
+        memory: 16Mi
+
   nodeSelector:
     node.cloudprovider.kubernetes.io/platform: scaleway
   tolerations:

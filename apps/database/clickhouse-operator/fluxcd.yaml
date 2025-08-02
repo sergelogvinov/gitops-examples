@@ -2,16 +2,17 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &app hcloud-csi
+  name: &app clickhouse-operator
   namespace: flux-system
 spec:
   dependsOn:
     - name: cluster
-  targetNamespace: csi-hcloud
+    - name: cert-manager
+  targetNamespace: operator-clickhouse
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
-  path: ./apps/clouds/hcloud-csi/app
+  path: ./apps/database/clickhouse-operator/app
   prune: true
   sourceRef:
     kind: GitRepository

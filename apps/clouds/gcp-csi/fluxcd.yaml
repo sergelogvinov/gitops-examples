@@ -5,6 +5,8 @@ metadata:
   name: &app gcp-csi
   namespace: flux-system
 spec:
+  dependsOn:
+    - name: cluster
   targetNamespace: csi-gcp
   commonMetadata:
     labels:

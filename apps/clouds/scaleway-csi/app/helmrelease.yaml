@@ -28,11 +28,12 @@ spec:
       retries: 3
 
   values:
-    driver:
-      image:
-        # containerd-2.0 bugfix
-        repository: ghcr.io/sergelogvinov/scaleway-csi
-        tag: v0.3.3
+    node:
+      driver:
+        image:
+          # containerd-2.0 bugfix
+          repository: ghcr.io/sergelogvinov/scaleway-csi
+          tag: v0.3.3
 
   valuesFrom:
     - kind: ConfigMap

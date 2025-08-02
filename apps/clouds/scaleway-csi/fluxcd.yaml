@@ -5,6 +5,8 @@ metadata:
   name: &app scaleway-csi
   namespace: flux-system
 spec:
+  dependsOn:
+    - name: cluster
   targetNamespace: csi-scaleway
   commonMetadata:
     labels:

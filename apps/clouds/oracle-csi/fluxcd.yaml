@@ -5,7 +5,9 @@ metadata:
   name: &app oracle-csi
   namespace: flux-system
 spec:
-  targetNamespace: kube-system
+  dependsOn:
+    - name: cluster
+  targetNamespace: csi-oci
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
