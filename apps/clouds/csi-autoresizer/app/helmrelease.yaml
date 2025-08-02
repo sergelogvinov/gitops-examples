@@ -27,10 +27,6 @@ spec:
       retries: 3
 
   values:
-    image:
-      repository: ghcr.io/sergelogvinov/pvc-autoresizer
-      tag: 0.17.4
-
     webhook:
       pvcMutatingWebhook:
         enabled: false
