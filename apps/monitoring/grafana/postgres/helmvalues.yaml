@@ -1,16 +1,9 @@
 fullnameOverride: grafana-pg
 
-pgHbaConfiguration: |-
-  local   all         all                                 trust
-  local   replication postgres                            trust
-  host    all         all                   localhost     md5
-  hostssl postgres    postgres              10.0.0.0/8    md5
-  hostssl postgres    postgres              10.0.0.0/8    md5
-  hostssl replication postgres              10.0.0.0/8    md5
-  hostssl replication postgres              10.0.0.0/8    md5
+pgHbaConfiguration:
   #
-  host    grafana     grafana               10.0.0.0/8    md5
-  hostssl grafana     grafana               10.0.0.0/8    md5
+  - host    grafana     grafana               10.0.0.0/8    md5
+  - hostssl grafana     grafana               10.0.0.0/8    md5
 
 postgresqlServerMemory: 128
 resources:
