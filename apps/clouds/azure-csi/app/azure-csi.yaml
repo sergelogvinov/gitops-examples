@@ -570,7 +570,7 @@ spec:
             - --v=2
             - --timeout=30s
             - --leader-election
-            - --leader-election-namespace=alpha
+            - --leader-election-namespace=kube-system
             - --worker-threads=100
             - --extra-create-metadata=true
             - --strict-topology=true
@@ -600,7 +600,7 @@ spec:
             - -csi-address=$(ADDRESS)
             - -timeout=1200s
             - -leader-election
-            - --leader-election-namespace=alpha
+            - --leader-election-namespace=kube-system
             - -worker-threads=1000
             - -kube-api-qps=200
             - -kube-api-burst=400
@@ -625,7 +625,7 @@ spec:
         - args:
             - -csi-address=$(ADDRESS)
             - -leader-election
-            - --leader-election-namespace=alpha
+            - --leader-election-namespace=kube-system
             - -v=2
             - --timeout=1200s
             - --extra-create-metadata=true
@@ -653,7 +653,7 @@ spec:
             - -csi-address=$(ADDRESS)
             - -v=2
             - -leader-election
-            - --leader-election-namespace=alpha
+            - --leader-election-namespace=kube-system
             - -handle-volume-inuse-error=false
             - -feature-gates=RecoverVolumeExpansionFailure=true
             - -timeout=240s
