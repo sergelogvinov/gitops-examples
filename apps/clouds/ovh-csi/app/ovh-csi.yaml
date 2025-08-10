@@ -421,7 +421,7 @@ spec:
           resources: {}
         - name: csi-provisioner
           securityContext: {}
-          image: "registry.k8s.io/sig-storage/csi-provisioner:v3.6.2"
+          image: "registry.k8s.io/sig-storage/csi-provisioner:v3.6.4"
           imagePullPolicy: IfNotPresent
           args:
             - "-v=4"
