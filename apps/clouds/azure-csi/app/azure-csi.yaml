@@ -530,7 +530,7 @@ spec:
             - name: CSI_ENDPOINT
               value: unix:///csi/csi.sock
             - name: AZURE_GO_SDK_LOG_LEVEL
-          image: mcr.microsoft.com/oss/kubernetes-csi/azuredisk-csi:v1.33.2
+          image: mcr.microsoft.com/oss/kubernetes-csi/azuredisk-csi:v1.33.3
           imagePullPolicy: IfNotPresent
           livenessProbe:
             failureThreshold: 5
@@ -784,7 +784,7 @@ spec:
                   apiVersion: v1
                   fieldPath: spec.nodeName
             - name: AZURE_GO_SDK_LOG_LEVEL
-          image: mcr.microsoft.com/oss/kubernetes-csi/azuredisk-csi:v1.33.2
+          image: mcr.microsoft.com/oss/kubernetes-csi/azuredisk-csi:v1.33.3
           imagePullPolicy: IfNotPresent
           lifecycle:
             preStop:
