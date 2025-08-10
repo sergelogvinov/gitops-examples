@@ -1,0 +1,21 @@
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: &app proxmox-karpenter
+  namespace: flux-system
+spec:
+  dependsOn:
+    - name: cluster
+  targetNamespace: kube-system
+  commonMetadata:
+    labels:
+      app.kubernetes.io/name: *app
+  path: ./apps/clouds/proxmox-karpenter/app
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: gitops-clusters
+  wait: false
+  interval: 72h
+  retryInterval: 1m
