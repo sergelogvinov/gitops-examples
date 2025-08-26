@@ -13,7 +13,7 @@ spec:
   chart:
     spec:
       chart: karpenter-provider-proxmox
-      version: 0.0.3
+      version: 0.1.0
       sourceRef:
         kind: HelmRepository
         name: sergelogvinov
