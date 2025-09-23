@@ -50,6 +50,7 @@ Cloud platform integrations:
 * [OVHCloud CSI](apps/clouds/ovh-csi)
 * [Proxmox CCM](apps/clouds/proxmox-ccm)
 * [Proxmox CSI](apps/clouds/proxmox-csi)
+* [Proxmox Karpenter](apps/clouds/proxmox-karpenter)
 * [Scaleway CCM](apps/clouds/scaleway-ccm)
 * [Scaleway CSI](apps/clouds/scaleway-csi)
 * [Talos CCM](apps/clouds/talos-ccm)
