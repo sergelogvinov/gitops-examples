@@ -5,6 +5,7 @@ metadata:
   name: loki
 spec:
   interval: 60m
+  timeout: 10m
 
   maxHistory: 2
   driftDetection:

@@ -31,4 +31,3 @@ spec:
       name: fluentd-route-helm-values
     - kind: Secret
       name: fluentd-route-helm-values
-      # optional: true
