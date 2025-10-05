@@ -19,12 +19,16 @@ spec:
         name: victoria-metrics
         namespace: flux-system
   install:
+    crds: CreateReplace
     remediation:
       retries: 3
   upgrade:
     cleanupOnFail: true
+    crds: CreateReplace
     remediation:
       retries: 3
+
+  values:
 
   valuesFrom:
     - kind: ConfigMap
