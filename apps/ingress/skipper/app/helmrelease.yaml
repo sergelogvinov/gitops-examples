@@ -13,7 +13,7 @@ spec:
   chart:
     spec:
       chart: skipper
-      version: 0.2.18
+      version: 0.2.19
       sourceRef:
         kind: HelmRepository
         name: sergelogvinov
