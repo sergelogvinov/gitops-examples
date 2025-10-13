@@ -13,7 +13,7 @@ spec:
   chart:
     spec:
       chart: postgresql-single
-      version: 1.6.1
+      version: 1.8.2
       sourceRef:
         kind: HelmRepository
         name: sergelogvinov
