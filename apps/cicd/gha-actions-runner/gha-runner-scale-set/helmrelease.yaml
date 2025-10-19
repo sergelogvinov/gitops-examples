@@ -18,7 +18,7 @@ spec:
   chart:
     spec:
       chart: github-actions-runner
-      version: 2.10.0
+      version: 2.11.0
       sourceRef:
         kind: HelmRepository
         name: sergelogvinov
@@ -43,7 +43,7 @@ spec:
   values:
     image:
       repository: ghcr.io/sergelogvinov/github-actions-runner
-      tag: "2.328.0"
+      tag: "2.329.0"
 
     controllerServiceAccount:
       name: arc

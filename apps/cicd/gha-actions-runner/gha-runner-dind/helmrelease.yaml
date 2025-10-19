@@ -22,7 +22,7 @@ spec:
   chart:
     spec:
       chart: github-actions-runner
-      version: 2.10.0
+      version: 2.11.0
       sourceRef:
         kind: HelmRepository
         name: sergelogvinov
@@ -48,7 +48,7 @@ spec:
 
     image:
       repository: ghcr.io/sergelogvinov/github-actions-runner
-      tag: "2.328.0-gcp"
+      tag: "2.329.0-gcp"
 
     controllerServiceAccount:
       name: arc
