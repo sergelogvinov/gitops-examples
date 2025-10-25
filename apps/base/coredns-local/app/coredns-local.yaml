@@ -1,0 +1,86 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: coredns-local
+  namespace: kube-system
+  labels:
+    k8s-app: kube-dns-local
+    kubernetes.io/name: CoreDNS
+spec:
+  updateStrategy:
+    type: RollingUpdate
+  minReadySeconds: 15
+  selector:
+    matchLabels:
+      k8s-app: kube-dns-local
+      kubernetes.io/name: CoreDNS
+  template:
+    metadata:
+      labels:
+        k8s-app: kube-dns-local
+        kubernetes.io/name: CoreDNS
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "9153"
+    spec:
+      priorityClassName: system-node-critical
+      serviceAccount: coredns
+      serviceAccountName: coredns
+      enableServiceLinks: false
+      nodeSelector:
+        kubernetes.io/os: linux
+      tolerations:
+        - operator: Exists
+      hostNetwork: true
+      containers:
+        - name: coredns
+          image: registry.k8s.io/coredns/coredns:v1.12.1
+          imagePullPolicy: IfNotPresent
+          resources:
+            limits:
+              cpu: 200m
+              memory: 128Mi
+            requests:
+              cpu: 50m
+              memory: 64Mi
+          args: ["-conf", "/etc/coredns/Corefile.local"]
+          env:
+            - name: GOMEMLIMIT
+              value: 100MiB
+          ports:
+            - containerPort: 53
+              name: dns
+              protocol: UDP
+            - containerPort: 53
+              name: dns-tcp
+              protocol: TCP
+            - containerPort: 9153
+              name: metrics
+              protocol: TCP
+          volumeMounts:
+            - name: config-volume
+              mountPath: /etc/coredns
+              readOnly: true
+          livenessProbe:
+            httpGet:
+              host: 127.0.0.1
+              path: /health
+              port: 8091
+              scheme: HTTP
+            initialDelaySeconds: 60
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 5
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              add:
+                - NET_BIND_SERVICE
+              drop:
+                - ALL
+            readOnlyRootFilesystem: true
+      dnsPolicy: Default
+      volumes:
+        - name: config-volume
+          configMap:
+            name: coredns-local

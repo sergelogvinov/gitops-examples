@@ -89,6 +89,7 @@ config:
       Match         *
       Host          fluentd-route
       Port          24224
+      Compress      gzip
 
       tls           on
       tls.verify    on

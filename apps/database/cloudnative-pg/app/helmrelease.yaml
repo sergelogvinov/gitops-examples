@@ -19,15 +19,24 @@ spec:
         name: cloudnative-pg
         namespace: flux-system
   install:
+    crds: CreateReplace
     remediation:
       retries: 3
   upgrade:
+    crds: CreateReplace
     cleanupOnFail: true
     remediation:
       retries: 3
 
   values:
     priorityClassName: production-db
+
+    config:
+      data:
+        CERTIFICATE_DURATION: "180"
+        KUBERNETES_CLUSTER_DOMAIN: ${CLUSTER_SUFFIX}
+        # There is no way to disable unschedulable nodes to switchover
+        DRAIN_TAINTS: "node.kubernetes.io/unschedulable,ToBeDeletedByClusterAutoscaler,karpenter.sh/disrupted,karpenter.sh/disruption"
 
     podAnnotations:
       prometheus.io/scrape: "true"

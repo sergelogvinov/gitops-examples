@@ -1,0 +1,9 @@
+---
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: HelmRepository
+metadata:
+  name: influxdata
+  namespace: flux-system
+spec:
+  interval: 48h
+  url: https://helm.influxdata.com

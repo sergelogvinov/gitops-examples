@@ -5,16 +5,21 @@ kind: Kustomization
 resources:
   - ./autoresizer.yaml
   - ./autoscaler.yaml
-  - ./bitnami.yaml
+  # - ./bitnami.yaml
+  - ./clickhouse-operator.yaml
   - ./cloudnative-pg.yaml
+  - ./descheduler.yaml
   - ./external-dns.yaml
   - ./external-secrets.yaml
   - ./fluent.yaml
   - ./grafana.yaml
+  - ./influxdata.yaml
   - ./ingress-nginx.yaml
   - ./jetstack.yaml
   - ./kedacore.yaml
   - ./metrics-server.yaml
+  - ./mittwald.yaml
   - ./percona.yaml
+  - ./pravega.yaml
   - ./scaleway.yaml
   - ./victoria-metrics.yaml

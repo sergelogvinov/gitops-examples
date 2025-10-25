@@ -1,0 +1,77 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: influxdb
+spec:
+  interval: 60m
+  timeout: 10m
+
+  maxHistory: 2
+  driftDetection:
+    mode: enabled
+
+  chart:
+    spec:
+      chart: influxdb
+      version: 4.12.5
+      sourceRef:
+        kind: HelmRepository
+        name: influxdata
+        namespace: flux-system
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+
+  valuesFrom:
+    - kind: ConfigMap
+      name: influxdb-helm-values
+    - kind: Secret
+      name: influxdb-helm-values
+      optional: true
+  values:
+    env:
+      - name: INFLUXDB_META_LOGGING_ENABLED
+        value: "false"
+      - name: INFLUXDB_HTTP_LOG_ENABLED
+        value: "false"
+      - name: INFLUXDB_DATA_QUERY_LOG_ENABLED
+        value: "false"
+      - name: INFLUXDB_CONTINUOUS_QUERIES_LOG_ENABLED
+        value: "false"
+      - name: INFLUXDB_REPORTING_DISABLED
+        value: "true"
+
+    podSecurityContext:
+      runAsNonRoot: true
+      runAsUser: 65534
+      runAsGroup: 65534
+      fsGroup: 65534
+      fsGroupChangePolicy: "OnRootMismatch"
+
+    securityContext:
+      seccompProfile:
+        type: RuntimeDefault
+      runAsUser: 65534
+      runAsGroup: 0
+      fsGroup: 65534
+      fsGroupChangePolicy: "OnRootMismatch"
+
+    livenessProbe:
+      initialDelaySeconds: 60
+
+    readinessProbe:
+      initialDelaySeconds: 30
+
+    persistence:
+      enabled: true
+      annotations:
+        resize.topolvm.io/increase: 10Gi
+        resize.topolvm.io/storage_limit: 128Gi
+        resize.topolvm.io/threshold: 20%
+      storageClass: hybrid
+      size: 32Gi

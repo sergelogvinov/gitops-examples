@@ -1,0 +1,92 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: descheduler
+spec:
+  interval: 60h
+
+  maxHistory: 2
+  driftDetection:
+    mode: enabled
+
+  chart:
+    spec:
+      chart: descheduler
+      version: 0.33.0
+      sourceRef:
+        kind: HelmRepository
+        name: descheduler
+        namespace: flux-system
+  install:
+    crds: CreateReplace
+    remediation:
+      retries: 3
+  upgrade:
+    crds: CreateReplace
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+
+  values:
+    kind: Deployment
+    replicaCount: 1
+
+    podAnnotations:
+      prometheus.io/scrape: "true"
+      prometheus.io/scheme: "https"
+      prometheus.io/port: "10258"
+
+    leaderElection:
+      enabled: true
+      resourceLock: "leases"
+      resourceName: "descheduler"
+      resourceNamescape: "kube-system"
+
+    deschedulingInterval: 10m
+    deschedulerPolicy:
+      # metricsProviders:
+      #   - source: KubernetesMetrics
+      profiles:
+        - name: default
+          pluginConfig:
+            - name: DefaultEvictor
+              args:
+                ignorePvcPods: true
+                # podProtections:
+                #   extraEnabled:
+                #     - PodsWithPVC
+            - name: RemovePodsHavingTooManyRestarts
+              args:
+                podRestartThreshold: 10
+                includingInitContainers: true
+            - name: RemovePodsViolatingNodeAffinity
+              args:
+                nodeAffinityType:
+                  - preferredDuringSchedulingIgnoredDuringExecution
+            - name: PodLifeTime
+              args:
+                maxPodLifeTimeSeconds: 43200 # 12 hours
+                includingInitContainers: true
+                includingEphemeralContainers: true
+                states:
+                  - "Pending"
+                  - "PodInitializing"
+                  # - "Failed"
+          plugins:
+            deschedule:
+              enabled:
+                - RemovePodsHavingTooManyRestarts
+                - RemovePodsViolatingNodeAffinity
+                - PodLifeTime
+
+    nodeSelector:
+      node-role.kubernetes.io/control-plane: ""
+    tolerations:
+      - key: node-role.kubernetes.io/control-plane
+        effect: NoSchedule
+
+  valuesFrom:
+    - kind: ConfigMap
+      name: descheduler-helm-values
+      optional: true
