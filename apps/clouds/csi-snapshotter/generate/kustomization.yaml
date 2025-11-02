@@ -6,8 +6,11 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  # - github.com/kubernetes-csi/external-snapshotter/client/config/crd?ref=v8.2.1
-  - github.com/kubernetes-csi/external-snapshotter/deploy/kubernetes/snapshot-controller?ref=v8.2.1
+  # - github.com/kubernetes-csi/external-snapshotter/client/config/crd?ref=v8.4.0
+  - github.com/kubernetes-csi/external-snapshotter/deploy/kubernetes/snapshot-controller?ref=v8.4.0
+images:
+  - name: registry.k8s.io/sig-storage/snapshot-controller
+    newTag: "v8.4.0"
 namespace: csi-snapshotter
 patches:
   - patch: |
@@ -16,8 +19,20 @@ patches:
       metadata:
         name: all
       spec:
+        replicas: 1
         template:
           spec:
+            securityContext:
+              allowPrivilegeEscalation: false
+              capabilities:
+                drop:
+                  - ALL
+              seccompProfile:
+                type: RuntimeDefault
+              readOnlyRootFilesystem: true
+              runAsUser: 65532
+              runAsNonRoot: true
+            priorityClassName: system-cluster-critical
             nodeSelector:
               node-role.kubernetes.io/control-plane: ""
             tolerations:

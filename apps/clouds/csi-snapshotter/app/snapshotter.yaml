@@ -177,7 +177,7 @@ metadata:
   namespace: csi-snapshotter
 spec:
   minReadySeconds: 35
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app.kubernetes.io/name: snapshot-controller
@@ -195,11 +195,22 @@ spec:
         - args:
             - --v=5
             - --leader-election=true
-          image: registry.k8s.io/sig-storage/snapshot-controller:v8.2.1
+          image: registry.k8s.io/sig-storage/snapshot-controller:v8.4.0
           imagePullPolicy: IfNotPresent
           name: snapshot-controller
       nodeSelector:
         node-role.kubernetes.io/control-plane: ""
+      priorityClassName: system-cluster-critical
+      securityContext:
+        allowPrivilegeEscalation: false
+        capabilities:
+          drop:
+            - ALL
+        readOnlyRootFilesystem: true
+        runAsNonRoot: true
+        runAsUser: 65532
+        seccompProfile:
+          type: RuntimeDefault
       serviceAccountName: snapshot-controller
       tolerations:
         - effect: NoSchedule

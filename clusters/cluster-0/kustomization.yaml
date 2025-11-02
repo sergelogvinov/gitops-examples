@@ -17,7 +17,7 @@ resources:
   - ../../apps/base/local-path-provisioner
   - ../../apps/clouds/proxmox-ccm
   - ../../apps/clouds/proxmox-csi
-  # - ../../apps/clouds/csi-snapshotter
+  - ../../apps/clouds/csi-snapshotter
   - ../../apps/clouds/csi-autoresizer
   # Secrets
   - ../../apps/base/external-secrets
