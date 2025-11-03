@@ -12,7 +12,7 @@ transformers:
 images:
   - name: gke.gcr.io/gcp-compute-persistent-disk-csi-driver
     newName: registry.k8s.io/cloud-provider-gcp/gcp-compute-persistent-disk-csi-driver
-    newTag: "v1.17.12"
+    newTag: "v1.17.14"
 namespace: csi-gcp
 patches:
   - path: verbose.yaml
