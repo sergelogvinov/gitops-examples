@@ -31,16 +31,7 @@ spec:
       tls: true
 
     ingress:
-      enabled: true
       className: ${CLUSTER_INGRESS_CLASS}
-
-      hosts:
-        - host: mirrors.${CLUSTER_DOMAIN}
-          path: /
-      tls:
-        - secretName: ${CLUSTER_DOMAIN}-tls
-          hosts:
-            - mirrors.${CLUSTER_DOMAIN}
 
     tolerations:
       - key: node-role.kubernetes.io/control-plane
@@ -48,5 +39,7 @@ spec:
 
   valuesFrom:
     - kind: ConfigMap
+      name: registry-mirrors-helm-values
+    - kind: Secret
       name: registry-mirrors-helm-values
       optional: true

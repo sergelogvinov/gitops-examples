@@ -1,0 +1,84 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: zookeeper-operator
+spec:
+  interval: 48h
+  timeout: 10m
+
+  maxHistory: 2
+
+  chart:
+    spec:
+      chart: zookeeper-operator
+      version: 0.2.15
+      sourceRef:
+        kind: HelmRepository
+        name: pravega
+        namespace: flux-system
+  install:
+    crds: CreateReplace
+    remediation:
+      retries: 3
+  upgrade:
+    crds: CreateReplace
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+
+  values:
+    # Need to wait helm-chart release 0.2.16
+    # metricsBindAddress: 0.0.0.0
+    # metricsPort: "6000"
+    # annotations:
+    #   prometheus.io/scrape: "true"
+    #   prometheus.io/port: "6000"
+
+    rbac:
+      create: true
+
+    serviceAccount:
+      create: true
+
+    crd:
+      create: true
+
+    securityContext:
+      runAsNonRoot: true
+      runAsUser: 1001
+      runAsGroup: 1001
+
+    resources:
+      limits:
+        cpu: 1
+        memory: 256Mi
+      requests:
+        cpu: 100m
+        memory: 128Mi
+
+    hooks:
+      securityContext:
+        allowPrivilegeEscalation: false
+        capabilities:
+          drop:
+            - ALL
+        seccompProfile:
+          type: RuntimeDefault
+
+        runAsNonRoot: true
+        runAsUser: 1001
+        runAsGroup: 1001
+
+    nodeSelector:
+      kubernetes.io/arch: amd64
+      # project.io/node-pool: db
+      # node-role.kubernetes.io/control-plane: ""
+    tolerations:
+      - key: node-role.kubernetes.io/control-plane
+        effect: NoSchedule
+
+  valuesFrom:
+    - kind: ConfigMap
+      name: zookeeper-operator-helm-values
+      optional: true

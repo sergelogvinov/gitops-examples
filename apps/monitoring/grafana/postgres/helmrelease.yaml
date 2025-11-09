@@ -5,10 +5,9 @@ metadata:
   name: grafana-pg
 spec:
   interval: 60m
+  timeout: 10m
 
   maxHistory: 2
-  driftDetection:
-    mode: enabled
 
   chart:
     spec:
@@ -25,6 +24,43 @@ spec:
     cleanupOnFail: true
     remediation:
       retries: 3
+
+  values:
+    fullnameOverride: grafana-pg
+    replicaCount: 1
+
+    installationType: cnpg
+    image:
+      tag: "16.10"
+
+    priorityClassName: production-db
+    podlabels:
+      project: db
+      severity: critical
+
+    initdb:
+      database: grafana
+      username: grafana
+
+    pgHbaConfiguration:
+      # host  database    user                  address       auth-method
+      #
+      - host  grafana     grafana               10.0.0.0/8    md5
+
+    postgresqlServerMemory: 256
+    resources:
+      limits:
+        cpu: 500m
+        memory: 512Mi
+      requests:
+        cpu: 100m
+        memory: 256Mi
+
+    # nodeSelector:
+    #   node-role.kubernetes.io/control-plane: ""
+    tolerations:
+      - key: node-role.kubernetes.io/control-plane
+        effect: NoSchedule
 
   valuesFrom:
     - kind: ConfigMap

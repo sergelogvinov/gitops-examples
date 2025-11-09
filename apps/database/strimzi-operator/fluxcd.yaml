@@ -1,0 +1,26 @@
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: &app strimzi-operator
+  namespace: flux-system
+spec:
+  dependsOn:
+    - name: cluster
+    - name: cert-manager
+  targetNamespace: operator-strimzi
+  commonMetadata:
+    labels:
+      app.kubernetes.io/name: *app
+  path: ./apps/database/strimzi-operator/app
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: gitops-clusters
+  postBuild:
+    substituteFrom:
+      - kind: ConfigMap
+        name: cluster-settings
+  wait: false
+  interval: 72h
+  retryInterval: 5m

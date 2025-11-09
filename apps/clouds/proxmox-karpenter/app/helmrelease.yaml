@@ -18,15 +18,33 @@ spec:
         kind: HelmRepository
         name: sergelogvinov
         namespace: flux-system
-
   install:
+    crds: CreateReplace
     remediation:
       retries: 3
   upgrade:
+    crds: CreateReplace
     cleanupOnFail: true
     remediation:
       retries: 3
 
+  valuesFrom:
+    - kind: Secret
+      name: karpenter-provider-proxmox-helm-values
+    - kind: ConfigMap
+      name: karpenter-provider-proxmox-helm-values
+      optional: true
+
   values:
+    logVerbosityLevel: info
+
     nodeSelector:
       node-role.kubernetes.io/control-plane: ""
+
+    customResources:
+      nodeTemplate:
+        default:
+          enabled: true
+          kind: ProxmoxUnmanagedTemplate
+          spec:
+            templateName: talos
