@@ -863,7 +863,7 @@ spec:
               value: /csi/csi.sock
             - name: DRIVER_REG_SOCK_PATH
               value: /var/lib/kubelet/plugins/disk.csi.azure.com/csi.sock
-          image: mcr.microsoft.com/oss/v2/kubernetes-csi/csi-node-driver-registrar:v2.13.0
+          image: mcr.microsoft.com/oss/v2/kubernetes-csi/csi-node-driver-registrar:v2.15.0
           name: node-driver-registrar
           resources:
             limits:
