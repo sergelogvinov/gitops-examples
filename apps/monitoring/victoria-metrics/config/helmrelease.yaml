@@ -13,7 +13,7 @@ spec:
   chart:
     spec:
       chart: prometheus-rules
-      version: 0.2.27
+      version: 0.2.28
       sourceRef:
         kind: HelmRepository
         name: sergelogvinov
