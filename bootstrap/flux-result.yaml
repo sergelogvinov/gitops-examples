@@ -11618,6 +11618,7 @@ rules:
 - apiGroups:
   - notification.toolkit.fluxcd.io
   - source.toolkit.fluxcd.io
+  - source.extensions.fluxcd.io
   - helm.toolkit.fluxcd.io
   - image.toolkit.fluxcd.io
   - kustomize.toolkit.fluxcd.io
@@ -11644,6 +11645,7 @@ rules:
 - apiGroups:
   - notification.toolkit.fluxcd.io
   - source.toolkit.fluxcd.io
+  - source.extensions.fluxcd.io
   - helm.toolkit.fluxcd.io
   - image.toolkit.fluxcd.io
   - kustomize.toolkit.fluxcd.io
@@ -11815,7 +11817,7 @@ spec:
             resourceFieldRef:
               containerName: manager
               resource: limits.memory
-        image: ghcr.io/fluxcd/helm-controller:v1.4.3
+        image: ghcr.io/fluxcd/helm-controller:v1.4.5
         imagePullPolicy: IfNotPresent
         livenessProbe:
           httpGet:
@@ -11910,7 +11912,7 @@ spec:
             resourceFieldRef:
               containerName: manager
               resource: limits.memory
-        image: ghcr.io/fluxcd/kustomize-controller:v1.7.2
+        image: ghcr.io/fluxcd/kustomize-controller:v1.7.3
         imagePullPolicy: IfNotPresent
         livenessProbe:
           httpGet:
@@ -12002,7 +12004,7 @@ spec:
             resourceFieldRef:
               containerName: manager
               resource: limits.memory
-        image: ghcr.io/fluxcd/notification-controller:v1.7.4
+        image: ghcr.io/fluxcd/notification-controller:v1.7.5
         imagePullPolicy: IfNotPresent
         livenessProbe:
           httpGet:
@@ -12110,7 +12112,7 @@ spec:
             resourceFieldRef:
               containerName: manager
               resource: limits.memory
-        image: ghcr.io/fluxcd/source-controller:v1.7.3
+        image: ghcr.io/fluxcd/source-controller:v1.7.4
         imagePullPolicy: IfNotPresent
         livenessProbe:
           httpGet:
