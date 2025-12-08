@@ -18,7 +18,7 @@ spec:
   chart:
     spec:
       chart: github-actions-runner
-      version: 2.11.1
+      version: 2.12.1
       sourceRef:
         kind: HelmRepository
         name: sergelogvinov
