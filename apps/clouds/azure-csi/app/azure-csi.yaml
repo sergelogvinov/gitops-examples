@@ -661,7 +661,7 @@ spec:
           env:
             - name: ADDRESS
               value: /csi/csi.sock
-          image: mcr.microsoft.com/oss/v2/kubernetes-csi/csi-resizer:v1.13.2
+          image: mcr.microsoft.com/oss/v2/kubernetes-csi/csi-resizer:v2.0.0
           name: csi-resizer
           resources:
             limits:
