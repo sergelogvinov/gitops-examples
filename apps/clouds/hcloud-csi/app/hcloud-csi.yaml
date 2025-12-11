@@ -272,7 +272,7 @@ spec:
                 secretKeyRef:
                   key: token
                   name: hcloud
-          image: docker.io/hetznercloud/hcloud-csi-driver:v2.17.0
+          image: docker.io/hetznercloud/hcloud-csi-driver:v2.18.3
           imagePullPolicy: IfNotPresent
           livenessProbe:
             failureThreshold: 5
@@ -381,7 +381,7 @@ spec:
               value: unix:///run/csi/socket
             - name: ENABLE_METRICS
               value: "false"
-          image: docker.io/hetznercloud/hcloud-csi-driver:v2.17.0
+          image: docker.io/hetznercloud/hcloud-csi-driver:v2.18.3
           imagePullPolicy: IfNotPresent
           livenessProbe:
             failureThreshold: 5
