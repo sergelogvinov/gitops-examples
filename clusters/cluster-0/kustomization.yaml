@@ -9,7 +9,7 @@ resources:
   - ../../apps/flux-system
   # Kubernetes components
   - ../../apps/base/rbac
-  - ../../apps/clouds/talos-upgrade-controller
+  # - ../../apps/clouds/talos-upgrade-controller
   # - ../../apps/clouds/talos-backup
   - ../../apps/base/cert-manager
   - ../../apps/base/metrics-server
@@ -22,8 +22,8 @@ resources:
   # Secrets
   - ../../apps/base/external-secrets
   # Logging
-  - ../../apps/logging/fluentd-route
-  - ../../apps/logging/fluent-bit
+  # - ../../apps/logging/fluentd-route
+  # - ../../apps/logging/fluent-bit
   # - ../../apps/logging/event-exporter
   # Monitoring
   - ../../apps/monitoring/victoria-metrics-operator
@@ -39,4 +39,4 @@ resources:
   - ../../apps/cicd/gha-actions-runner
   # - ../../apps/cicd/teamcity
   # Database
-  - ../../apps/database/psmdb-operator
+  # - ../../apps/database/psmdb-operator
