@@ -681,7 +681,7 @@ spec:
             - --probe-timeout=3s
             - --health-port=29602
             - --v=2
-          image: mcr.microsoft.com/oss/v2/kubernetes-csi/livenessprobe:v2.15.0
+          image: mcr.microsoft.com/oss/v2/kubernetes-csi/livenessprobe:v2.17.0
           name: liveness-probe
           resources:
             limits:
@@ -839,7 +839,7 @@ spec:
             - --probe-timeout=10s
             - --health-port=29603
             - --v=2
-          image: mcr.microsoft.com/oss/v2/kubernetes-csi/livenessprobe:v2.15.0
+          image: mcr.microsoft.com/oss/v2/kubernetes-csi/livenessprobe:v2.17.0
           name: liveness-probe
           resources:
             limits:
