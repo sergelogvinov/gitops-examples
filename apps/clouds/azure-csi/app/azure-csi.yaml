@@ -580,7 +580,7 @@ spec:
           env:
             - name: ADDRESS
               value: /csi/csi.sock
-          image: mcr.microsoft.com/oss/v2/kubernetes-csi/csi-provisioner:v5.2.0
+          image: mcr.microsoft.com/oss/v2/kubernetes-csi/csi-provisioner:v5.3.0
           name: csi-provisioner
           resources:
             limits:
