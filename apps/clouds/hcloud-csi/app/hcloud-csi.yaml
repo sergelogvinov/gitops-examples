@@ -7,7 +7,7 @@ metadata:
     app.kubernetes.io/instance: hcloud-csi
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: hcloud-csi
-    helm.sh/chart: hcloud-csi-2.17.0
+    helm.sh/chart: hcloud-csi-2.18.3
   name: hcloud-csi-controller
   namespace: csi-hcloud
 ---
@@ -19,7 +19,7 @@ metadata:
     app.kubernetes.io/instance: hcloud-csi
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: hcloud-csi
-    helm.sh/chart: hcloud-csi-2.17.0
+    helm.sh/chart: hcloud-csi-2.18.3
   name: hcloud-csi-controller
 rules:
   - apiGroups:
@@ -142,6 +142,14 @@ rules:
       - list
       - watch
   - apiGroups:
+      - storage.k8s.io
+    resources:
+      - volumeattributesclasses
+    verbs:
+      - get
+      - list
+      - watch
+  - apiGroups:
       - ""
     resources:
       - events
@@ -161,7 +169,7 @@ metadata:
     app.kubernetes.io/instance: hcloud-csi
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: hcloud-csi
-    helm.sh/chart: hcloud-csi-2.17.0
+    helm.sh/chart: hcloud-csi-2.18.3
   name: hcloud-csi-controller
 roleRef:
   apiGroup: rbac.authorization.k8s.io
@@ -181,7 +189,7 @@ metadata:
     app.kubernetes.io/instance: hcloud-csi
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: hcloud-csi
-    helm.sh/chart: hcloud-csi-2.17.0
+    helm.sh/chart: hcloud-csi-2.18.3
   name: hcloud-csi-controller
   namespace: csi-hcloud
 spec:
@@ -200,7 +208,7 @@ spec:
         app.kubernetes.io/instance: hcloud-csi
         app.kubernetes.io/managed-by: Helm
         app.kubernetes.io/name: hcloud-csi
-        helm.sh/chart: hcloud-csi-2.17.0
+        helm.sh/chart: hcloud-csi-2.18.3
     spec:
       affinity:
         nodeAffinity:
@@ -215,7 +223,7 @@ spec:
       containers:
         - args:
             - --default-fstype=ext4
-          image: registry.k8s.io/sig-storage/csi-attacher:v4.9.0
+          image: registry.k8s.io/sig-storage/csi-attacher:v4.10.0
           imagePullPolicy: IfNotPresent
           name: csi-attacher
           resources:
@@ -224,7 +232,7 @@ spec:
           volumeMounts:
             - mountPath: /run/csi
               name: socket-dir
-        - image: registry.k8s.io/sig-storage/csi-resizer:v1.14.0
+        - image: registry.k8s.io/sig-storage/csi-resizer:v2.0.0
           imagePullPolicy: IfNotPresent
           name: csi-resizer
           resources:
@@ -237,7 +245,7 @@ spec:
             - --feature-gates=Topology=true
             - --default-fstype=ext4
             - --extra-create-metadata
-          image: registry.k8s.io/sig-storage/csi-provisioner:v5.3.0
+          image: registry.k8s.io/sig-storage/csi-provisioner:v6.1.0
           imagePullPolicy: IfNotPresent
           name: csi-provisioner
           resources:
@@ -246,7 +254,7 @@ spec:
           volumeMounts:
             - mountPath: /run/csi
               name: socket-dir
-        - image: registry.k8s.io/sig-storage/livenessprobe:v2.16.0
+        - image: registry.k8s.io/sig-storage/livenessprobe:v2.17.0
           imagePullPolicy: IfNotPresent
           name: liveness-probe
           resources:
@@ -272,7 +280,7 @@ spec:
                 secretKeyRef:
                   key: token
                   name: hcloud
-          image: docker.io/hetznercloud/hcloud-csi-driver:v2.17.0
+          image: docker.io/hetznercloud/hcloud-csi-driver:v2.18.3
           imagePullPolicy: IfNotPresent
           livenessProbe:
             failureThreshold: 5
@@ -320,7 +328,7 @@ metadata:
     app.kubernetes.io/instance: hcloud-csi
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: hcloud-csi
-    helm.sh/chart: hcloud-csi-2.17.0
+    helm.sh/chart: hcloud-csi-2.18.3
   name: hcloud-csi-node
   namespace: csi-hcloud
 spec:
@@ -336,7 +344,7 @@ spec:
         app.kubernetes.io/instance: hcloud-csi
         app.kubernetes.io/managed-by: Helm
         app.kubernetes.io/name: hcloud-csi
-        helm.sh/chart: hcloud-csi-2.17.0
+        helm.sh/chart: hcloud-csi-2.18.3
     spec:
       affinity:
         nodeAffinity:
@@ -354,7 +362,7 @@ spec:
       containers:
         - args:
             - --kubelet-registration-path=/var/lib/kubelet/plugins/csi.hetzner.cloud/socket
-          image: registry.k8s.io/sig-storage/csi-node-driver-registrar:v2.14.0
+          image: registry.k8s.io/sig-storage/csi-node-driver-registrar:v2.15.0
           imagePullPolicy: IfNotPresent
           name: csi-node-driver-registrar
           resources:
@@ -365,7 +373,7 @@ spec:
               name: plugin-dir
             - mountPath: /registration
               name: registration-dir
-        - image: registry.k8s.io/sig-storage/livenessprobe:v2.16.0
+        - image: registry.k8s.io/sig-storage/livenessprobe:v2.17.0
           imagePullPolicy: IfNotPresent
           name: liveness-probe
           resources:
@@ -381,7 +389,7 @@ spec:
               value: unix:///run/csi/socket
             - name: ENABLE_METRICS
               value: "false"
-          image: docker.io/hetznercloud/hcloud-csi-driver:v2.17.0
+          image: docker.io/hetznercloud/hcloud-csi-driver:v2.18.3
           imagePullPolicy: IfNotPresent
           livenessProbe:
             failureThreshold: 5
