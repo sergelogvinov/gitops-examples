@@ -47,10 +47,10 @@ configMapGenerator:
     files:
       - values.yaml=./github-actions-runner.yaml
 
-  # - name: teamcity-helm-values
-  #   namespace: cicd
-  #   files:
-  #     - values.yaml=./teamcity.yaml
+  - name: teamcity-helm-values
+    namespace: cicd
+    files:
+      - values.yaml=./teamcity.yaml
   - name: teamcity-db-helm-values
     namespace: cicd
     files:
