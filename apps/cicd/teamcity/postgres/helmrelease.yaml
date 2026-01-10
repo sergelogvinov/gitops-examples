@@ -34,19 +34,23 @@ spec:
     fullnameOverride: teamcity-db
     replicaCount: 1
 
-    # command: ["/pause"]
     image:
-      tag: "16.6"
+      tag: "16.11"
 
     priorityClassName: production-db
     podlabels:
       project: db
       severity: critical
 
+    initdb:
+      database: teamcity
+      username: teamcity
+
     pgHbaConfiguration:
-      # host  database    user                  address       auth-method
+      # host    database    user                  address       auth-method
       #
-      - host    teamcity    teamcity              10.0.0.0/8    md5
+      - host    teamcity    teamcity              10.0.0.0/8    scram-sha-256
+      - hostssl teamcity    teamcity              10.0.0.0/8    scram-sha-256
 
     postgresqlServerMemory: 512
     resources:
@@ -56,24 +60,6 @@ spec:
       requests:
         cpu: 500m
         memory: 512Mi
-
-    backup:
-      resources:
-        limits:
-          cpu: 1
-          memory: 512Gi
-        requests:
-          cpu: 100m
-          memory: 64Mi
-
-    backupCheck:
-      resources:
-        limits:
-          cpu: 1
-          memory: 2Gi
-        requests:
-          cpu: 1
-          memory: 1Gi
 
   valuesFrom:
     - kind: ConfigMap
