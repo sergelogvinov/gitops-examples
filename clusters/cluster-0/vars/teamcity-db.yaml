@@ -1,0 +1,20 @@
+persistence:
+  enabled: true
+  storageClass: proxmox
+  annotations:
+    resize.topolvm.io/storage_limit: 50Gi
+    resize.topolvm.io/threshold: 20%
+    resize.topolvm.io/increase: 1Gi
+  size: 10Gi
+
+backup:
+  enabled: false
+
+backupCheck:
+  enabled: false
+
+tolerations:
+  - key: node-role.kubernetes.io/control-plane
+    effect: NoSchedule
+# nodeSelector:
+#   node-role.kubernetes.io/control-plane: ""

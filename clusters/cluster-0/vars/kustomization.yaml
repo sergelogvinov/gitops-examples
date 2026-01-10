@@ -46,6 +46,16 @@ configMapGenerator:
     namespace: operator-gha
     files:
       - values.yaml=./github-actions-runner.yaml
+
+  # - name: teamcity-helm-values
+  #   namespace: cicd
+  #   files:
+  #     - values.yaml=./teamcity.yaml
+  - name: teamcity-db-helm-values
+    namespace: cicd
+    files:
+      - values.yaml=./teamcity-db.yaml
+
 secretGenerator:
   - name: rbac-common-helm-values
     namespace: kube-system
