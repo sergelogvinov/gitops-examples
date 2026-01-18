@@ -7,3 +7,7 @@ creation_rules:
   - path_regex: secrets\..*\.yaml$
     age: age195etzk5xvqhr7jl7chpuq355er6ajejf5uvreqgj2aara2ymj9wqvv24am
     pgp: 349CAAD68AF02E2B
+
+stores:
+  yaml:
+    indent: 2
