@@ -72,11 +72,11 @@ secretGenerator:
   - name: proxmox-ccm-plugin-helm-values
     namespace: kube-system
     files:
-      - values.yaml=./secrets.proxmox.yaml
+      - values.yaml=./secrets.proxmox-ccm.yaml
   - name: proxmox-csi-plugin-helm-values
     namespace: csi-proxmox
     files:
-      - values.yaml=./secrets.proxmox.yaml
+      - values.yaml=./secrets.proxmox-csi.yaml
 
   - name: prometheus-alertmanager-helm-values
     namespace: monitoring
