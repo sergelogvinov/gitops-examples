@@ -147,6 +147,7 @@ kubectl apply --server-side --kustomize bootstrap
 ```shell
 sops --decrypt clusters/cluster-0/vars/secrets.fluxcd.yaml | kubectl -n flux-system apply -f -
 kubectl apply -f clusters/cluster-0/bootstrap.yaml
+kubectl apply -f clusters/cluster-0/bootstrap-fluxcd.yaml
 kubectl apply --server-side --kustomize clusters/cluster-0
 ```
 
