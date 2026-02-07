@@ -3,7 +3,7 @@ name: Renovate
 on:
   workflow_dispatch:
   schedule:
-    - cron:  '0 3 * * 1' # Every Monday at 03:00 UTC
+    - cron: "0 3 * * 1" # Every Monday at 03:00 UTC
 
 jobs:
   renovate:
@@ -23,7 +23,7 @@ jobs:
       - name: Renovate
         uses: renovatebot/github-action@e02bf7b1c996027e55e910400653576a8293246c # v41.0.3
         with:
-          configurationFile: .github/renovate-global.json
+          configurationFile: .github/renovate-global.json5
           token: ${{ secrets.GITHUB_TOKEN }}
         env:
           LOG_LEVEL: "debug"
