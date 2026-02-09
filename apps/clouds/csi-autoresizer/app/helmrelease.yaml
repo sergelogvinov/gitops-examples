@@ -13,7 +13,7 @@ spec:
   chart:
     spec:
       chart: pvc-autoresizer
-      version: 0.16.0
+      version: 0.16.1
       sourceRef:
         kind: HelmRepository
         name: autoresizer
