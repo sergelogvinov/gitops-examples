@@ -45,7 +45,6 @@ spec:
 
   values:
     fullnameOverride: github-actions-runner
-    installationType: "crd"
 
     image:
       repository: ghcr.io/sergelogvinov/github-actions-runner

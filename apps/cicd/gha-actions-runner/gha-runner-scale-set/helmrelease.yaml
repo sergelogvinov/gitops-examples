@@ -41,6 +41,8 @@ spec:
       name: github-actions-runner-helm-values
 
   values:
+    installationType: "crd"
+
     image:
       repository: ghcr.io/sergelogvinov/github-actions-runner
       tag: "2.331.0"
