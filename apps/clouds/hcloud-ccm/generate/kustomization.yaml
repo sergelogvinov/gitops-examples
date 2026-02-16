@@ -36,7 +36,7 @@ helmCharts:
         - key: node-role.kubernetes.io/control-plane
           effect: NoSchedule
     releaseName: hcloud-cloud-controller-manager
-    version: 1.29.2
+    version: 1.30.0
     repo: https://charts.hetzner.cloud
 namespace: kube-system
 patches:
