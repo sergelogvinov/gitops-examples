@@ -10,6 +10,9 @@ help:
 
 ########################################################
 
+generate:
+	kubectl kustomize bootstrap > bootstrap/flux-result.yaml
+
 check:
 ifeq ($(CLUSTER),none)
 	@echo
