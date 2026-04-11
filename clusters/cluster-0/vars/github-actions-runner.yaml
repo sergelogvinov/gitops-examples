@@ -2,9 +2,22 @@ dind:
   persistence:
     enabled: true
     annotations:
-      pvc-autoscaler.lorenzophys.io/enabled: "true"
-      pvc-autoscaler.lorenzophys.io/threshold: 80%
-      pvc-autoscaler.lorenzophys.io/ceiling: 300Gi
-      pvc-autoscaler.lorenzophys.io/increase: 25%
+      resize.topolvm.io/increase: 10Gi
+      resize.topolvm.io/storage_limit: 300Gi
+      resize.topolvm.io/threshold: 25%
+    storageClass: proxmox
+    size: 50Gi
+
+proxy:
+  enabled: true
+
+mirrors:
+  enabled: true
+  persistence:
+    enabled: true
+    annotations:
+      resize.topolvm.io/increase: 10Gi
+      resize.topolvm.io/storage_limit: 300Gi
+      resize.topolvm.io/threshold: 25%
     storageClass: proxmox
     size: 50Gi
