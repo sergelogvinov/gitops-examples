@@ -48,6 +48,7 @@ spec:
 
     image:
       repository: ghcr.io/sergelogvinov/github-actions-runner
+      pullPolicy: Always
       tag: "2.333.1-gcp"
 
     controllerServiceAccount:
