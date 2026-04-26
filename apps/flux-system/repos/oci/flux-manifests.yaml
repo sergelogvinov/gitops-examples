@@ -9,4 +9,4 @@ spec:
   url: oci://ghcr.io/fluxcd/flux-manifests
   ref:
     # ghcr.io/fluxcd/flux-manifests:v2.8.1
-    digest: sha256:ffb44e1d6ade00aed4b0451a217cdfd3025ffed71137c2c1bb77f44d1b7f36f8
+    digest: sha256:45ed09e8241e4b0ee38d0fc8d8e42b6002d55c880b0859c9c484bf22340116d5
