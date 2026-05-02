@@ -57,6 +57,15 @@
   "packageRules": [
     {
       "matchDatasources": [
+        "docker"
+      ],
+      "matchPackagePrefixes": [
+        "mcr.microsoft.com/oss/v2/kubernetes-csi/"
+      ],
+      "enabled": false
+    },
+    {
+      "matchDatasources": [
         "helm",
         "helmfile"
       ],
