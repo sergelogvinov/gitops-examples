@@ -323,6 +323,30 @@ rules:
       - patch
 ---
 apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: pd-csi-taint-controller-role
+rules:
+  - apiGroups:
+      - storage.k8s.io
+    resources:
+      - csinodes
+    verbs:
+      - get
+      - list
+      - watch
+  - apiGroups:
+      - ""
+    resources:
+      - nodes
+    verbs:
+      - get
+      - list
+      - watch
+      - patch
+      - update
+---
+apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
   labels:
@@ -442,10 +466,21 @@ subjects:
     name: csi-gce-pd-controller-sa
     namespace: csi-gcp
 ---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: pd-csi-taint-controller-binding
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: pd-csi-taint-controller-role
+subjects:
+  - kind: ServiceAccount
+    name: csi-gce-pd-controller-sa
+    namespace: gce-pd-csi-driver
+---
 apiVersion: scheduling.k8s.io/v1
-description:
-  This priority class should be used for the GCE PD CSI driver controller
-  deployment only.
+description: This priority class should be used for the GCE PD CSI driver controller deployment only.
 globalDefault: false
 kind: PriorityClass
 metadata:
@@ -453,9 +488,7 @@ metadata:
 value: 900000000
 ---
 apiVersion: scheduling.k8s.io/v1
-description:
-  This priority class should be used for the GCE PD CSI driver node deployment
-  only.
+description: This priority class should be used for the GCE PD CSI driver node deployment only.
 globalDefault: false
 kind: PriorityClass
 metadata:
@@ -519,13 +552,12 @@ spec:
             - --leader-election
             - --default-fstype=ext4
             - --controller-publish-readonly=true
-            - --feature-gates=VolumeAttributesClass=true
           env:
             - name: PDCSI_NAMESPACE
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.namespace
-          image: registry.k8s.io/sig-storage/csi-provisioner:v5.2.0
+          image: registry.k8s.io/sig-storage/csi-provisioner:v6.0.0
           livenessProbe:
             failureThreshold: 1
             httpGet:
@@ -578,13 +610,12 @@ spec:
             - --leader-election
             - --leader-election-namespace=$(PDCSI_NAMESPACE)
             - --handle-volume-inuse-error=false
-            - --feature-gates=VolumeAttributesClass=true
           env:
             - name: PDCSI_NAMESPACE
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.namespace
-          image: registry.k8s.io/sig-storage/csi-resizer:v1.13.2
+          image: registry.k8s.io/sig-storage/csi-resizer:v2.0.0
           livenessProbe:
             failureThreshold: 1
             httpGet:
@@ -601,6 +632,26 @@ spec:
           volumeMounts:
             - mountPath: /csi
               name: socket-dir
+        - args:
+            - --v=5
+            - --run-taint-controller=true
+            - --taint-metrics-addr=:8081
+            - --run-node-service=false
+          command:
+            - /gce-pd-csi-driver
+          env:
+            - name: GOOGLE_APPLICATION_CREDENTIALS
+              value: /etc/cloud-sa/cloud-sa.json
+          image: registry.k8s.io/cloud-provider-gcp/gcp-compute-persistent-disk-csi-driver:v1.17.12
+          imagePullPolicy: IfNotPresent
+          name: taint-controller
+          ports:
+            - containerPort: 8081
+              name: metrics-taint
+          volumeMounts:
+            - mountPath: /etc/cloud-sa
+              name: cloud-sa-volume
+              readOnly: true
       hostNetwork: false
       nodeSelector:
         kubernetes.io/os: linux
@@ -680,9 +731,12 @@ spec:
           securityContext:
             privileged: true
           volumeMounts:
-            - mountPath: /var/lib/kubelet
+            - mountPath: /var/lib/kubelet/plugins/kubernetes.io/csi
               mountPropagation: Bidirectional
-              name: kubelet-dir
+              name: kubelet-plugin-dir
+            - mountPath: /var/lib/kubelet/pods
+              mountPropagation: Bidirectional
+              name: kubelet-pods
             - mountPath: /csi
               name: plugin-dir
             - mountPath: /dev
@@ -711,9 +765,12 @@ spec:
             type: Directory
           name: registration-dir
         - hostPath:
-            path: /var/lib/kubelet
-            type: Directory
-          name: kubelet-dir
+            path: /var/lib/kubelet/pods
+          name: kubelet-pods
+        - hostPath:
+            path: /var/lib/kubelet/plugins/kubernetes.io/csi
+            type: DirectoryOrCreate
+          name: kubelet-plugin-dir
         - hostPath:
             path: /var/lib/kubelet/plugins/pd.csi.storage.gke.io/
             type: DirectoryOrCreate
