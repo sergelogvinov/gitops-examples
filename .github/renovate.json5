@@ -4,7 +4,6 @@
     "config:recommended",
     "helpers:pinGitHubActionDigests",
     "docker:enableMajor",
-    ":timezone(Europe/Tallinn)",
     ":dependencyDashboard",
     ":disableRateLimiting",
     ":disableVulnerabilityAlerts",
@@ -28,6 +27,10 @@
     "**/secrets.*",
     "**/secrets/*.ya?ml"
   ],
+  "github-actions": {
+    "enabled": true,
+    "pinDigests": true
+  },
   "flux": {
     "fileMatch": [
       "(^|/)apps/.+\\.ya?ml(?:\\.j2)?$"
