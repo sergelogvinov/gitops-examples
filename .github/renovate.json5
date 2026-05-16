@@ -63,7 +63,8 @@
         "docker"
       ],
       "matchPackagePrefixes": [
-        "mcr.microsoft.com/oss/v2/kubernetes-csi/"
+        "mcr.microsoft.com/oss/v2/kubernetes-csi/",
+        "docker.io/hetznercloud/hcloud-csi-driver"
       ],
       "enabled": false
     },
