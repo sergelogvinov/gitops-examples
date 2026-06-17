@@ -20,7 +20,7 @@ resources:
   - ../../apps/clouds/csi-snapshotter
   - ../../apps/clouds/csi-autoresizer
   # Secrets
-  - ../../apps/base/external-secrets
+  # - ../../apps/base/external-secrets
   # Logging
   # - ../../apps/logging/fluentd-route
   # - ../../apps/logging/fluent-bit
@@ -36,7 +36,7 @@ resources:
   - ../../apps/ingress/ingress-nginx
   - ../../apps/ingress/skipper
   # Apps
-  - ../../apps/cicd/gha-actions-runner
+  # - ../../apps/cicd/gha-actions-runner
   # - ../../apps/cicd/teamcity
   # Database
   # - ../../apps/database/psmdb-operator
