@@ -36,7 +36,7 @@ resources:
   - ../../apps/ingress/ingress-nginx
   - ../../apps/ingress/skipper
   # Apps
-  # - ../../apps/cicd/gha-actions-runner
+  - ../../apps/cicd/gha-actions-runner
   # - ../../apps/cicd/teamcity
   # Database
   # - ../../apps/database/psmdb-operator
