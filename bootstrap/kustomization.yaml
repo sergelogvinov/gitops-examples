@@ -39,6 +39,7 @@ patches:
     target:
       kind: Deployment
       name: (kustomize-controller|helm-controller|source-controller)
+  # Custom service domain not cluster.local
   - patch: |
       - op: replace
         path: /spec/template/spec/containers/0/args/0

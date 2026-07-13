@@ -52,7 +52,7 @@ spec:
           value: --events-addr=http://notification-controller.flux-system.svc
       target:
         kind: Deployment
-        name: (kustomize-controller|helm-controller|source-controller)
+        name: (kustomize-controller|helm-controller|source-controller|source-watcher)
     - patch: |
         - op: replace
           path: /spec/template/spec/containers/0/args/6
@@ -93,7 +93,7 @@ spec:
                   effect: NoSchedule
       target:
         kind: Deployment
-        name: (kustomize-controller|helm-controller|source-controller|notification-controller)
+        name: (kustomize-controller|helm-controller|source-controller|source-watcher|notification-controller)
     # Enable in-memory kustomize builds
     # Ref: https://fluxcd.io/flux/installation/configuration/vertical-scaling/#enable-in-memory-kustomize-builds
     - patch: |
