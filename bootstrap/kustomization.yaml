@@ -55,6 +55,13 @@ patches:
       kind: Deployment
       name: source-controller
   - patch: |
+      - op: replace
+        path: /spec/template/spec/containers/0/args/6
+        value: --storage-adv-addr=source-watcher.$(RUNTIME_NAMESPACE).svc
+    target:
+      kind: Deployment
+      name: source-watcher
+  - patch: |
       apiVersion: apps/v1
       kind: Deployment
       metadata:
