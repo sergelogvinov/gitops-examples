@@ -1,5 +1,34 @@
 # Changelog
 
+## [0.7.0](https://github.com/sergelogvinov/gitops-examples/compare/v0.6.0...v0.7.0) (2026-07-18)
+
+
+### Features
+
+* **container:** update kube-state-metrics (7.5.3 → 7.8.1) ([203a80a](https://github.com/sergelogvinov/gitops-examples/commit/203a80a81eaf5784b347b358800790cbb130f534))
+* **container:** update prometheus-node-exporter (4.55.1 → 4.56.0) ([d1f705a](https://github.com/sergelogvinov/gitops-examples/commit/d1f705a38338cda0f5ccede20d91ce2cc45cbf0d))
+* **helm:** update hcloud-cloud-controller-manager (1.33.0 → 1.34.0) ([8aa4985](https://github.com/sergelogvinov/gitops-examples/commit/8aa498527e6ca5ffc11fbcee1b04aa615e727806))
+* **helm:** update loki (7.0.0 → 7.1.0) ([5a4cedf](https://github.com/sergelogvinov/gitops-examples/commit/5a4cedf9e6c53f0e507725ac1fc15ba8d113dbff))
+* update flux group ([ebca8ea](https://github.com/sergelogvinov/gitops-examples/commit/ebca8eab8bc12719b3a1f8da5b7fbc41c15be7f8))
+* update fluxcd ([0f9f1ea](https://github.com/sergelogvinov/gitops-examples/commit/0f9f1ea2f744d1bd74a177648c2b60c32629e958))
+* update fluxcd ([e428930](https://github.com/sergelogvinov/gitops-examples/commit/e428930997ee5d16c183246f920c4a0c05552a9c))
+* update fluxcd ([9c4df6e](https://github.com/sergelogvinov/gitops-examples/commit/9c4df6ed88b15b2e7f54eb227a72adc8271100c6))
+* update kubernetes-sigs/gcp-compute-persistent-disk-csi-driver (v1.25.2 → v1.26.4) ([e31de2e](https://github.com/sergelogvinov/gitops-examples/commit/e31de2ef9fa0e6ec712f8f0739ff0206e1806cfc))
+
+
+### Bug Fixes
+
+* **container:** update alertmanager (1.40.2 → 1.40.3) ([ad3551f](https://github.com/sergelogvinov/gitops-examples/commit/ad3551f36b22438a8ac13ff3f8b60c87a856c32e))
+* **container:** update prometheus-node-exporter (4.56.0 → 4.56.1) ([7b505ad](https://github.com/sergelogvinov/gitops-examples/commit/7b505ad1fceb571124c766d6d55a65b099a57787))
+* **container:** update registry.k8s.io/coredns/coredns (v1.14.3 → v1.14.6) ([dec8696](https://github.com/sergelogvinov/gitops-examples/commit/dec8696a7e2545b0ae014999ec305c9c359128bb))
+* update fluxcd/flux2 (v2.9.1 → v2.9.2) ([aa3cfb6](https://github.com/sergelogvinov/gitops-examples/commit/aa3cfb6fc1e66e68fb72fdc454d4de9c8296717a))
+
+
+### Updates
+
+* sign ([d5d483b](https://github.com/sergelogvinov/gitops-examples/commit/d5d483bb334670a13133cebeaec036b503e2b86f))
+* sign ([cf48b7d](https://github.com/sergelogvinov/gitops-examples/commit/cf48b7d88ac23c6217aaa913403328a6e589f799))
+
 ## [0.6.0](https://github.com/sergelogvinov/gitops-examples/compare/v0.5.0...v0.6.0) (2026-07-10)
 
 
