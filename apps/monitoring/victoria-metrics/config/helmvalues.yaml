@@ -5,6 +5,26 @@ victoriaMetricsConfig:
     groups:
       - name: recording-nodes-cAdvisor.rules
         rules:
+          - record: node_active
+            expr: sum by (node) (kube_node_status_condition{condition="Ready", status="true"})
+          - record: node_complete
+            expr: max by (node) (label_replace(up{job="prometheus-node-exporter"}, "node", "$1", "instance", "(.+)"))
+          - record: node_cpu_usage_cores
+            expr: >
+              sum by (node) (
+                max by (node, mode) (
+                  label_replace(
+                    rate(node_cpu_seconds_total{mode=~"user|nice|system|irq|softirq|steal"}[5m]),
+                    "node", "$1", "instance", "(.+)"
+                  )
+                )
+              )
+          - record: node_memory_used_bytes
+            expr: >
+              max by (node) (label_replace(node_memory_MemTotal_bytes, "node", "$1", "instance", "(.+)"))
+              -
+              max by (node) (label_replace(node_memory_MemAvailable_bytes, "node", "$1", "instance", "(.+)"))
+              
           # Node mem cAdvisor
           - record: instance:spec_memory_limit_bytes:bytes:sum
             expr:
@@ -66,6 +86,22 @@ victoriaMetricsConfig:
 
           - record: pod_active
             expr: sum by (namespace, pod) (kube_pod_status_phase{phase="Running"})
+          - record: pod_cpu_complete
+            expr: >
+              count by (namespace, pod) (max by (namespace, pod, container) (
+                  rate(container_cpu_usage_seconds_total{container!="", container!="POD", image!=""}[5m])
+                )) == bool
+              count by (namespace, pod) (max by (namespace, pod, container) (
+                  kube_pod_container_status_running == 1
+                ))
+          - record: pod_memory_complete
+            expr: >
+              count by (namespace, pod) (max by (namespace, pod, container) (
+                  container_memory_working_set_bytes{container!="", container!="POD", image!=""}
+                )) == bool
+              count by (namespace, pod) (max by (namespace, pod, container) (
+                  kube_pod_container_status_running == 1
+                ))
 
           # mem cAdvisor
           - record: cluster_namespace_controller_pod_container:spec_memory_requests_bytes
