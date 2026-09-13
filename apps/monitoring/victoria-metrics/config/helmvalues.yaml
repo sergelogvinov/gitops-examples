@@ -65,8 +65,6 @@ victoriaMetricsConfig:
               GROUP_LEFT() instance:node_cpu:sum
 
           - record: pod_active
-            labels:
-              cluster: example
             expr: sum by (namespace, pod) (kube_pod_status_phase{phase="Running"})
 
           # mem cAdvisor
