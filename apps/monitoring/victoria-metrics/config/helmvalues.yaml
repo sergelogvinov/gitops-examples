@@ -8,23 +8,21 @@ victoriaMetricsConfig:
           - record: node_active
             expr: sum by (node) (kube_node_status_condition{condition="Ready", status="true"})
           - record: node_complete
-            expr: max by (node) (label_replace(up{job="prometheus-node-exporter"}, "node", "$1", "instance", "(.+)"))
+            expr: max by (node) (label_replace(up{job="prometheus-node-exporter"}, "node", "$1", "kubernetes_node_name", "(.+)"))
           - record: node_cpu_usage_cores
             expr: >
-              sum by (node) (
-                max by (node, mode) (
+              sum by (node) ( max by (node, mode) (
                   label_replace(
                     rate(node_cpu_seconds_total{mode=~"user|nice|system|irq|softirq|steal"}[5m]),
-                    "node", "$1", "instance", "(.+)"
+                    "node", "$1", "kubernetes_node_name", "(.+)"
                   )
-                )
-              )
+              ))
           - record: node_memory_used_bytes
             expr: >
-              max by (node) (label_replace(node_memory_MemTotal_bytes, "node", "$1", "instance", "(.+)"))
+              max by (node) (label_replace(node_memory_MemTotal_bytes, "node", "$1", "kubernetes_node_name", "(.+)"))
               -
-              max by (node) (label_replace(node_memory_MemAvailable_bytes, "node", "$1", "instance", "(.+)"))
-              
+              max by (node) (label_replace(node_memory_MemAvailable_bytes, "node", "$1", "kubernetes_node_name", "(.+)"))
+
           # Node mem cAdvisor
           - record: instance:spec_memory_limit_bytes:bytes:sum
             expr:
