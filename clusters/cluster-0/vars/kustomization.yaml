@@ -19,6 +19,7 @@ resources:
   - ./csi-gcp.yaml
   - ./csi-ovh.yaml
   - ./csi-proxmox.yaml
+  - ./secrets.csi-proxmox.yaml
   # - ./secrets.ingress-nginx-dhparam.yaml
   # - ./secrets.external-secrets.yaml
   # - ./secrets.cloudflare.yaml

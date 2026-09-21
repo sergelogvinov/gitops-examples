@@ -10,6 +10,24 @@ parameters:
   cache: directsync
   csi.storage.k8s.io/fstype: xfs
   ssd: "true"
+mountOptions:
+  - discard
+allowVolumeExpansion: true
+reclaimPolicy: Delete
+volumeBindingMode: WaitForFirstConsumer
+---
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: proxmox-secret
+provisioner: csi.proxmox.sinextra.dev
+parameters:
+  storage: system
+  csi.storage.k8s.io/fstype: xfs
+  csi.storage.k8s.io/node-stage-secret-name: "proxmox-csi-secret"
+  csi.storage.k8s.io/node-stage-secret-namespace: "csi-proxmox"
+  csi.storage.k8s.io/node-expand-secret-name: "proxmox-csi-secret"
+  csi.storage.k8s.io/node-expand-secret-namespace: "csi-proxmox"
 allowVolumeExpansion: true
 reclaimPolicy: Delete
 volumeBindingMode: WaitForFirstConsumer
