@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.7.1](https://github.com/sergelogvinov/gitops-examples/compare/v0.7.0...v0.7.1) (2026-09-28)
+
+
+### Updates
+
+* sign ([416331a](https://github.com/sergelogvinov/gitops-examples/commit/416331ac328ca7307235589ff47c1331c0855e11))
+
 ## [0.7.0](https://github.com/sergelogvinov/gitops-examples/compare/v0.6.0...v0.7.0) (2026-09-28)
 
 
