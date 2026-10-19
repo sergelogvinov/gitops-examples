@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.8.1](https://github.com/sergelogvinov/gitops-examples/compare/v0.8.0...v0.8.1) (2026-10-19)
+
+
+### Bug Fixes
+
+* **container:** update karpenter-provider-proxmox (0.4.10 → 0.4.11) ([318599d](https://github.com/sergelogvinov/gitops-examples/commit/318599de2e5cfc88bfb5cec02b934eb72b9af99e))
+
+
+### Updates
+
+* sign ([f024c2b](https://github.com/sergelogvinov/gitops-examples/commit/f024c2b34e904a3573dbc931f841b97d52daf5dd))
+* sign ([c7468b6](https://github.com/sergelogvinov/gitops-examples/commit/c7468b6b2275c6d72cc0514a9b948a4b9f393a07))
+
 ## [0.8.0](https://github.com/sergelogvinov/gitops-examples/compare/v0.7.0...v0.8.0) (2026-10-17)
 
 
