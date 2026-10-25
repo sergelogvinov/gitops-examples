@@ -35,6 +35,8 @@ spec:
       name: chatops-helm-values
 
   values:
+    fullnameOverride: gh-chatops
+
     podAntiAffinityPreset: soft
     podAntiAffinityPresetKey: kubernetes.io/hostname
 
