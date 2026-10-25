@@ -97,3 +97,7 @@ secretGenerator:
     namespace: operator-gha
     files:
       - values.yaml=./secrets.github-actions-runner.yaml
+  - name: chatops-helm-values
+    namespace: operator-github
+    files:
+      - values.yaml=./secrets.chatops.yaml

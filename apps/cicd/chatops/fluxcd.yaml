@@ -5,7 +5,7 @@ metadata:
   name: chatops
   namespace: flux-system
 spec:
-  targetNamespace: cicd
+  targetNamespace: operator-github
   path: ./apps/cicd/chatops/app
   prune: true
   sourceRef:

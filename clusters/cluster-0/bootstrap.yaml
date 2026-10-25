@@ -42,6 +42,11 @@ metadata:
 apiVersion: v1
 kind: Namespace
 metadata:
+  name: operator-github
+---
+apiVersion: v1
+kind: Namespace
+metadata:
   name: cicd
   labels:
     pod-security.kubernetes.io/enforce: privileged
