@@ -92,6 +92,10 @@ secretGenerator:
   #   namespace: ingress-nginx
   #   files:
   #     - values.yaml=./ingress-nginx.yaml
+  - name: ingress-cloudflare-helm-values
+    namespace: ingress-skipper
+    files:
+      - values.yaml=./secrets.ingress-cloudflare.yaml
 
   - name: github-actions-runner-helm-values
     namespace: operator-gha
