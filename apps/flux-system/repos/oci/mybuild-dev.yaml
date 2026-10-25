@@ -1,0 +1,10 @@
+---
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: HelmRepository
+metadata:
+  name: mybuild-dev
+  namespace: flux-system
+spec:
+  interval: 48h
+  type: oci
+  url: oci://ghcr.io/mybuild-dev/charts
