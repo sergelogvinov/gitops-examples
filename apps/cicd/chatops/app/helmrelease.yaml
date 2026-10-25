@@ -13,7 +13,7 @@ spec:
 
   chart:
     spec:
-      chart: chatops
+      chart: gh-chatops
       version: 0.0.3
       sourceRef:
         kind: HelmRepository
