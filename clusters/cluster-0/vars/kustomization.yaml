@@ -93,7 +93,7 @@ secretGenerator:
   #   files:
   #     - values.yaml=./ingress-nginx.yaml
   - name: ingress-cloudflare-helm-values
-    namespace: ingress-skipper
+    namespace: ingress-cloudflare
     files:
       - values.yaml=./secrets.ingress-cloudflare.yaml
 
