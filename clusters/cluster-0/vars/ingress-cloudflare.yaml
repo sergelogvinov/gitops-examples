@@ -1,0 +1,14 @@
+networkPolicy:
+  enabled: true
+
+  extraEgress:
+    - to:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: operator-github
+          podSelector:
+            matchLabels:
+              app.kubernetes.io/name: gh-chatops
+      ports:
+        - port: 80
+          protocol: TCP

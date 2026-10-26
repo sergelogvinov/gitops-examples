@@ -43,6 +43,11 @@ configMapGenerator:
     files:
       - values.yaml=./cluster-autoscaler-azure.yaml
 
+  - name: ingress-cloudflare-helm-values
+    namespace: ingress-cloudflare
+    files:
+      - values.yaml=./ingress-cloudflare.yaml
+
   - name: github-actions-runner-helm-values
     namespace: operator-gha
     files:
