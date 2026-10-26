@@ -1,5 +1,43 @@
 # Changelog
 
+## [0.9.0](https://github.com/sergelogvinov/gitops-examples/compare/v0.8.0...v0.9.0) (2026-10-26)
+
+
+### Features
+
+* chatops ([948d059](https://github.com/sergelogvinov/gitops-examples/commit/948d05973eca8f732f49a6e423fe96826b0c230d))
+* chatops secrets ([1588eb3](https://github.com/sergelogvinov/gitops-examples/commit/1588eb35cee3a8cd9bf3c76d927c7bcd17fcf4c5))
+* cloudflare-tunnel ([aeb8936](https://github.com/sergelogvinov/gitops-examples/commit/aeb893676de2065bd364f6f3c94721ecc18505ca))
+* **container:** update cloudflare-tunnel (0.0.4 → 0.1.0) ([151e823](https://github.com/sergelogvinov/gitops-examples/commit/151e8239a692d2dcfe2e62f1fee2c771d5f28c73))
+* **container:** update kube-state-metrics (8.6.0 → 8.7.1) ([6a5a589](https://github.com/sergelogvinov/gitops-examples/commit/6a5a589872388696cd4e76efd8791d509f242c6f))
+* **helm:** update external-secrets (2.13.0 → 2.14.0) ([5380eb8](https://github.com/sergelogvinov/gitops-examples/commit/5380eb80942ace10966a61d987e06b4ddefa5efa))
+
+
+### Bug Fixes
+
+* chatops ([1f288fc](https://github.com/sergelogvinov/gitops-examples/commit/1f288fcfd031a989354f73c697ac2cdb31aa5ff5))
+* chatops ([94cca17](https://github.com/sergelogvinov/gitops-examples/commit/94cca17f3933f338d0fba8eb5c3b7a3aa82581ba))
+* chatops ([50c5f39](https://github.com/sergelogvinov/gitops-examples/commit/50c5f39bdf665fc37a09c67c66bfe17b4c64d9e6))
+* cloudflare-tunnel ([47827a7](https://github.com/sergelogvinov/gitops-examples/commit/47827a7398a69a0795fe27083e30e1b57868d5c0))
+* cloudflare-tunnel ([44e5260](https://github.com/sergelogvinov/gitops-examples/commit/44e5260332a6c7f56c6759070da674945d24bc85))
+* cloudflare-tunnel ([d4861d6](https://github.com/sergelogvinov/gitops-examples/commit/d4861d631af1187415be3376b8100e31b0fb1f6a))
+* cloudflare-tunnel ([0701487](https://github.com/sergelogvinov/gitops-examples/commit/0701487c36bcc8b44e74c4c1a5a43e2b76a7842d))
+* cloudflare-tunnel ([13bb608](https://github.com/sergelogvinov/gitops-examples/commit/13bb608ddc2b6afb42697a8cf177eedfeb82fef1))
+* **container:** update alertmanager (2.1.1 → 2.1.2) ([44d8302](https://github.com/sergelogvinov/gitops-examples/commit/44d830288dcbfec3a6bf0fc7786e8417435f5067))
+* **container:** update gh-chatops (0.0.4 → 0.0.5) ([6b0503f](https://github.com/sergelogvinov/gitops-examples/commit/6b0503f60c7417e063c934c2e6a8f4cf7b9255c7))
+* **container:** update gh-chatops (0.0.5 → 0.0.6) ([2da146d](https://github.com/sergelogvinov/gitops-examples/commit/2da146d84ab9a00c90a89ec28bdbd71a3118af25))
+* **container:** update karpenter-provider-proxmox (0.4.10 → 0.4.11) ([318599d](https://github.com/sergelogvinov/gitops-examples/commit/318599de2e5cfc88bfb5cec02b934eb72b9af99e))
+* **container:** update prometheus-blackbox-exporter (11.20.0 → 11.20.2) ([f8dec9a](https://github.com/sergelogvinov/gitops-examples/commit/f8dec9a4657b96bf2a4c051311b62e73c155a5ad))
+* **container:** update prometheus-node-exporter (4.60.0 → 4.60.1) ([f51eacf](https://github.com/sergelogvinov/gitops-examples/commit/f51eacf9e6461001efc9ca8c4dee58bff82a6e24))
+* **helm:** update hcloud-cloud-controller-manager (1.39.0 → 1.39.1) ([51c0410](https://github.com/sergelogvinov/gitops-examples/commit/51c0410d3f0150c23f31e33e655190dbda8695e0))
+
+
+### Updates
+
+* sign ([eda170a](https://github.com/sergelogvinov/gitops-examples/commit/eda170aeac96a3751944240ae6cc6ede93bdf0b9))
+* sign ([f024c2b](https://github.com/sergelogvinov/gitops-examples/commit/f024c2b34e904a3573dbc931f841b97d52daf5dd))
+* sign ([c7468b6](https://github.com/sergelogvinov/gitops-examples/commit/c7468b6b2275c6d72cc0514a9b948a4b9f393a07))
+
 ## [0.8.0](https://github.com/sergelogvinov/gitops-examples/compare/v0.7.0...v0.8.0) (2026-10-17)
 
 
