@@ -28,6 +28,9 @@ spec:
       retries: 3
 
   valuesFrom:
+    - kind: ConfigMap
+      name: ingress-cloudflare-helm-values
+      optional: true
     - kind: Secret
       name: ingress-cloudflare-helm-values
 
