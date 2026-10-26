@@ -1,6 +1,7 @@
 networkPolicy:
   enabled: true
 
+  dns: ~
   extraEgress:
     - to:
         - namespaceSelector:
@@ -10,5 +11,5 @@ networkPolicy:
             matchLabels:
               app.kubernetes.io/name: gh-chatops
       ports:
-        - port: 80
+        - port: 8080
           protocol: TCP
