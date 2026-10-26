@@ -14,7 +14,7 @@ spec:
   chart:
     spec:
       chart: gh-chatops
-      version: 0.0.4
+      version: 0.0.5
       sourceRef:
         kind: HelmRepository
         name: mybuild-dev
