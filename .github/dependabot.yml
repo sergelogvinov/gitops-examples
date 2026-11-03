@@ -11,3 +11,17 @@ updates:
       interval: "monthly"
       day: "monday"
       time: "08:00"
+    cooldown:
+      default-days: 5
+    labels:
+      - "dependencies"
+    groups:
+      actions:
+        patterns:
+          - "actions/*"
+          - "azure/*"
+          - "docker/*"
+          - "sigstore/*"
+      helm:
+        patterns:
+          - "helm/*"
