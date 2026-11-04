@@ -8,7 +8,7 @@ on:
 
 jobs:
   release-please:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
     # Do not create a new release PR for changes pushed by the GitHub Actions bot.
     if: github.actor != 'github-actions[bot]'
     permissions:
