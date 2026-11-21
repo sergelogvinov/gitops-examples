@@ -8,4 +8,4 @@ spec:
   interval: 168h
   url: oci://ghcr.io/fluxcd/flux-manifests
   ref:
-    digest: sha256:d5f5922b15812578d6411ef37f889154255b3db98094b3503942f24a44b25536
+    digest: sha256:443d3afbda24dd5244aa912047ad456793b1c158201ce5f2f0d8f86ccfe4fe2b
